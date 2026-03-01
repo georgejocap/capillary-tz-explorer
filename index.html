@@ -2,1051 +2,963 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capillary · Timezone Guide</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Capillary · Timezone Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0a0a0a;
-  --s1: #111;
-  --s2: #1a1a1a;
-  --s3: #222;
-  --border: rgba(255,255,255,.08);
-  --border2: rgba(255,255,255,.15);
-  --green: #1DB954;
-  --green2: #1ed760;
-  --white: #fff;
-  --g1: #aaa;
-  --g2: #555;
-  --g3: #333;
-  --org: #1DB954;
-  --srv: #F59E0B;
-  --inp: #60A5FA;
-  --mix: #A78BFA;
-  --excl: #F87171;
-  --r: 10px;
-  --sw: 220px;
-  --bh: 86px;
-}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--white);overflow:hidden;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#F8FAFC;color:#0F172A;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit;text-decoration:none}
-button{cursor:pointer;font-family:inherit}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
 
-/* ─── LAYOUT ─── */
-.shell{display:flex;height:100vh}
+:root{
+  --white:#FFFFFF;
+  --bg:#F8FAFC;
+  --surface:#F1F5F9;
+  --border:#E2E8F0;
+  --border-strong:#CBD5E1;
+  --text:#0F172A;
+  --text2:#475569;
+  --text3:#94A3B8;
+  --blue:#2563EB;
+  --blue-light:#EFF6FF;
+  --blue-border:#BFDBFE;
+  --green:#059669;
+  --green-light:#ECFDF5;
+  --green-border:#A7F3D0;
+  --amber:#D97706;
+  --amber-light:#FFFBEB;
+  --amber-border:#FDE68A;
+  --purple:#7C3AED;
+  --purple-light:#F5F3FF;
+  --purple-border:#DDD6FE;
+  --red:#DC2626;
+  --red-light:#FEF2F2;
+  --red-border:#FECACA;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shadow:0 4px 16px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+  --r:12px;
+  --r-sm:8px;
+  --r-xs:6px;
+  --nav-h:58px;
+  --bar-h:56px;
+}
 
-/* ─── SIDEBAR ─── */
-.sb{width:var(--sw);min-width:var(--sw);background:#000;height:100vh;display:flex;flex-direction:column;overflow-y:auto;position:fixed;left:0;top:0;z-index:100;padding-bottom:var(--bh)}
-.sb-logo{padding:22px 18px 6px;display:flex;align-items:center;gap:10px;cursor:pointer}
-.sb-logomark{width:34px;height:34px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#000;flex-shrink:0}
-.sb-name{font-size:14px;font-weight:700;line-height:1.2}
-.sb-sub{font-size:10px;color:var(--g2)}
-.sb-sec{padding:14px 10px 4px}
-.sb-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g2);padding:0 8px;margin-bottom:6px}
-.nav{display:flex;align-items:center;gap:12px;padding:9px 8px;border-radius:6px;font-size:13px;font-weight:600;color:var(--g1);border:none;background:none;width:100%;text-align:left;transition:all .15s}
-.nav:hover{color:var(--white);background:var(--s2)}
-.nav.on{color:var(--white)}
-.nav.on .nav-ic{color:var(--green)}
-.nav-ic{font-size:16px;width:18px;text-align:center;flex-shrink:0}
-.sb-div{height:1px;background:rgba(255,255,255,.07);margin:8px 12px}
-.tz-legend{padding:4px 18px 16px;display:flex;flex-direction:column;gap:9px}
-.tz-row{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--g1)}
-.tz-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:200;height:var(--nav-h);
+  background:rgba(255,255,255,.9);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 28px;gap:0;
+}
+.nav-brand{display:flex;align-items:center;gap:10px;margin-right:28px;cursor:pointer}
+.nav-mark{width:30px;height:30px;background:#0F172A;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.nav-name{font-size:14px;font-weight:700}
+.nav-tagline{font-size:11px;color:var(--text3);margin-top:1px}
+.nav-menu{display:flex;gap:1px}
+.nav-btn{font-size:13px;font-weight:500;color:var(--text2);padding:6px 13px;border-radius:var(--r-xs);transition:all .15s;cursor:pointer}
+.nav-btn:hover{background:var(--surface);color:var(--text)}
+.nav-btn.on{background:var(--surface);color:var(--text);font-weight:600}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text3)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 
-/* ─── MAIN ─── */
-.main{flex:1;margin-left:var(--sw);height:100vh;overflow-y:auto;padding-bottom:var(--bh)}
+/* LAYOUT */
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px calc(var(--bar-h) + 36px)}
 
-/* ─── TOPBAR ─── */
-.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:transparent;transition:background .3s}
-.topbar.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.tb-btns{display:flex;gap:6px}
-.tb-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.07);border:none;color:var(--white);font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .15s}
-.tb-btn:hover{background:rgba(255,255,255,.12)}
-.role-row{display:flex;background:#000;border-radius:20px;padding:3px;gap:2px}
-.rb{padding:5px 14px;border-radius:16px;border:none;background:none;font-size:12px;font-weight:700;color:var(--g1);transition:all .15s}
-.rb.on{background:var(--white);color:#000}
+/* VIEWS */
+.view{display:none}
+.view.on{display:block}
 
-/* ─── PAGES ─── */
-.pg{display:none}
-.pg.on{display:block}
+/* HERO */
+.hero{padding:40px 0 32px}
+.hero-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px}
+.hero-title{font-size:30px;font-weight:700;line-height:1.25;color:var(--text);margin-bottom:10px}
+.hero-sub{font-size:15px;color:var(--text2);max-width:580px;line-height:1.65}
 
-/* ─── HERO ─── */
-.hero{padding:0 28px 36px;margin-top:-72px;padding-top:88px;background:linear-gradient(170deg,#0a1f12 0%,#0a0a0a 60%);position:relative;overflow:hidden}
-.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(29,185,84,.07) 0%,transparent 70%);pointer-events:none}
-.hero-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--green)}
-.hero-h1{font-size:54px;font-weight:900;line-height:1.02;letter-spacing:-.04em;margin-bottom:16px}
-.hero-h1 em{color:var(--green);font-style:normal}
-.hero-desc{font-size:15px;color:var(--g1);max-width:500px;line-height:1.75;margin-bottom:32px}
-.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#000;border:none;border-radius:28px;padding:13px 28px;font-size:14px;font-weight:700;letter-spacing:.03em;transition:all .15s}
-.hero-cta:hover{background:var(--green2);transform:scale(1.03)}
+/* CONCEPT ROW */
+.concept-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px}
+.cc{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-xs)}
+.cc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cc-dot.g{background:var(--green)}
+.cc-dot.a{background:var(--amber)}
+.cc-dot.b{background:var(--blue)}
+.cc-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3)}
+.cc-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
+.cc-desc{font-size:13px;color:var(--text2);line-height:1.55}
+.cc-eg{font-family:'SF Mono',Monaco,monospace;font-size:11px;background:var(--surface);color:var(--text2);padding:5px 9px;border-radius:var(--r-xs);margin-top:10px;display:block;line-height:1.5}
 
-/* ─── FLOW DIAGRAM ─── */
-.flow-wrap{padding:0 28px;margin-bottom:40px}
-.flow-card{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:28px 32px;overflow:hidden}
-.flow-card-head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g2);margin-bottom:28px}
-.flow-diagram{display:flex;align-items:center;min-width:600px;overflow-x:auto}
-.fd-node{flex:1;min-width:130px}
-.fd-box{border-radius:10px;border:1.5px solid;padding:14px 12px;margin:0 auto;max-width:148px;cursor:default;transition:transform .2s}
-.fd-box:hover{transform:translateY(-3px)}
-.fd-box.n0{border-color:rgba(29,185,84,.5);background:rgba(29,185,84,.06)}
-.fd-box.n1{border-color:rgba(245,158,11,.5);background:rgba(245,158,11,.06)}
-.fd-box.n2{border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.06)}
-.fd-box.n3{border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.06)}
-.fd-step{font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-.fd-box.n0 .fd-step{color:var(--org)}
-.fd-box.n1 .fd-step{color:var(--srv)}
-.fd-box.n2 .fd-step{color:var(--inp)}
-.fd-box.n3 .fd-step{color:var(--mix)}
-.fd-val{font-size:13px;font-weight:700;font-family:'SF Mono','Fira Code',monospace;line-height:1.5}
-.fd-box.n0 .fd-val{color:var(--org)}
-.fd-box.n1 .fd-val{color:var(--srv)}
-.fd-box.n2 .fd-val{color:var(--inp)}
-.fd-box.n3 .fd-val{color:var(--mix)}
-.fd-sub{font-size:10px;color:var(--g2);margin-top:7px;text-align:center}
-.fd-arrow{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 4px;margin-bottom:20px}
-.fd-arrow svg{display:block}
+/* SECTION HEADER */
+.sec-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.sec-title{font-size:17px;font-weight:700;color:var(--text)}
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--white);color:var(--text2);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--border-strong);color:var(--text)}
+.chip.on{background:var(--text);border-color:var(--text);color:#fff}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);border-radius:var(--r-xs);padding:7px 12px}
+.search-box input{border:none;outline:none;background:none;font:13px 'Inter',system-ui,sans-serif;color:var(--text);width:180px}
+.search-box input::placeholder{color:var(--text3)}
+.search-box svg{color:var(--text3);flex-shrink:0}
 
-/* ─── SECTION ─── */
-.sec{padding:0 28px;margin-bottom:44px}
-.sec-title{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:18px}
+/* MODULE GRID */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.mod-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:22px;cursor:pointer;
+  transition:box-shadow .2s,transform .2s,border-color .2s;
+  box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:12px;
+}
+.mod-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow);transform:translateY(-2px)}
+.mc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.mc-left{display:flex;align-items:center;gap:12px}
+.mc-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.mc-ico.org{background:var(--green-light)}
+.mc-ico.server{background:var(--amber-light)}
+.mc-ico.mixed{background:var(--purple-light)}
+.mc-ico.na{background:var(--surface)}
+.mc-name{font-size:14px;font-weight:600;color:var(--text);line-height:1.3}
+.mc-scope{font-size:11px;color:var(--text3);margin-top:2px}
+.tz-pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px;white-space:nowrap;flex-shrink:0}
+.tz-pill.org{background:var(--green-light);color:var(--green)}
+.tz-pill.server{background:var(--amber-light);color:var(--amber)}
+.tz-pill.mixed{background:var(--purple-light);color:var(--purple)}
+.tz-pill.na{background:var(--surface);color:var(--text3)}
+.tz-pill.excl{background:var(--red-light);color:var(--red)}
+.mc-desc{font-size:13px;color:var(--text2);line-height:1.55}
+.mc-cta{font-size:12px;font-weight:500;color:var(--blue);display:flex;align-items:center;gap:4px;margin-top:auto}
 
-/* ─── CONCEPT NODES ─── */
-.concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.concept-node{border-radius:12px;padding:22px;border:1px solid;position:relative;overflow:hidden;transition:transform .2s}
-.concept-node:hover{transform:translateY(-2px)}
-.concept-node.org{border-color:rgba(29,185,84,.3);background:rgba(29,185,84,.04)}
-.concept-node.srv{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)}
-.concept-node.inp{border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.04)}
-.cn-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.cn-tag::before{content:'';width:6px;height:6px;border-radius:50%}
-.concept-node.org .cn-tag{color:var(--org)}
-.concept-node.srv .cn-tag{color:var(--srv)}
-.concept-node.inp .cn-tag{color:var(--inp)}
-.concept-node.org .cn-tag::before{background:var(--org)}
-.concept-node.srv .cn-tag::before{background:var(--srv)}
-.concept-node.inp .cn-tag::before{background:var(--inp)}
-.cn-icon{font-size:32px;margin-bottom:10px}
-.cn-title{font-size:15px;font-weight:700;margin-bottom:6px}
-.cn-desc{font-size:12.5px;color:var(--g1);line-height:1.65}
-.cn-chip{display:inline-block;margin-top:12px;font-size:11px;font-family:'SF Mono','Fira Code',monospace;padding:4px 10px;border-radius:6px;line-height:1.4}
-.concept-node.org .cn-chip{background:rgba(29,185,84,.12);color:var(--org)}
-.concept-node.srv .cn-chip{background:rgba(245,158,11,.12);color:var(--srv)}
-.concept-node.inp .cn-chip{background:rgba(96,165,250,.12);color:var(--inp)}
+/* DETAIL VIEW */
+.breadcrumb{display:flex;align-items:center;gap:8px;padding:24px 0 0;font-size:13px;color:var(--text3)}
+.bc-back{color:var(--blue);cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.bc-back:hover{text-decoration:underline}
+.bc-sep{color:var(--border-strong)}
+.bc-cur{color:var(--text);font-weight:500}
 
-/* ─── MODULE GRID ─── */
-.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.mod-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s}
-.mod-card:hover{background:var(--s2);border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.5)}
-.mod-card.open{border-color:var(--border2)}
-.mod-stripe{height:4px}
-.mod-stripe.org{background:linear-gradient(90deg,var(--org),rgba(29,185,84,.4))}
-.mod-stripe.server{background:linear-gradient(90deg,var(--srv),rgba(245,158,11,.4))}
-.mod-stripe.mixed{background:linear-gradient(90deg,var(--mix),rgba(167,139,250,.4))}
-.mod-stripe.na{background:linear-gradient(90deg,var(--excl),rgba(248,113,113,.4))}
-.mod-body{padding:18px}
-.mod-icon{font-size:30px;margin-bottom:10px;display:block}
-.mod-name{font-size:14px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
-.mod-scope{font-size:11px;color:var(--g2);margin-bottom:10px}
-.mod-badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;margin-bottom:10px}
-.mod-badge.org{background:rgba(29,185,84,.12);color:var(--org)}
-.mod-badge.server{background:rgba(245,158,11,.12);color:var(--srv)}
-.mod-badge.mixed{background:rgba(167,139,250,.12);color:var(--mix)}
-.mod-badge.na{background:rgba(248,113,113,.12);color:var(--excl)}
-.mod-badge.selected{background:rgba(96,165,250,.12);color:var(--inp)}
-.mod-plain{font-size:12px;color:var(--g1);line-height:1.6}
-.mod-expand{padding:0 18px 18px;display:none}
-.mod-card.open .mod-expand{display:block}
-.mod-exp-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
-.mod-exp-row:last-child{border-bottom:none}
-.mod-exp-label{color:var(--g1)}
-.mod-note{margin-top:12px;font-size:11.5px;color:var(--g1);line-height:1.6;padding:10px 12px;border-radius:7px;background:rgba(245,158,11,.06);border-left:2px solid var(--srv)}
-.excl-pip{font-size:10px;background:rgba(248,113,113,.12);color:var(--excl);padding:1px 7px;border-radius:8px;font-weight:700}
+.detail-head{padding:20px 0 0}
+.dh-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.dh-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.dh-name{font-size:22px;font-weight:700;color:var(--text)}
+.dh-scope{font-size:12px;color:var(--text3);margin-top:2px}
+.dh-desc{font-size:14px;color:var(--text2);max-width:700px;line-height:1.65;margin-bottom:16px}
+.excl-banner{background:var(--red-light);border:1px solid var(--red-border);border-radius:var(--r-xs);padding:11px 15px;font-size:13px;color:var(--red);margin-bottom:16px}
 
-/* ─── FILTER ROW ─── */
-.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
-.chip{padding:6px 16px;border-radius:20px;border:none;background:var(--s2);color:var(--white);font-size:12px;font-weight:600;transition:all .15s}
-.chip:hover{background:var(--s3)}
-.chip.on{background:var(--white);color:#000}
-.srch{background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:6px 14px 6px 34px;color:var(--white);font-size:12px;outline:none;width:180px;transition:border-color .15s;position:relative}
-.srch:focus{border-color:var(--green)}
-.srch-wrap{position:relative;margin-left:auto}
-.srch-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;color:var(--g2)}
+/* TABS */
+.tab-row{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px}
+.tab-btn{font-size:13px;font-weight:500;color:var(--text2);padding:11px 18px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.on{color:var(--text);border-bottom-color:#0F172A;font-weight:600}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
 
-/* ─── API PILLS ─── */
-.api-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.apill{padding:7px 18px;border-radius:20px;border:none;background:var(--s2);color:var(--white);font-size:12px;font-weight:600;transition:all .15s}
-.apill:hover{background:var(--s3)}
-.apill.on{background:var(--white);color:#000}
-.api-pane{display:none}
-.api-pane.on{display:block}
+/* FLOW DIAGRAM */
+.flow-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:28px;box-shadow:var(--shadow-xs);margin-bottom:16px}
+.fc-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);margin-bottom:22px}
+.flow-row{display:flex;align-items:flex-start;overflow-x:auto;padding-bottom:4px}
+.fn{flex:1;min-width:118px;text-align:center}
+.fn-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:8px}
+.fn-box{border-radius:var(--r-sm);padding:14px 10px;border:1.5px solid;display:flex;flex-direction:column;align-items:center;gap:4px}
+.fn-box.blue{border-color:var(--blue);background:var(--blue-light)}
+.fn-box.neutral{border-color:var(--border-strong);background:var(--surface)}
+.fn-box.amber{border-color:var(--amber);background:var(--amber-light)}
+.fn-box.green{border-color:var(--green);background:var(--green-light)}
+.fn-box.red{border-color:var(--red);background:var(--red-light)}
+.fn-val{font-size:14px;font-weight:700;color:var(--text);line-height:1.25}
+.fn-tz{font-size:10px;color:var(--text2);font-family:'SF Mono',Monaco,monospace;margin-top:2px}
+.fn-sub{font-size:11px;color:var(--text3);margin-top:8px;line-height:1.45}
+.fa{flex-shrink:0;width:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding-top:26px}
+.fa-lbl{font-size:9px;color:var(--text3);white-space:nowrap}
 
-/* ─── INFO BOX ─── */
-.info{background:var(--s2);border-radius:var(--r);padding:14px 16px;font-size:13px;color:var(--g1);line-height:1.75;margin-bottom:14px}
-.info strong{color:var(--white)}
-.info code{background:rgba(29,185,84,.1);color:var(--green);padding:1px 5px;border-radius:4px;font-family:monospace;font-size:11.5px}
-.info.warn{border-left:3px solid var(--srv)}
-.info.danger{border-left:3px solid var(--excl)}
+.flow-notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:18px}
+.flow-note{background:var(--surface);border-radius:var(--r-xs);padding:13px;font-size:12.5px;color:var(--text2);line-height:1.55}
+.flow-note b{color:var(--text)}
+.gotcha-box{background:var(--amber-light);border:1px solid var(--amber-border);border-radius:var(--r-xs);padding:13px 16px;font-size:13px;color:#92400E;margin-top:14px;line-height:1.55}
 
-/* ─── CODE ─── */
-.code{background:#060606;border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;font-family:'SF Mono','Fira Code',monospace;font-size:12.5px;line-height:1.9;overflow-x:auto;margin:10px 0;white-space:pre}
-.ck{color:#79c0ff}.cs{color:#a5d6a7}.cn{color:#ffd54f}.cc{color:#444}
-.clabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--g2);margin-top:16px;margin-bottom:4px}
-.clabel:first-child{margin-top:0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.path-card{border-radius:var(--r-sm);padding:18px;border:1.5px solid}
+.path-card.green{border-color:var(--green-border);background:var(--green-light)}
+.path-card.amber{border-color:var(--amber-border);background:var(--amber-light)}
+.path-card.blue{border-color:var(--blue-border);background:var(--blue-light)}
+.path-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+.path-tag.green{color:var(--green)}
+.path-tag.amber{color:var(--amber)}
+.path-tag.blue{color:var(--blue)}
+.path-node{border-radius:var(--r-xs);padding:10px 12px;border:1.5px solid;margin-bottom:8px;text-align:center}
+.path-node.green{border-color:var(--green-border);background:var(--white)}
+.path-node.amber{border-color:var(--amber-border);background:var(--white)}
+.path-node.blue{border-color:var(--blue-border);background:var(--white)}
+.path-val{font-size:13px;font-weight:700;color:var(--text)}
+.path-tz{font-size:11px;color:var(--text2)}
+.path-desc{font-size:12px;color:var(--text2);line-height:1.5}
 
-/* ─── TABLES ─── */
-.tbl{width:100%;border-collapse:collapse}
-.tbl th{text-align:left;padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);border-bottom:1px solid var(--border)}
-.tbl td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12.5px;vertical-align:middle}
-.tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:rgba(255,255,255,.02)}
-.tbl-wrap{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+/* SIMULATOR */
+.sim-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--shadow-xs)}
+.sim-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:18px}
+.sim-fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:18px}
+.sf label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:6px}
+.sf select,.sf input[type=datetime-local]{width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:var(--r-xs);font:13px 'Inter',system-ui,sans-serif;color:var(--text);background:var(--white);outline:none;transition:border-color .15s}
+.sf select:focus,.sf input[type=datetime-local]:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.run-btn{display:inline-flex;align-items:center;gap:8px;background:#0F172A;color:#fff;font:600 13px 'Inter',system-ui,sans-serif;padding:10px 20px;border-radius:var(--r-xs);transition:background .15s}
+.run-btn:hover{background:#1e293b}
+.sim-results{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+.sim-result{background:var(--surface);border-radius:var(--r-xs);padding:14px 16px;display:flex;gap:13px;align-items:flex-start}
+.sr-num{width:26px;height:26px;border-radius:50%;background:var(--white);border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.sr-lbl{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sr-val{font:600 12px 'SF Mono',Monaco,monospace;color:var(--blue);margin-bottom:4px;word-break:break-all}
+.sr-note{font-size:12px;color:var(--text2);line-height:1.5}
 
-/* ─── SIMULATOR ─── */
-.sim-wrap{background:var(--s1);border:1px solid var(--border);border-radius:14px;overflow:hidden}
-.sim-head{background:linear-gradient(135deg,#0a2016,#071510);padding:22px 26px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border)}
-.sim-hicon{width:44px;height:44px;background:rgba(29,185,84,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid rgba(29,185,84,.3)}
-.sim-htitle{font-size:18px;font-weight:700}
-.sim-hsub{font-size:12px;color:var(--g2);margin-top:2px}
-.sim-body{padding:24px 26px}
-.sim-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
-.sf label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);margin-bottom:7px}
-.sf input,.sf select{width:100%;background:var(--s2);border:1.5px solid var(--border);border-radius:7px;padding:11px 12px;color:var(--white);font-size:13px;outline:none;transition:border-color .15s;appearance:none;font-family:inherit}
-.sf input:focus,.sf select:focus{border-color:var(--green)}
-.sim-run{width:100%;background:var(--green);color:#000;border:none;border-radius:26px;padding:14px;font-size:14px;font-weight:700;transition:all .15s;margin-top:6px;letter-spacing:.02em}
-.sim-run:hover{background:var(--green2);transform:scale(1.01)}
-.sim-out{display:none;margin-top:22px}
-.sim-out.on{display:block}
-.sim-steps{display:flex;flex-direction:column}
-.ss{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
-.ss:last-child{border-bottom:none}
-.ss-num{width:32px;height:32px;min-width:32px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--green);flex-shrink:0}
-.ss-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--g2);margin-bottom:5px}
-.ss-val{font-family:'SF Mono','Fira Code',monospace;font-size:12.5px;background:#060606;border:1px solid var(--border);border-radius:6px;padding:8px 12px;word-break:break-all;line-height:1.6}
-.ss-note{font-size:11.5px;color:var(--g1);margin-top:5px;line-height:1.6}
+/* API REFERENCE */
+.api-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow-xs);margin-bottom:16px}
+.api-card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:14px}
+.field-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
+.field-row:last-child{border-bottom:none}
+.field-name{font:500 13px 'SF Mono',Monaco,monospace;color:var(--text)}
+.field-note-sm{font-size:12px;color:var(--text3);margin-top:3px}
+.field-meta{font-size:12px;color:var(--text2);text-align:right;flex-shrink:0;max-width:160px}
+.code-blk{background:var(--surface);border-radius:var(--r-sm);padding:16px;font:12px/1.9 'SF Mono',Monaco,monospace;color:var(--text);overflow-x:auto}
+.c-good{color:var(--green)}
+.c-bad{color:var(--red)}
+.c-dim{color:var(--text3)}
+.c-em{color:var(--blue);font-weight:700}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r-sm);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--surface);padding:10px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);white-space:nowrap}
+td{padding:10px 14px;border-top:1px solid var(--border);vertical-align:top}
+tr:hover td{background:#FAFAFE}
+.td-old{font:500 12px 'SF Mono',Monaco,monospace;color:var(--red)}
+.td-new{font:500 12px 'SF Mono',Monaco,monospace;color:var(--green)}
 
-/* ─── FAQ ─── */
-.faq-list{display:flex;flex-direction:column;gap:2px}
-.faq{background:var(--s1);border-radius:var(--r);overflow:hidden}
-.faq-q{padding:17px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:14px;font-weight:600;gap:14px;transition:background .15s}
-.faq-q:hover{background:var(--s2)}
-.faq-chev{color:var(--g2);font-size:18px;transition:transform .2s;flex-shrink:0}
-.faq.open .faq-chev{transform:rotate(180deg)}
-.faq-a{display:none;padding:0 18px 16px;font-size:13px;color:var(--g1);line-height:1.8}
-.faq.open .faq-a{display:block}
-.faq-a code{background:rgba(29,185,84,.1);color:var(--green);padding:1px 5px;border-radius:4px;font-family:monospace;font-size:11.5px}
-.faq-a strong{color:var(--white)}
+/* INFO BOXES */
+.ibox{border-radius:var(--r-xs);padding:12px 15px;font-size:13px;line-height:1.55;margin-bottom:14px}
+.ibox.info{background:var(--blue-light);border:1px solid var(--blue-border);color:#1D4ED8}
+.ibox.warn{background:var(--amber-light);border:1px solid var(--amber-border);color:#92400E}
+.ibox.success{background:var(--green-light);border:1px solid var(--green-border);color:#065F46}
+.ibox.danger{background:var(--red-light);border:1px solid var(--red-border);color:#991B1B}
+code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0,0,.06);padding:2px 5px;border-radius:4px}
 
-/* ─── SETUP ─── */
-.setup-step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);align-items:flex-start}
-.setup-step:last-child{border-bottom:none}
-.snum{width:26px;height:26px;min-width:26px;border-radius:50%;background:var(--green);color:#000;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.stxt{font-size:13.5px;color:var(--g1);line-height:1.65}
-.stxt strong{color:var(--white)}
-.flag{font-family:monospace;font-size:11.5px;background:rgba(29,185,84,.08);color:var(--green);padding:2px 8px;border-radius:5px}
-.st-on{color:var(--org);font-size:12px;font-weight:700}
-.st-off{color:var(--excl);font-size:12px;font-weight:700}
-.st-partial{color:var(--srv);font-size:12px;font-weight:700}
-.excl-tag{display:inline-flex;align-items:center;padding:5px 12px;border-radius:18px;font-size:12px;background:rgba(248,113,113,.08);color:var(--excl);font-weight:600;margin:3px}
+/* SETUP VIEW */
+.page-head{padding:36px 0 28px}
+.page-title{font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px}
+.page-sub{font-size:14px;color:var(--text2);max-width:540px;line-height:1.6}
+.tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.tier-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-xs)}
+.tier-badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.tier-body{font-size:13px;color:var(--text);line-height:1.65}
+.steps-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--shadow-xs);margin-bottom:24px}
+.step-row{display:flex;align-items:flex-start;gap:13px;padding:11px 0;border-bottom:1px solid var(--border)}
+.step-row:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:#0F172A;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-txt{font-size:13px;color:var(--text);line-height:1.6}
+.excl-tags{display:flex;flex-wrap:wrap;gap:8px}
+.excl-tag{background:var(--red-light);color:var(--red);font-size:12px;font-weight:600;padding:5px 13px;border-radius:20px}
 
-/* ─── PAGE HEADER ─── */
-.pg-head{background:linear-gradient(170deg,#0d1a0d 0%,#0a0a0a 100%);padding:0 28px 28px;margin-top:-72px;padding-top:88px}
-.pg-title{font-size:40px;font-weight:900;letter-spacing:-.03em}
-.pg-sub{font-size:14px;color:var(--g1);margin-top:8px;line-height:1.65}
+/* FAQ VIEW */
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:17px 0;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);gap:16px;transition:color .15s}
+.faq-q:hover{color:var(--blue)}
+.faq-chev{flex-shrink:0;transition:transform .2s;color:var(--text3)}
+.faq-item.open .faq-chev{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 0 17px;font-size:13px;color:var(--text2);line-height:1.7;max-width:700px}
+.faq-item.open .faq-a{display:block}
 
-/* ─── BOTTOM BAR ─── */
-.bottom{position:fixed;bottom:0;left:0;right:0;height:var(--bh);background:#111;border-top:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:0;z-index:200}
-.bb-tag{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g2);white-space:nowrap;margin-right:14px;display:flex;align-items:center;gap:6px;flex-shrink:0}
-.bb-pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.bb-clocks{display:flex;flex:1;overflow:hidden}
-.bbc{text-align:center;padding:0 18px;border-right:1px solid var(--border);flex:1;min-width:110px}
-.bbc:last-child{border-right:none}
-.bbc-name{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--g2)}
-.bbc-time{font-size:19px;font-weight:700;font-family:'SF Mono',monospace;line-height:1.2}
-.bbc-tz{font-size:9px;color:var(--green)}
+/* BOTTOM CLOCK BAR */
+.clock-bar{
+  position:fixed;bottom:0;left:0;right:0;height:var(--bar-h);
+  background:rgba(255,255,255,.95);backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;z-index:200;
+}
+.cb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);display:flex;align-items:center;gap:6px;padding-right:20px;border-right:1px solid var(--border);margin-right:20px;white-space:nowrap}
+.cb-clocks{display:flex;align-items:center;flex:1;overflow:hidden}
+.cbc{flex:1;min-width:0;text-align:center;padding:0 10px;border-right:1px solid var(--border)}
+.cbc:last-child{border-right:none}
+.cbc-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)}
+.cbc-time{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+.cbc-off{font-size:9px;color:var(--text3)}
 
-/* ─── RULES CARD ─── */
-.rule-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--g1)}
-.rule-row:last-child{border-bottom:none}
-.rule-ic{font-size:13px;font-weight:700;width:16px;flex-shrink:0;margin-top:1px}
-.rule-row.y .rule-ic{color:var(--green)}
-.rule-row.w .rule-ic{color:var(--srv)}
-.rule-row.n .rule-ic{color:var(--excl)}
+.empty{padding:28px;color:var(--text3);font-size:13px;text-align:center}
 
-/* ─── LIVE CLOCKS GRID ─── */
-.clock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.clock-card{background:var(--s1);border-radius:var(--r);padding:16px;text-align:center;border:1px solid var(--border)}
-.clock-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);margin-bottom:4px}
-.clock-time{font-size:26px;font-weight:700;font-family:monospace;color:var(--green)}
-.clock-date{font-size:11px;color:var(--g1);margin-top:3px}
-
-/* ─── SCROLLBAR ─── */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:10px}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width:860px){
-  .sb{display:none}.main{margin-left:0}
-  .concept-grid,.sim-fields{grid-template-columns:1fr}
-  .hero-h1{font-size:34px}
-  .mod-grid{grid-template-columns:repeat(2,1fr)}
+@media(max-width:768px){
+  .concept-row,.mod-grid,.tier-grid,.two-col{grid-template-columns:1fr}
+  .sim-fields{grid-template-columns:1fr}
+  .flow-notes{grid-template-columns:1fr}
+  .wrap{padding:0 16px calc(var(--bar-h) + 24px)}
+  .nav{padding:0 16px}
+  .nav-tagline{display:none}
 }
 </style>
 </head>
 <body>
-<div class="shell">
 
-<!-- ════════════════ SIDEBAR ════════════════ -->
-<aside class="sb">
-  <div class="sb-logo" onclick="nav('home',this.closest('.sb').querySelector('.nav'))">
-    <div class="sb-logomark">TZ</div>
-    <div><div class="sb-name">Timezone Guide</div><div class="sb-sub">Capillary Platform</div></div>
-  </div>
-
-  <div class="sb-sec">
-    <div class="sb-lbl">Navigate</div>
-    <button class="nav on" id="n-home" onclick="nav('home',this)"><span class="nav-ic">⬡</span>Overview</button>
-    <button class="nav" id="n-modules" onclick="nav('modules',this)"><span class="nav-ic">◫</span>Modules</button>
-    <button class="nav" id="n-apis" onclick="nav('apis',this)"><span class="nav-ic">⬡</span>APIs</button>
-    <button class="nav" id="n-sim" onclick="nav('sim',this)"><span class="nav-ic">◎</span>Simulator</button>
-    <button class="nav" id="n-setup" onclick="nav('setup',this)"><span class="nav-ic">◈</span>Setup Guide</button>
-    <button class="nav" id="n-faq" onclick="nav('faq',this)"><span class="nav-ic">◉</span>FAQ</button>
-  </div>
-
-  <div class="sb-div"></div>
-
-  <div class="sb-sec">
-    <div class="sb-lbl">Legend</div>
-    <div class="tz-legend">
-      <div class="tz-row"><div class="tz-dot" style="background:var(--org)"></div>Org Timezone</div>
-      <div class="tz-row"><div class="tz-dot" style="background:var(--srv)"></div>Server Timezone</div>
-      <div class="tz-row"><div class="tz-dot" style="background:var(--inp)"></div>Input Timezone</div>
-      <div class="tz-row"><div class="tz-dot" style="background:var(--excl)"></div>Not Standardized</div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand" onclick="showView('overview')">
+    <div class="nav-mark">TZ</div>
+    <div>
+      <div class="nav-name">Timezone Reference</div>
+      <div class="nav-tagline">Capillary Platform</div>
     </div>
   </div>
-</aside>
-
-<!-- ════════════════ MAIN ════════════════ -->
-<main class="main" id="mainEl">
-
-  <!-- topbar -->
-  <div class="topbar" id="topbar">
-    <div class="tb-btns">
-      <button class="tb-btn">‹</button>
-      <button class="tb-btn">›</button>
-    </div>
-    <div class="role-row">
-      <button class="rb on" onclick="setRole(this)">All</button>
-      <button class="rb" onclick="setRole(this)">Dev</button>
-      <button class="rb" onclick="setRole(this)">PM</button>
-      <button class="rb" onclick="setRole(this)">Support</button>
-    </div>
+  <div class="nav-menu">
+    <span class="nav-btn on" id="nb-overview" onclick="showView('overview')">Overview</span>
+    <span class="nav-btn" id="nb-setup" onclick="showView('setup')">Setup</span>
+    <span class="nav-btn" id="nb-faq" onclick="showView('faq')">FAQ</span>
   </div>
+  <div class="nav-right">
+    <div class="live-dot"></div>
+    <span id="navClock">--:--:-- IST</span>
+  </div>
+</nav>
 
-  <!-- ══ HOME ══ -->
-  <div class="pg on" id="pg-home">
+<div class="wrap">
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="view on" id="view-overview">
+
     <div class="hero">
       <div class="hero-eyebrow">Capillary Platform</div>
-      <h1 class="hero-h1">Dates, times &amp;<br><em>timezone clarity</em></h1>
-      <p class="hero-desc">Understand exactly what timezone is applied at every layer — UI display, API responses, promotions, and events — across every Capillary module.</p>
-      <button class="hero-cta" onclick="nav('modules',document.getElementById('n-modules'))">▶ &nbsp;Explore Modules</button>
+      <div class="hero-title">Timezone reference for every module</div>
+      <div class="hero-sub">Dates behave differently across modules. Click any module to see a visual flow of how timestamps travel, test behavior with your own inputs, and understand API interactions.</div>
     </div>
 
-    <!-- Flow Diagram -->
-    <div class="flow-wrap">
-      <div class="flow-card">
-        <div class="flow-card-head">How a timestamp travels through Capillary</div>
-        <div style="overflow-x:auto">
-          <div class="flow-diagram">
-            <div class="fd-node">
-              <div class="fd-box n0">
-                <div class="fd-step">Customer Action</div>
-                <div class="fd-val">09:00 AM<br>+05:30 IST</div>
-              </div>
-              <div class="fd-sub">e.g. purchase in India</div>
-            </div>
-            <div class="fd-arrow">
-              <svg width="48" height="20" viewBox="0 0 48 20">
-                <line x1="0" y1="10" x2="38" y2="10" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
-                <polygon points="38,5 48,10 38,15" fill="#333"/>
-              </svg>
-              <div style="font-size:9px;color:var(--g2);margin-top:4px;white-space:nowrap">receives</div>
-            </div>
-            <div class="fd-node">
-              <div class="fd-box n1">
-                <div class="fd-step">Stored Internally</div>
-                <div class="fd-val">epoch ms<br>+ offset</div>
-              </div>
-              <div class="fd-sub">timezone-neutral</div>
-            </div>
-            <div class="fd-arrow">
-              <svg width="48" height="20" viewBox="0 0 48 20">
-                <line x1="0" y1="10" x2="38" y2="10" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
-                <polygon points="38,5 48,10 38,15" fill="#333"/>
-              </svg>
-              <div style="font-size:9px;color:var(--g2);margin-top:4px;white-space:nowrap">GET call</div>
-            </div>
-            <div class="fd-node">
-              <div class="fd-box n2">
-                <div class="fd-step">API Response</div>
-                <div class="fd-val">03:30Z<br>offset: +05:30</div>
-              </div>
-              <div class="fd-sub">server TZ + offset</div>
-            </div>
-            <div class="fd-arrow">
-              <svg width="48" height="20" viewBox="0 0 48 20">
-                <line x1="0" y1="10" x2="38" y2="10" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
-                <polygon points="38,5 48,10 38,15" fill="#333"/>
-              </svg>
-              <div style="font-size:9px;color:var(--g2);margin-top:4px;white-space:nowrap">renders</div>
-            </div>
-            <div class="fd-node">
-              <div class="fd-box n3">
-                <div class="fd-step">UI Display</div>
-                <div class="fd-val">09:00 AM<br>IST (org TZ)</div>
-              </div>
-              <div class="fd-sub">what users see</div>
-            </div>
-          </div>
-        </div>
+    <!-- 3 Concepts -->
+    <div class="concept-row">
+      <div class="cc">
+        <div class="cc-top"><div class="cc-dot g"></div><div class="cc-tag">Org Timezone</div></div>
+        <div class="cc-title">Your company's clock</div>
+        <div class="cc-desc">Set in Organization Settings. Most UI screens display dates in this timezone — what your team sees in InTouch.</div>
+        <code class="cc-eg">Asia/Kolkata · Asia/Singapore · UTC</code>
+      </div>
+      <div class="cc">
+        <div class="cc-top"><div class="cc-dot a"></div><div class="cc-tag">Server Timezone</div></div>
+        <div class="cc-title">Where your data lives</div>
+        <div class="cc-desc">The timezone of the Capillary server cluster. All GET API responses return timestamps in this timezone.</div>
+        <code class="cc-eg">India +05:30 · EU UTC · APAC +08:00 · US −05:00</code>
+      </div>
+      <div class="cc">
+        <div class="cc-top"><div class="cc-dot b"></div><div class="cc-tag">Input Timezone</div></div>
+        <div class="cc-title">Offset you send in</div>
+        <div class="cc-desc">When you POST with an ISO 8601 offset, Capillary stores it. The promotion engine uses it to evaluate time-window rules.</div>
+        <code class="cc-eg">2026-01-23T09:00:00+05:30 → offset stored</code>
       </div>
     </div>
 
-    <!-- Three Concepts -->
-    <div class="sec">
-      <div class="sec-title">Three timezone concepts</div>
-      <div class="concept-grid">
-        <div class="concept-node org">
-          <div class="cn-tag">Org Timezone</div>
-          <div class="cn-icon">🏢</div>
-          <div class="cn-title">Your company's clock</div>
-          <div class="cn-desc">Set in Organization Settings — usually HQ location. Most UI screens display dates in this timezone.</div>
-          <div class="cn-chip">Asia/Kolkata · Asia/Singapore · UTC</div>
+    <!-- Module Grid -->
+    <div class="sec-row">
+      <div class="sec-title">All Modules</div>
+      <div class="filters">
+        <div class="search-box">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input id="modSearch" oninput="renderMods()" placeholder="Search modules…">
         </div>
-        <div class="concept-node srv">
-          <div class="cn-tag">Server Timezone</div>
-          <div class="cn-icon">🖥️</div>
-          <div class="cn-title">Where your data lives</div>
-          <div class="cn-desc">The timezone of the Capillary cluster hosting your org. All API responses return timestamps in this timezone.</div>
-          <div class="cn-chip">India +05:30 · EU UTC · APAC2 +08:00</div>
-        </div>
-        <div class="concept-node inp">
-          <div class="cn-tag">Input Timezone</div>
-          <div class="cn-icon">📍</div>
-          <div class="cn-title">Where the action happened</div>
-          <div class="cn-desc">When data arrives with an offset (e.g. purchase from Dubai), Capillary preserves it for local-time promotion evaluation.</div>
-          <div class="cn-chip">billingTimeInputOffset · eventDateTimeInputOffset</div>
-        </div>
+        <button class="chip on" onclick="setChip('all',this)">All</button>
+        <button class="chip" onclick="setChip('org',this)">Org TZ</button>
+        <button class="chip" onclick="setChip('server',this)">Server TZ</button>
+        <button class="chip" onclick="setChip('mixed',this)">Mixed</button>
+        <button class="chip" onclick="setChip('excl',this)">Excluded</button>
       </div>
     </div>
+    <div class="mod-grid" id="modGrid"></div>
 
-    <!-- Rules -->
-    <div class="sec">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:20px">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);margin-bottom:14px">Rules to know</div>
-          <div class="rule-row y"><span class="rule-ic">✓</span>Most UI modules display in org timezone</div>
-          <div class="rule-row y"><span class="rule-ic">✓</span>All API responses use server timezone (ISO 8601)</div>
-          <div class="rule-row y"><span class="rule-ic">✓</span>Original input offsets preserved for promotions</div>
-          <div class="rule-row y"><span class="rule-ic">✓</span>Promotions can have their own custom timezone</div>
-          <div class="rule-row w"><span class="rule-ic">⚠</span><div>Audience <strong style="color:var(--white)">date filters</strong> use server time, not org TZ</div></div>
-          <div class="rule-row n"><span class="rule-ic">✗</span><div>Insights, Badges, Offers, Marvel UI — <strong style="color:var(--white)">not standardized</strong></div></div>
-        </div>
-        <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:20px">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);margin-bottom:14px">Where to go</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="background:var(--s2);border-radius:8px;padding:12px;cursor:pointer" onclick="nav('modules',document.getElementById('n-modules'))">
-              <div style="font-size:13px;font-weight:700;margin-bottom:2px">◫ PM / Config → Modules</div>
-              <div style="font-size:12px;color:var(--g1)">What timezone each screen shows</div>
-            </div>
-            <div style="background:var(--s2);border-radius:8px;padding:12px;cursor:pointer" onclick="nav('apis',document.getElementById('n-apis'))">
-              <div style="font-size:13px;font-weight:700;margin-bottom:2px">⬡ Developers → APIs</div>
-              <div style="font-size:12px;color:var(--g1)">Offset fields, ISO shadow fields, formats</div>
-            </div>
-            <div style="background:var(--s2);border-radius:8px;padding:12px;cursor:pointer" onclick="nav('faq',document.getElementById('n-faq'))">
-              <div style="font-size:13px;font-weight:700;margin-bottom:2px">◉ Support → FAQ</div>
-              <div style="font-size:12px;color:var(--g1)">"Why is the time wrong?" — answered</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
-  <!-- ══ MODULES ══ -->
-  <div class="pg" id="pg-modules">
-    <div class="pg-head">
-      <div class="pg-title">Modules</div>
-      <div class="pg-sub">Click any module to see exactly what timezone its dates appear in.</div>
+  <!-- ══ MODULE DETAIL ══ -->
+  <div class="view" id="view-detail">
+    <div class="breadcrumb">
+      <span class="bc-back" onclick="showView('overview')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        All Modules
+      </span>
+      <span class="bc-sep">/</span>
+      <span class="bc-cur" id="bc-name"></span>
     </div>
-    <div class="sec" style="margin-top:28px">
-      <div class="info" style="margin-bottom:20px">
-        <strong>How to read:</strong> &nbsp;<span style="background:rgba(29,185,84,.1);color:var(--org);padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700">Org TZ</span>&nbsp; = your configured org timezone &nbsp;·&nbsp; <span style="background:rgba(245,158,11,.1);color:var(--srv);padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700">Server TZ</span>&nbsp; = cluster timezone &nbsp;·&nbsp; <span style="background:rgba(96,165,250,.1);color:var(--inp);padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700">Selected TZ</span>&nbsp; = chosen at creation
-      </div>
-      <div class="filter-row">
-        <button class="chip on" onclick="filterTZ('all',this)">All</button>
-        <button class="chip" onclick="filterTZ('org',this)">Org Timezone</button>
-        <button class="chip" onclick="filterTZ('server',this)">Server Timezone</button>
-        <button class="chip" onclick="filterTZ('mixed',this)">Mixed</button>
-        <button class="chip" onclick="filterTZ('na',this)">Excluded</button>
-        <div class="srch-wrap">
-          <span class="srch-icon">🔍</span>
-          <input class="srch" id="modSearch" placeholder="Search..." oninput="filterText(this.value)">
+
+    <div class="detail-head">
+      <div class="dh-row">
+        <div class="dh-ico mc-ico" id="dh-ico"></div>
+        <div>
+          <div class="dh-name" id="dh-name"></div>
+          <div class="dh-scope" id="dh-scope"></div>
         </div>
+        <span id="dh-pill"></span>
       </div>
-      <div class="mod-grid" id="modGrid"></div>
+      <div class="dh-desc" id="dh-desc"></div>
+      <div class="excl-banner" id="dh-excl" style="display:none">⚠ This module is <strong>excluded</strong> from Capillary's timezone standardization rollout. It uses legacy or server-based timezone behavior.</div>
     </div>
 
-    <!-- Reference table -->
-    <div class="sec">
-      <div class="sec-title">Full reference table</div>
-      <div class="tbl-wrap">
-        <table class="tbl">
-          <thead><tr><th>Module</th><th>Screen / Component</th><th>Timezone</th><th>Selectable?</th></tr></thead>
-          <tbody id="refTableBody"></tbody>
-        </table>
-      </div>
+    <div class="tab-row">
+      <button class="tab-btn on" id="tb-flow" onclick="switchTab('flow')">How it works</button>
+      <button class="tab-btn" id="tb-test" onclick="switchTab('test')">Test behavior</button>
+      <button class="tab-btn" id="tb-apis" onclick="switchTab('apis')">API reference</button>
     </div>
-  </div>
 
-  <!-- ══ APIs ══ -->
-  <div class="pg" id="pg-apis">
-    <div class="pg-head">
-      <div class="pg-title">API Behavior</div>
-      <div class="pg-sub">How date and time values work in Capillary APIs.</div>
-    </div>
-    <div class="sec" style="margin-top:28px">
-      <div class="api-pills">
-        <button class="apill on" onclick="apiTab(this,'ap-get')">GET Responses</button>
-        <button class="apill" onclick="apiTab(this,'ap-post')">POST / PUT</button>
-        <button class="apill" onclick="apiTab(this,'ap-txn')">Transactions</button>
-        <button class="apill" onclick="apiTab(this,'ap-ev')">Behavioural Events</button>
-        <button class="apill" onclick="apiTab(this,'ap-rew')">Rewards Catalog</button>
-        <button class="apill" onclick="apiTab(this,'ap-shadow')">Shadow Fields</button>
-      </div>
-
-      <div id="ap-get" class="api-pane on">
-        <div class="info"><strong>Plain English:</strong> Every date in a GET response is in the <strong>server's timezone</strong> — not yours. India cluster = IST (+05:30), EU = UTC. All dates are ISO 8601.</div>
-        <div class="clabel">EU Cluster (UTC)</div>
-        <div class="code">{
-  <span class="ck">"expiryDate"</span>: <span class="cs">"2025-12-16"</span>,              <span class="cc">← old field (deprecated)</span>
-  <span class="ck">"expiryDateISO"</span>: <span class="cs">"2025-12-16T14:30:45Z"</span>   <span class="cc">← use this</span>
-}</div>
-        <div class="clabel">India Cluster (IST) — same moment</div>
-        <div class="code">{
-  <span class="ck">"expiryDateISO"</span>: <span class="cs">"2025-12-16T20:00:45+05:30"</span>
-}</div>
-        <div class="info warn" style="margin-top:14px"><strong>Tip:</strong> Always use the <code>*ISO</code> fields — old fields are being phased out and contain no timezone info.</div>
-      </div>
-
-      <div id="ap-post" class="api-pane">
-        <div class="info"><strong>Plain English:</strong> Send dates in ISO 8601 with your timezone offset. For modules that support it, also pass <code>timeZoneName</code>.</div>
-        <div class="clabel">Creating a Promotion</div>
-        <div class="code">{
-  <span class="ck">"startOnISO"</span>: <span class="cs">"2026-03-01T00:00:00+05:30"</span>,
-  <span class="ck">"endOnISO"</span>:   <span class="cs">"2026-03-31T23:59:59+05:30"</span>,
-  <span class="ck">"timeZoneName"</span>: <span class="cs">"Asia/Kolkata"</span>
-}</div>
-        <div class="clabel">Legacy vs preferred</div>
-        <div class="code">{
-  <span class="ck">"startOn"</span>:    <span class="cs">"2026-03-01 00:00:00"</span>,       <span class="cc">← no TZ info</span>
-  <span class="ck">"startOnISO"</span>: <span class="cs">"2026-03-01T00:00:00+05:30"</span>   <span class="cc">← preferred</span>
-}</div>
-      </div>
-
-      <div id="ap-txn" class="api-pane">
-        <div class="info"><strong>Plain English:</strong> Transactions return in server timezone <em>plus</em> the original offset — letting you reconstruct the customer's local time for promotion evaluation.</div>
-        <div class="clabel">Send a transaction</div>
-        <div class="code">POST /transactions
-{ <span class="ck">"billingDate"</span>: <span class="cs">"2026-01-23T09:00:00+05:30"</span> }</div>
-        <div class="clabel">Fetch it back (EU cluster)</div>
-        <div class="code">{
-  <span class="ck">"billingTime"</span>:            <span class="cs">"2026-01-23T03:30:00Z"</span>,  <span class="cc">← server TZ</span>
-  <span class="ck">"billingTimeInputOffset"</span>: <span class="cs">"+05:30"</span>               <span class="cc">← original kept</span>
-}
-
-<span class="cc">// Reconstruct local: 03:30 UTC + 05:30 = 09:00 local ✓</span></div>
-        <div class="info warn" style="margin-top:14px"><strong>Why it matters:</strong> Without the offset, a "9–11 AM" promotion evaluates against 03:30 UTC and misses. The offset field enables correct local-time evaluation.</div>
-      </div>
-
-      <div id="ap-ev" class="api-pane">
-        <div class="info"><strong>Plain English:</strong> Behavioural events are stored as epoch milliseconds — timezone-neutral. The original offset is stored alongside for campaign window evaluation in the customer's local time.</div>
-        <div class="clabel">Send an event</div>
-        <div class="code">{ <span class="ck">"eventDateTime"</span>: <span class="cs">"2024-08-24T21:45:00+05:30"</span> }</div>
-        <div class="clabel">Stored and returned as</div>
-        <div class="code">{
-  <span class="ck">"eventDateTime"</span>:            <span class="cn">1724516100000</span>,    <span class="cc">← epoch ms</span>
-  <span class="ck">"eventDateTimeInputOffset"</span>: <span class="cs">"+05:30"</span>          <span class="cc">← offset kept</span>
-}</div>
-        <div style="margin-top:14px">
-          <div class="clabel">Input scenarios</div>
-          <div class="tbl-wrap">
-            <table class="tbl">
-              <thead><tr><th>You send</th><th>Stored offset</th><th>Result</th></tr></thead>
-              <tbody>
-                <tr><td><code style="font-family:monospace;font-size:12px;color:var(--green)">...T15:30:00+07:00</code></td><td><span style="color:var(--inp);font-weight:700;font-size:12px">+07:00</span></td><td>Offset extracted and stored</td></tr>
-                <tr><td><code style="font-family:monospace;font-size:12px;color:var(--g2)">...T15:30:00</code></td><td><span style="color:var(--excl);font-weight:700;font-size:12px">none</span></td><td>No offset info available</td></tr>
-                <tr><td><code style="font-family:monospace;font-size:12px;color:var(--green)">...T15:30:00Z</code></td><td><span style="color:var(--inp);font-weight:700;font-size:12px">+00:00</span></td><td>UTC normalized and stored</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div id="ap-rew" class="api-pane">
-        <div class="info danger"><strong>Important:</strong> All Rewards Catalog API inputs must be in <strong>UTC</strong>. All GET responses also return UTC. The legacy Marvel UI has no timezone changes yet.</div>
-        <div class="clabel">Setting a reward for 10 AM Dubai (UTC+4)</div>
-        <div class="code">{
-  <span class="ck">"startTime"</span>: <span class="cs">"2025-04-25T06:00:00Z"</span>  <span class="cc">← 10:00 Dubai = 06:00 UTC</span>
-}</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
-          <div style="background:rgba(248,113,113,.06);border-radius:var(--r);padding:14px;border:1px solid rgba(248,113,113,.15)">
-            <div style="font-size:11px;font-weight:700;color:var(--excl);margin-bottom:8px">Without CONF_ENABLE_ORG_TIMEZONE</div>
-            <div style="font-size:12.5px;color:var(--g1);line-height:1.7">Daily limits reset at server midnight · Weekly windows use server calendar · Reward calculations in server TZ</div>
-          </div>
-          <div style="background:rgba(29,185,84,.06);border-radius:var(--r);padding:14px;border:1px solid rgba(29,185,84,.15)">
-            <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px">With CONF_ENABLE_ORG_TIMEZONE</div>
-            <div style="font-size:12.5px;color:var(--g1);line-height:1.7">Daily limits reset at org midnight · Weekly windows use org calendar · DST handled automatically</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="ap-shadow" class="api-pane">
-        <div class="info"><strong>What are shadow fields?</strong> Old date fields had no timezone info (e.g. <code>expiryDate: "2025-12-16"</code>). Capillary adds a new <code>*ISO</code> version alongside. <strong>Migrate to ISO fields — old ones are deprecated.</strong></div>
-        <div class="tbl-wrap" style="margin-top:14px">
-          <table class="tbl">
-            <thead><tr><th>Old Field (deprecated)</th><th>New ISO Field (use this)</th><th>API</th></tr></thead>
-            <tbody id="shadowBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ SIMULATOR ══ -->
-  <div class="pg" id="pg-sim">
-    <div class="pg-head">
-      <div class="pg-title">Simulator</div>
-      <div class="pg-sub">Enter a date and trace its journey through every layer of Capillary.</div>
-    </div>
-    <div class="sec" style="margin-top:28px">
-      <div class="sim-wrap">
-        <div class="sim-head">
-          <div class="sim-hicon">⏱</div>
-          <div>
-            <div class="sim-htitle">Timestamp Flow Tracer</div>
-            <div class="sim-hsub">Follow a single date through input → storage → API → UI</div>
-          </div>
-        </div>
-        <div class="sim-body">
-          <div class="sim-fields">
-            <div class="sf"><label>Date &amp; Time (local)</label><input type="datetime-local" id="simDT"></div>
-            <div class="sf"><label>Where is this time from?</label>
-              <select id="simTZ">
-                <option value="+05:30">India (IST +05:30)</option>
-                <option value="+00:00">UK / EU (UTC)</option>
-                <option value="+04:00">Dubai (GST +04:00)</option>
-                <option value="+08:00">Singapore / China (+08:00)</option>
-                <option value="-05:00">US East (EST -05:00)</option>
-                <option value="+07:00">Jakarta (WIB +07:00)</option>
-                <option value="+09:00">Japan (JST +09:00)</option>
-              </select>
-            </div>
-            <div class="sf"><label>Your Server Cluster</label>
-              <select id="simServer">
-                <option value="Asia/Kolkata">India (IST +05:30)</option>
-                <option value="UTC">EU (UTC)</option>
-                <option value="Asia/Singapore">APAC2 / SG (+08:00)</option>
-                <option value="America/New_York">US East (EST)</option>
-              </select>
-            </div>
-          </div>
-          <div class="sim-fields" style="grid-template-columns:1fr;margin-bottom:14px">
-            <div class="sf"><label>Org Timezone (for UI display)</label>
-              <select id="simOrg">
-                <option value="Asia/Kolkata">Asia/Kolkata — IST (+05:30)</option>
-                <option value="UTC">UTC (+00:00)</option>
-                <option value="Asia/Singapore">Asia/Singapore (+08:00)</option>
-                <option value="Asia/Dubai">Asia/Dubai — GST (+04:00)</option>
-                <option value="America/New_York">America/New_York — EST</option>
-                <option value="Europe/London">Europe/London — GMT/BST</option>
-              </select>
-            </div>
-          </div>
-          <button class="sim-run" onclick="runSim()">▶ &nbsp;Trace this timestamp</button>
-          <div class="sim-out" id="simOut">
-            <div style="height:1px;background:var(--border);margin:20px 0"></div>
-            <div class="sim-steps" id="simSteps"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live clocks -->
-      <div style="margin-top:28px">
-        <div class="sec-title" style="margin-bottom:14px">Live Clocks — Right Now</div>
-        <div class="clock-grid" id="liveClocks"></div>
-      </div>
-    </div>
+    <div class="tab-panel on" id="tp-flow"></div>
+    <div class="tab-panel" id="tp-test"></div>
+    <div class="tab-panel" id="tp-apis"></div>
   </div>
 
   <!-- ══ SETUP ══ -->
-  <div class="pg" id="pg-setup">
-    <div class="pg-head">
-      <div class="pg-title">Setup Guide</div>
-      <div class="pg-sub">What needs configuring, what's already on, and how to enable what isn't.</div>
+  <div class="view" id="view-setup">
+    <div class="page-head">
+      <div class="page-title">Setup Guide</div>
+      <div class="page-sub">What needs configuring, what's already on, and how to enable what isn't.</div>
     </div>
-    <div class="sec" style="margin-top:28px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px">
-        <div style="background:var(--s1);border-radius:12px;padding:20px;border-top:3px solid var(--green);border:1px solid var(--border)">
-          <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">🆕 Orgs created from 2026</div>
-          <div style="font-size:13px;color:var(--g1);line-height:1.7">Everything is <strong style="color:var(--white)">on by default</strong>. UI timezone display, API formats, loyalty processing — all work out of the box.</div>
-        </div>
-        <div style="background:var(--s1);border-radius:12px;padding:20px;border-top:3px solid var(--srv);border:1px solid var(--border)">
-          <div style="font-size:13px;font-weight:700;color:var(--srv);margin-bottom:10px">🏛️ Orgs created before 2026</div>
-          <div style="font-size:13px;color:var(--g1);line-height:1.7">ISO API formats ✓ · Shadow fields ✓ · UI display — <strong style="color:var(--white)">support ticket needed</strong> · Loyalty processing — <strong style="color:var(--white)">support ticket needed</strong></div>
-        </div>
-      </div>
 
-      <div class="sec-title">Set Org Timezone in InTouch</div>
-      <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:28px">
-        <div class="setup-step"><div class="snum">1</div><div class="stxt">Click the <strong>Profile icon</strong> (top right) → <strong>Organization Settings</strong></div></div>
-        <div class="setup-step"><div class="snum">2</div><div class="stxt">Go to <strong>Organization Profile</strong> → click <strong>Edit</strong></div></div>
-        <div class="setup-step"><div class="snum">3</div><div class="stxt">Click the <strong>"Set Org TimeZone"</strong> tab</div></div>
-        <div class="setup-step"><div class="snum">4</div><div class="stxt">In <strong>Time Zone</strong>, add all timezones your org operates in. These appear as options in Promotions, MemberCare, etc.</div></div>
-        <div class="setup-step"><div class="snum">5</div><div class="stxt">In <strong>Base Time Zone</strong>, select your HQ timezone — the default across all UI modules.</div></div>
-        <div class="setup-step"><div class="snum">6</div><div class="stxt">Click <strong>Submit</strong>. All UI modules will now show dates in your base timezone.</div></div>
+    <div class="tier-grid">
+      <div class="tier-card">
+        <div class="tier-badge" style="color:var(--green)">🆕 Orgs created from 2026</div>
+        <div class="tier-body">Everything is <strong>on by default.</strong> UI timezone display, API formats, loyalty processing — all work out of the box.</div>
       </div>
+      <div class="tier-card">
+        <div class="tier-badge" style="color:var(--amber)">🏛 Orgs created before 2026</div>
+        <div class="tier-body">ISO API formats ✓ · Shadow fields ✓ · UI display — <strong>support ticket needed</strong> · Loyalty processing — <strong>support ticket needed</strong></div>
+      </div>
+    </div>
 
-      <div class="sec-title">Configuration Flags</div>
-      <div class="tbl-wrap" style="margin-bottom:28px">
-        <table class="tbl">
-          <thead><tr><th>Flag</th><th>Module</th><th>Default</th><th>What it does</th></tr></thead>
+    <div class="sec-title" style="margin-bottom:14px">Set Org Timezone in InTouch</div>
+    <div class="steps-card">
+      <div class="step-row"><div class="step-num">1</div><div class="step-txt">Click the <strong>Profile icon</strong> (top right) → <strong>Organization Settings</strong></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-txt">Go to <strong>Organization Profile</strong> → click <strong>Edit</strong></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-txt">Click the <strong>"Set Org TimeZone"</strong> tab</div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-txt">In <strong>Time Zone</strong>, add all timezones your org operates in</div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-txt">In <strong>Base Time Zone</strong>, select your HQ timezone — default across all UI modules</div></div>
+      <div class="step-row"><div class="step-num">6</div><div class="step-txt">Click <strong>Submit</strong>. All UI modules will now show dates in your base timezone.</div></div>
+    </div>
+
+    <div class="sec-title" style="margin-bottom:14px">Configuration Flags</div>
+    <div class="api-card" style="margin-bottom:24px">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Flag</th><th>Module</th><th>Default</th><th>Effect</th></tr></thead>
           <tbody>
-            <tr><td><span class="flag">CONF_ENABLE_ORG_TIMEZONE</span></td><td>Rewards Catalog</td><td><span class="st-off">Disabled</span></td><td style="font-size:12px;color:var(--g1)">Reward calculations use org timezone instead of server timezone</td></tr>
-            <tr><td><span class="flag">CONF_ORG_DISABLE_MACHINE_TIME_CONV</span></td><td>Transactions (v2)</td><td><span class="st-off">Disabled</span></td><td style="font-size:12px;color:var(--g1)">Billing time stored as-is. Assess downstream impact before enabling.</td></tr>
-            <tr><td>Timezone standardization</td><td>UI + Loyalty</td><td><span class="st-partial">2026+ auto-on</span></td><td style="font-size:12px;color:var(--g1)">All UI modules show org TZ; loyalty processing uses org TZ</td></tr>
+            <tr><td><code>CONF_ENABLE_ORG_TIMEZONE</code></td><td>Rewards Catalog</td><td><span style="color:var(--red);font-weight:600">Off</span></td><td style="font-size:12px;color:var(--text2)">Reward calculations use org TZ instead of server TZ</td></tr>
+            <tr><td><code>CONF_ORG_DISABLE_MACHINE_TIME_CONV</code></td><td>Transactions v2</td><td><span style="color:var(--red);font-weight:600">Off</span></td><td style="font-size:12px;color:var(--text2)">Billing time stored as-is. Assess downstream impact first.</td></tr>
+            <tr><td>Timezone standardization</td><td>UI + Loyalty</td><td><span style="color:var(--green);font-weight:600">2026+ auto-on</span></td><td style="font-size:12px;color:var(--text2)">All UI modules show org TZ; loyalty processing uses org TZ</td></tr>
           </tbody>
         </table>
       </div>
+    </div>
 
-      <div class="sec-title">Not covered by standardization</div>
-      <div class="info danger" style="margin-bottom:12px">These modules use legacy timezone behavior and are <strong>excluded</strong> from the standardization rollout.</div>
-      <div style="display:flex;flex-wrap:wrap">
-        <span class="excl-tag">🚫 Insights</span>
-        <span class="excl-tag">🚫 Badges UI</span>
-        <span class="excl-tag">🚫 Offers (UI &amp; API)</span>
-        <span class="excl-tag">🚫 Rewards Catalog / Marvel UI</span>
-        <span class="excl-tag">🚫 v1 APIs</span>
-        <span class="excl-tag">🚫 extendedFields values</span>
-      </div>
+    <div class="sec-title" style="margin-bottom:10px">Not covered by standardization</div>
+    <div class="ibox warn" style="margin-bottom:14px">These modules use legacy timezone behavior and are <strong>excluded</strong> from the standardization rollout.</div>
+    <div class="excl-tags">
+      <span class="excl-tag">Insights</span>
+      <span class="excl-tag">Badges UI</span>
+      <span class="excl-tag">Offers (UI &amp; API)</span>
+      <span class="excl-tag">Rewards Catalog / Marvel UI</span>
+      <span class="excl-tag">v1 APIs</span>
+      <span class="excl-tag">extendedFields values</span>
     </div>
   </div>
 
   <!-- ══ FAQ ══ -->
-  <div class="pg" id="pg-faq">
-    <div class="pg-head">
-      <div class="pg-title">FAQ</div>
-      <div class="pg-sub">The most common "why is the time wrong?" questions — answered plainly.</div>
+  <div class="view" id="view-faq">
+    <div class="page-head">
+      <div class="page-title">Frequently Asked Questions</div>
+      <div class="page-sub">The most common "why is the time wrong?" questions — answered plainly.</div>
     </div>
-    <div class="sec" style="margin-top:28px">
-      <div class="faq-list" id="faqList"></div>
-    </div>
+    <div id="faqList"></div>
   </div>
 
-</main>
 </div>
 
-<!-- ════════════════ BOTTOM BAR ════════════════ -->
-<div class="bottom">
-  <div class="bb-tag"><div class="bb-pulse"></div>LIVE CLOCKS</div>
-  <div class="bb-clocks" id="bbClocks"></div>
+<!-- BOTTOM CLOCK BAR -->
+<div class="clock-bar">
+  <div class="cb-label"><div class="live-dot"></div>Live Clocks</div>
+  <div class="cb-clocks" id="cbClocks"></div>
 </div>
 
 <script>
-// ─────────────────── DATA ───────────────────
+// ─── DATA ───
 const MODS = [
-  { name:'Member Care', icon:'👥', tz:'org', scope:'Customer Support', plain:'When support looks up a customer, all timestamps show in your org timezone. Agents can switch to any supported timezone via dropdown.', rows:[{l:'Customer search',tz:'org',sel:true},{l:'Interaction timestamps',tz:'org',sel:false},{l:'Points & tier dates',tz:'org',sel:true}], note:'Before this fix, interaction timestamps showed in the cluster timezone. Now always org timezone.', excl:false },
-  { name:'Promotions (New UI)', icon:'🎯', tz:'mixed', scope:'Loyalty Promotions', plain:'You pick a timezone at creation. The Duration column on listings uses that timezone, but "Updated at" always uses org timezone — two different timezones on the same row!', rows:[{l:'Creation dates',tz:'selected',sel:true},{l:'Listing — Duration',tz:'selected',sel:false},{l:'Listing — Updated at',tz:'org',sel:false}], note:'The listing intentionally shows two timezones. Duration = creation TZ; "Updated at" = org TZ.', excl:false },
-  { name:'Campaigns', icon:'📢', tz:'org', scope:'Engage+', plain:'All campaign dates are in org timezone. No option to change — it\'s locked.', rows:[{l:'Creation & listing',tz:'org',sel:false}], note:'', excl:false },
-  { name:'Journeys', icon:'🗺️', tz:'org', scope:'Customer Journeys', plain:'All journey listing and detail page dates are shown in org timezone.', rows:[{l:'Listing & details',tz:'org',sel:false}], note:'', excl:false },
-  { name:'Audience', icon:'🎪', tz:'mixed', scope:'Audience Management', plain:'The audience list shows in org timezone. BUT — date range filters are interpreted in server time (UTC). This is the most common gotcha.', rows:[{l:'Audience listings',tz:'org',sel:false},{l:'Date range filters',tz:'server',sel:false}], note:'⚠️ Audience date filters use SERVER TIME (UTC) — not org timezone. A filter for "Jan 23" means Jan 23 UTC.', excl:false },
-  { name:'Cart Promotions', icon:'🛒', tz:'org', scope:'Promotions', plain:'All dates during creation and listing follow your org timezone.', rows:[{l:'Creation & listing',tz:'org',sel:false}], note:'', excl:false },
-  { name:'Streaks', icon:'🔥', tz:'org', scope:'Gamification', plain:'Streak setup and listing dates show in org timezone.', rows:[{l:'Creation & listing',tz:'org',sel:false}], note:'', excl:false },
-  { name:'Milestones', icon:'🏆', tz:'org', scope:'Gamification', plain:'Milestone dates are all in org timezone.', rows:[{l:'Creation & listing',tz:'org',sel:false}], note:'', excl:false },
-  { name:'Offers / Gift Vouchers', icon:'🎁', tz:'org', scope:'Incentives', plain:'Offer dates show in org timezone. Note: Offers are excluded from full timezone standardization.', rows:[{l:'Creation & listing',tz:'org',sel:false}], note:'Offers (UI & API) excluded from standardization scope.', excl:true },
-  { name:'Alternate Currency', icon:'💰', tz:'org', scope:'Loyalty', plain:'All alternate currency dates show in org timezone.', rows:[{l:'Creation & listing',tz:'org',sel:false}], note:'', excl:false },
-  { name:'Gift Cards', icon:'🎴', tz:'org', scope:'Incentives', plain:'Gift card dates shown in org timezone across creation and listing.', rows:[{l:'Creation & listing',tz:'org',sel:false}], note:'', excl:false },
-  { name:'Rewards Catalog', icon:'🏅', tz:'server', scope:'Rewards', plain:'By default, all reward timing uses the server\'s timezone. Daily limits reset at server midnight — not your local midnight. Enable a config flag to fix this.', rows:[{l:'Reward calculations',tz:'server',sel:false},{l:'Daily limit resets',tz:'server',sel:false},{l:'Marvel UI',tz:'server',sel:false}], note:'Enable CONF_ENABLE_ORG_TIMEZONE to switch to org timezone. Marvel UI has no changes yet.', excl:true },
-  { name:'Insights', icon:'📊', tz:'na', scope:'Reporting', plain:'Insights is excluded from timezone standardization. Follows legacy timezone patterns.', rows:[{l:'All screens',tz:'na',sel:false}], note:'Explicitly excluded from standardization.', excl:true },
-];
-
-const REF_TABLE = [
-  {mod:'MemberCare',comp:'Search & Detail',ref:'Org Timezone',sel:'Yes — IANA dropdown'},
-  {mod:'Promotions (New UI)',comp:'Creation dates',ref:'Selected IANA Timezone',sel:'Yes'},
-  {mod:'Promotions (New UI)',comp:'Listing — Duration',ref:'Timezone at creation',sel:'No'},
-  {mod:'Promotions (New UI)',comp:'Listing — Updated at',ref:'Org Timezone',sel:'No'},
-  {mod:'Campaigns',comp:'Creation & Listing',ref:'Org Timezone',sel:'No'},
-  {mod:'Audience',comp:'Listings & Details',ref:'Org Timezone',sel:'No'},
-  {mod:'Audience',comp:'⚠ Date Range Filters',ref:'Server Time (UTC)',sel:'No'},
-  {mod:'Journeys',comp:'Listing & Details',ref:'Org Timezone',sel:'No'},
-  {mod:'Cart Promotions',comp:'Creation & Listing',ref:'Org Timezone',sel:'No'},
-  {mod:'Streaks',comp:'Creation & Listing',ref:'Org Timezone',sel:'No'},
-  {mod:'Milestones',comp:'Creation & Listing',ref:'Org Timezone',sel:'No'},
-  {mod:'Alternate Currency',comp:'Creation & Listing',ref:'Org Timezone',sel:'No'},
-  {mod:'Gift Cards',comp:'Creation & Listing',ref:'Org Timezone',sel:'No'},
-  {mod:'Rewards Catalog',comp:'API & Calculations',ref:'Server TZ (default) / Org TZ (flag)',sel:'No — via flag'},
-  {mod:'Insights',comp:'All',ref:'Not standardized',sel:'No'},
-];
-
-const SHADOWS = [
-  {old:'expiryDate',iso:'expiryDateISO',api:'Points Expiry'},
-  {old:'expiryChangeTime',iso:'expiryChangeTimeISO',api:'Points Expiry Updates'},
-  {old:'awardedOn',iso:'awardedOnISO',api:'Points Ledger'},
-  {old:'expiresOn',iso:'expiresOnISO',api:'Points Ledger'},
-  {old:'oldExpiryDate',iso:'oldExpiryDateISO',api:'Update Points Expiry'},
-  {old:'newExpiryDate',iso:'newExpiryDateISO',api:'Update Points Expiry'},
-  {old:'enrollmentDate',iso:'enrollmentDateISO',api:'Promotions for Customer'},
-  {old:'issualDate',iso:'issualDateISO',api:'Promotions for Customer'},
-  {old:'enrolledOn',iso:'enrolledOnISO',api:'Target Groups'},
-  {old:'startOn',iso:'startOnISO',api:'Badges / Promotions POST'},
-  {old:'validTill',iso:'validTillISO',api:'Cart Promotions'},
-  {old:'createdDate',iso:'createdDateTimeISO',api:'Customer Card Details'},
-  {old:'autoUpdateTime',iso:'autoUpdateTimeISO',api:'Customer Status'},
+  {name:'Member Care',icon:'👥',tz:'org',scope:'Customer Support',excl:false,
+   plain:'When support looks up a customer, all timestamps show in your org timezone. Agents can switch to any supported timezone via dropdown.',
+   note:'Before this fix, interaction timestamps showed in the cluster timezone. Now always org timezone.',
+   gotcha:'',
+   apis:[
+     {field:'Customer timestamps',fmt:'ISO 8601 + server TZ offset',note:'UI re-converts to org TZ for display'},
+     {field:'Interaction dates',fmt:'Org timezone in UI',note:''},
+     {field:'Points & tier dates',fmt:'Org timezone in UI',note:'Selectable via dropdown'},
+   ]},
+  {name:'Promotions',icon:'🎯',tz:'mixed',scope:'Loyalty Promotions',excl:false,
+   plain:'You pick a timezone at creation. The Duration column uses that timezone, but "Updated at" always uses org timezone — two different timezones on the same row.',
+   note:'The listing intentionally shows two timezones.',
+   gotcha:'Duration and "Updated at" columns use different timezones on the same row. Duration = creation TZ. "Updated at" = org TZ.',
+   apis:[
+     {field:'Duration column',fmt:'Timezone at creation',note:'The TZ chosen when creating the promotion'},
+     {field:'"Updated at" column',fmt:'Org timezone always',note:'Regardless of creation timezone'},
+   ]},
+  {name:'Campaigns',icon:'📢',tz:'org',scope:'Engage+',excl:false,
+   plain:"All campaign dates are in org timezone. No option to change — it's locked.",
+   note:'',gotcha:'',
+   apis:[{field:'All date fields',fmt:'Org timezone',note:'Fixed, not selectable'}]},
+  {name:'Journeys',icon:'🗺️',tz:'org',scope:'Customer Journeys',excl:false,
+   plain:'All journey listing and detail page dates are shown in org timezone.',
+   note:'',gotcha:'',
+   apis:[{field:'Listing & detail dates',fmt:'Org timezone',note:''}]},
+  {name:'Audience',icon:'🎪',tz:'mixed',scope:'Audience Management',excl:false,
+   plain:'The audience list shows in org timezone. BUT — date range filters are interpreted in server time (UTC). This is the most common gotcha.',
+   note:'',
+   gotcha:'Audience date filters use SERVER TIME (UTC) — not org timezone. A filter for "Jan 23" means Jan 23 UTC midnight.',
+   apis:[
+     {field:'Audience listings',fmt:'Org timezone',note:''},
+     {field:'Date range filters',fmt:'Server time (UTC) ⚠',note:'Common source of data discrepancies'},
+   ]},
+  {name:'Cart Promotions',icon:'🛒',tz:'org',scope:'Promotions',excl:false,
+   plain:'All dates during creation and listing follow your org timezone.',
+   note:'',gotcha:'',
+   apis:[{field:'validTill → validTillISO',fmt:'Org timezone',note:'Use the ISO field'}]},
+  {name:'Streaks',icon:'🔥',tz:'org',scope:'Gamification',excl:false,
+   plain:'Streak setup and listing dates show in org timezone.',
+   note:'',gotcha:'',
+   apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
+  {name:'Milestones',icon:'🏆',tz:'org',scope:'Gamification',excl:false,
+   plain:'Milestone dates are all in org timezone.',
+   note:'',gotcha:'',
+   apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
+  {name:'Offers / Gift Vouchers',icon:'🎁',tz:'org',scope:'Incentives',excl:true,
+   plain:'Offer dates show in org timezone in the UI. However, Offers are excluded from full timezone standardization — the API is not standardized.',
+   note:'Offers (UI & API) excluded from standardization scope.',gotcha:'',
+   apis:[{field:'All dates',fmt:'Org TZ in UI only',note:'API not standardized'}]},
+  {name:'Alternate Currency',icon:'💰',tz:'org',scope:'Loyalty',excl:false,
+   plain:'All alternate currency dates show in org timezone.',
+   note:'',gotcha:'',
+   apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
+  {name:'Gift Cards',icon:'🎴',tz:'org',scope:'Incentives',excl:false,
+   plain:'Gift card dates shown in org timezone across creation and listing.',
+   note:'',gotcha:'',
+   apis:[{field:'createdDate → createdDateTimeISO',fmt:'Org timezone',note:'Use ISO field'}]},
+  {name:'Rewards Catalog',icon:'🏅',tz:'server',scope:'Rewards',excl:true,
+   plain:"By default, all reward timing uses the server's timezone. Daily limits reset at server midnight — not your local midnight. Enable a config flag to fix this.",
+   note:'Marvel UI has no timezone changes yet.',
+   gotcha:'Daily limits reset at SERVER MIDNIGHT by default. If server is India IST but org is Dubai, limits reset 1.5 hrs early. Enable CONF_ENABLE_ORG_TIMEZONE to fix.',
+   apis:[
+     {field:'startTime / endTime (POST)',fmt:'Send in UTC always',note:'Rewards Catalog API requires UTC input'},
+     {field:'Daily limit resets',fmt:'Server midnight (default)',note:'Enable flag for org midnight'},
+     {field:'Marvel UI',fmt:'Not updated yet',note:'Still follows server timezone entirely'},
+   ]},
+  {name:'Insights',icon:'📊',tz:'na',scope:'Reporting',excl:true,
+   plain:'Insights is explicitly excluded from timezone standardization. It follows legacy timezone patterns that vary by report type.',
+   note:'Explicitly excluded from standardization.',gotcha:'',
+   apis:[{field:'All date fields',fmt:'Legacy — not standardized',note:'No ISO fields added to Insights'}]},
 ];
 
 const CLUSTERS = [
-  {name:'India',tz:'Asia/Kolkata',off:'+05:30'},
-  {name:'EU',tz:'Europe/London',off:'+00:00'},
-  {name:'APAC2 / SG',tz:'Asia/Singapore',off:'+08:00'},
-  {name:'US',tz:'America/New_York',off:'-05:00'},
-  {name:'China',tz:'Asia/Shanghai',off:'+08:00'},
+  {name:'India',    tz:'Asia/Kolkata',    off:'+05:30'},
+  {name:'EU',       tz:'Europe/London',   off:'+00:00'},
+  {name:'APAC / SG',tz:'Asia/Singapore',  off:'+08:00'},
+  {name:'US',       tz:'America/New_York',off:'−05:00'},
+  {name:'China',    tz:'Asia/Shanghai',   off:'+08:00'},
+];
+
+const SHADOWS = [
+  {old:'expiryDate',       iso:'expiryDateISO',         api:'Points Expiry'},
+  {old:'expiryChangeTime', iso:'expiryChangeTimeISO',   api:'Points Expiry Updates'},
+  {old:'awardedOn',        iso:'awardedOnISO',          api:'Points Ledger'},
+  {old:'expiresOn',        iso:'expiresOnISO',          api:'Points Ledger'},
+  {old:'enrollmentDate',   iso:'enrollmentDateISO',     api:'Promotions for Customer'},
+  {old:'issualDate',       iso:'issualDateISO',         api:'Promotions for Customer'},
+  {old:'enrolledOn',       iso:'enrolledOnISO',         api:'Target Groups'},
+  {old:'startOn',          iso:'startOnISO',            api:'Badges / Promotions'},
+  {old:'validTill',        iso:'validTillISO',          api:'Cart Promotions'},
+  {old:'createdDate',      iso:'createdDateTimeISO',    api:'Customer Card Details'},
+  {old:'autoUpdateTime',   iso:'autoUpdateTimeISO',     api:'Customer Status'},
 ];
 
 const FAQS = [
-  {q:"Why do my promotion dates look different on the listing vs when I created it?", a:"Promotions show <strong>two different timezones</strong> intentionally. The <em>Duration</em> column uses the timezone you chose at creation. The <em>Updated at</em> column always shows org timezone. If you created in GMT but org is IST, listing shows GMT for duration and IST for 'Updated at'."},
-  {q:"Why does my reward daily limit reset at the wrong time?", a:"By default, Rewards Catalog uses the <strong>server's timezone</strong> for daily limit resets. If server is India (IST) but org is in Dubai, limits reset at IST midnight. Enable <code>CONF_ENABLE_ORG_TIMEZONE</code> (via Product Support ticket) to reset at your org's midnight."},
-  {q:"I set an Audience filter for Jan 23rd but it captured wrong data. Why?", a:"Audience date range filters use <strong>server time (UTC)</strong>, not org timezone. If your org is IST (+5:30), 'Jan 23rd' in the filter means Jan 23 UTC — which is Jan 23 5:30 AM to Jan 24 5:30 AM IST. Always account for this offset."},
-  {q:"What timezone should I use when sending dates to the API?", a:"Send in <strong>ISO 8601 format</strong> with your offset — e.g. <code>2026-01-23T09:00:00+05:30</code>. Capillary preserves the original offset. For Rewards Catalog APIs specifically, always send in <strong>UTC</strong>."},
-  {q:"A customer bought at 9 AM local time but the '9–11 AM' promotion didn't fire. Why?", a:"The input timezone offset is missing from the transaction. Without it, Capillary evaluates against <strong>server time</strong> (could be 3:30 AM UTC instead of 9 AM IST). Always send billing dates with an offset: <code>2026-01-23T09:00:00+05:30</code>. Check <code>billingTimeInputOffset</code> in the GET response to confirm."},
-  {q:"In MemberCare, why is an interaction timestamp showing the wrong time?", a:"This was a known issue where timestamps showed in the <strong>cluster's timezone</strong> instead of org timezone. Now fixed. If still seeing wrong times, confirm timezone standardization is enabled (support ticket for pre-2026 orgs)."},
-  {q:"Our org is in the India cluster but we operate in Dubai. Which timezone shows in UI?", a:"The UI shows your <strong>org's configured timezone</strong> (set it to Dubai GST in Organization Settings) — <em>not</em> the cluster timezone. The cluster only affects API response format."},
-  {q:"What's the difference between old date fields and new *ISO fields?", a:"Old fields like <code>expiryDate</code> returned dates without timezone info (e.g. <code>2025-12-16</code>) — ambiguous. New <code>*ISO</code> fields like <code>expiryDateISO</code> return full ISO 8601 with timezone offset. <strong>Migrate to ISO fields</strong>."},
-  {q:"My org was created before 2026. What do I need for timezone standardization?", a:"ISO API formats and shadow fields are already available. For UI and loyalty processing improvements, raise a <strong>support ticket with Capillary Product Support</strong> to enable timezone standardization."},
-  {q:"Which modules are NOT covered by timezone standardization?", a:"Explicitly excluded: <strong>Insights</strong>, <strong>Badges UI</strong>, <strong>Offers (UI & API)</strong>, <strong>Rewards Catalog / Marvel UI</strong>, all <strong>v1 APIs</strong>, and values inside <code>extendedFields</code>."},
+  {q:"Why do my promotion dates look different on the listing vs when I created it?",
+   a:"Promotions show <strong>two different timezones</strong> intentionally. The <em>Duration</em> column uses the timezone you chose at creation. The <em>Updated at</em> column always shows org timezone. If you created in GMT but org is IST, listing shows GMT for duration and IST for 'Updated at'."},
+  {q:"Why does my reward daily limit reset at the wrong time?",
+   a:"By default, Rewards Catalog uses the <strong>server's timezone</strong> for daily limit resets. Enable <code>CONF_ENABLE_ORG_TIMEZONE</code> via a Product Support ticket to reset at your org's midnight."},
+  {q:"I set an Audience filter for Jan 23rd but it captured wrong data. Why?",
+   a:"Audience date range filters use <strong>server time (UTC)</strong>, not org timezone. If your org is IST (+5:30), 'Jan 23rd' in the filter means Jan 23 UTC — which is Jan 23 5:30 AM to Jan 24 5:30 AM IST. Always account for this offset."},
+  {q:"What timezone should I use when sending dates to the API?",
+   a:"Send in <strong>ISO 8601 format</strong> with your offset — e.g. <code>2026-01-23T09:00:00+05:30</code>. For Rewards Catalog APIs specifically, always send in <strong>UTC</strong>."},
+  {q:"A customer bought at 9 AM local time but the '9–11 AM' promotion didn't fire. Why?",
+   a:"The input timezone offset is missing from the transaction. Always send billing dates with an offset: <code>2026-01-23T09:00:00+05:30</code>. Check <code>billingTimeInputOffset</code> in the GET response to confirm."},
+  {q:"Our org is in the India cluster but we operate in Dubai. Which timezone shows in UI?",
+   a:"The UI shows your <strong>org's configured timezone</strong> (set it to Dubai GST in Organization Settings) — not the cluster timezone."},
+  {q:"What's the difference between old date fields and new *ISO fields?",
+   a:"Old fields like <code>expiryDate</code> returned dates without timezone info — ambiguous. New <code>*ISO</code> fields return full ISO 8601 with timezone offset. <strong>Migrate to ISO fields</strong> — old ones are deprecated."},
+  {q:"My org was created before 2026. What do I need for timezone standardization?",
+   a:"ISO API formats and shadow fields are already available. For UI and loyalty processing improvements, raise a <strong>support ticket with Capillary Product Support</strong>."},
+  {q:"Which modules are NOT covered by timezone standardization?",
+   a:"Explicitly excluded: <strong>Insights</strong>, <strong>Badges UI</strong>, <strong>Offers (UI &amp; API)</strong>, <strong>Rewards Catalog / Marvel UI</strong>, all <strong>v1 APIs</strong>, and values inside <code>extendedFields</code>."},
 ];
 
-// ─────────────────── HELPERS ───────────────────
-function badge(tz) {
-  const m = {org:'<span class="mod-badge org">Org Timezone</span>',server:'<span class="mod-badge server">Server Timezone</span>',selected:'<span class="mod-badge selected">Selected TZ</span>',mixed:'<span class="mod-badge mixed">Mixed</span>',na:'<span class="mod-badge na">Not Standardized</span>',input:'<span class="mod-badge selected">Input TZ</span>'};
-  return m[tz] || tz;
+// ─── HELPERS ───
+function tzPill(tz, excl) {
+  if (excl) return `<span class="tz-pill excl">Excluded</span>`;
+  const M = {
+    org:   `<span class="tz-pill org">Org TZ</span>`,
+    server:`<span class="tz-pill server">Server TZ</span>`,
+    mixed: `<span class="tz-pill mixed">Mixed TZ</span>`,
+    na:    `<span class="tz-pill na">Not Standardized</span>`,
+  };
+  return M[tz] || tz;
 }
-
-// ─────────────────── NAVIGATION ───────────────────
-function nav(id, btn) {
-  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.nav').forEach(n => n.classList.remove('on'));
-  document.getElementById('pg-' + id)?.classList.add('on');
-  btn?.classList.add('on');
-  document.getElementById('mainEl').scrollTo(0, 0);
-}
-
-function setRole(btn) {
-  document.querySelectorAll('.rb').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-}
-
-// ─────────────────── MODULES ───────────────────
-let modFilter = 'all', modSearch = '';
-
-function renderMods() {
-  const grid = document.getElementById('modGrid');
-  const list = MODS.filter(m => {
-    const tzOk = modFilter === 'all' || m.tz === modFilter;
-    const textOk = !modSearch || m.name.toLowerCase().includes(modSearch) || m.scope.toLowerCase().includes(modSearch) || m.plain.toLowerCase().includes(modSearch);
-    return tzOk && textOk;
-  });
-  grid.innerHTML = list.map((m, i) => `
-    <div class="mod-card" id="mc${i}" onclick="toggleMod(${i})">
-      <div class="mod-stripe ${m.tz}"></div>
-      <div class="mod-body">
-        <span class="mod-icon">${m.icon}</span>
-        <div class="mod-name">${m.name}${m.excl ? '<span class="excl-pip">Excluded</span>' : ''}</div>
-        <div class="mod-scope">${m.scope}</div>
-        ${badge(m.tz)}
-        <div class="mod-plain">${m.plain}</div>
-      </div>
-      <div class="mod-expand">
-        ${m.rows.map(r => `<div class="mod-exp-row"><span class="mod-exp-label">${r.l}</span><div style="display:flex;align-items:center;gap:7px">${badge(r.tz)}<span style="font-size:10px;color:var(--g2)">${r.sel ? '✏ selectable' : '👁 view only'}</span></div></div>`).join('')}
-        ${m.note ? `<div class="mod-note">${m.note}</div>` : ''}
-      </div>
-    </div>
-  `).join('') || '<div style="color:var(--g1);padding:16px;font-size:13px">No modules match.</div>';
-}
-
-function toggleMod(i) {
-  document.getElementById('mc' + i)?.classList.toggle('open');
-}
-
-function filterTZ(v, btn) {
-  modFilter = v;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
-  renderMods();
-}
-
-function filterText(v) {
-  modSearch = v.toLowerCase();
-  renderMods();
-}
-
-// ─────────────────── REF TABLE ───────────────────
-function renderRefTable() {
-  document.getElementById('refTableBody').innerHTML = REF_TABLE.map(r => `
-    <tr>
-      <td style="font-weight:600">${r.mod}</td>
-      <td>${r.comp.includes('⚠') ? `<span style="color:var(--srv)">${r.comp}</span>` : r.comp}</td>
-      <td>${r.ref}</td>
-      <td style="color:${r.sel==='No'?'var(--g2)':'var(--green)'}">${r.sel}</td>
-    </tr>
-  `).join('');
-}
-
-// ─────────────────── SHADOW TABLE ───────────────────
-function renderShadowTable() {
-  document.getElementById('shadowBody').innerHTML = SHADOWS.map(f => `
-    <tr>
-      <td><span style="font-family:monospace;font-size:12px;color:var(--excl)">${f.old}</span></td>
-      <td><span style="font-family:monospace;font-size:12px;color:var(--green)">${f.iso}</span></td>
-      <td style="font-size:12px;color:var(--g1)">${f.api}</td>
-    </tr>
-  `).join('');
-}
-
-// ─────────────────── FAQ ───────────────────
-function renderFAQ() {
-  document.getElementById('faqList').innerHTML = FAQS.map((f, i) => `
-    <div class="faq" id="faq${i}">
-      <div class="faq-q" onclick="document.getElementById('faq${i}').classList.toggle('open')">
-        <span>${f.q}</span><span class="faq-chev">⌄</span>
-      </div>
-      <div class="faq-a">${f.a}</div>
-    </div>
-  `).join('');
-}
-
-// ─────────────────── API TABS ───────────────────
-function apiTab(btn, id) {
-  document.querySelectorAll('.apill').forEach(b => b.classList.remove('on'));
-  document.querySelectorAll('.api-pane').forEach(p => p.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById(id).classList.add('on');
-}
-
-// ─────────────────── CLOCKS ───────────────────
-function getTZOffset(tz) {
-  try {
-    const p = new Intl.DateTimeFormat('en',{timeZone:tz,timeZoneName:'longOffset'}).formatToParts(new Date());
-    const v = p.find(x=>x.type==='timeZoneName')?.value||'';
-    return (v.match(/GMT([+-]\d{2}:\d{2})/)||[])[1]||'+00:00';
-  } catch{return '+00:00';}
-}
-
-function fmtTime(ms, tz) {
-  try {
-    const fmt = new Intl.DateTimeFormat('sv-SE',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
-    return fmt.format(new Date(ms)).replace(' ','T') + getTZOffset(tz);
-  } catch{return new Date(ms).toISOString();}
-}
-
-function updateClocks() {
-  const now = new Date();
-  // bottom bar
-  const bb = document.getElementById('bbClocks');
-  if (bb) bb.innerHTML = CLUSTERS.map(c => {
-    let t='', d='';
-    try {
-      t = new Intl.DateTimeFormat('en-GB',{timeZone:c.tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
-      d = new Intl.DateTimeFormat('en-GB',{timeZone:c.tz,day:'2-digit',month:'short'}).format(now);
-    } catch{}
-    return `<div class="bbc"><div class="bbc-name">${c.name}</div><div class="bbc-time">${t}</div><div class="bbc-tz">${c.off}</div></div>`;
-  }).join('');
-  // live clocks on simulator page
-  const lc = document.getElementById('liveClocks');
-  if (lc) {
-    const tzs = [{l:'India (IST)',tz:'Asia/Kolkata'},{l:'EU (UTC)',tz:'Europe/London'},{l:'Singapore',tz:'Asia/Singapore'},{l:'Dubai (GST)',tz:'Asia/Dubai'},{l:'US East',tz:'America/New_York'},{l:'Japan',tz:'Asia/Tokyo'}];
-    lc.innerHTML = tzs.map(t => {
-      let time='', date='';
-      try {
-        time = new Intl.DateTimeFormat('en-GB',{timeZone:t.tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
-        date = new Intl.DateTimeFormat('en-GB',{timeZone:t.tz,day:'2-digit',month:'short',year:'numeric'}).format(now);
-      } catch{}
-      return `<div class="clock-card"><div class="clock-label">${t.l}</div><div class="clock-time">${time}</div><div class="clock-date">${date}</div></div>`;
-    }).join('');
-  }
-}
-
-// scroll shadow on topbar
-document.getElementById('mainEl').addEventListener('scroll', function() {
-  document.getElementById('topbar').classList.toggle('scrolled', this.scrollTop > 60);
-});
-
-// ─────────────────── SIMULATOR ───────────────────
+function p2(n){ return String(n).padStart(2,'0'); }
 function getOffMin(off) {
   const m = off.match(/([+-])(\d{2}):(\d{2})/);
   return m ? (m[1]==='+'?1:-1)*(+m[2]*60+ +m[3]) : 0;
 }
-const TZ_LABELS = {'Asia/Kolkata':'India (IST +05:30)','UTC':'EU (UTC)','Asia/Singapore':'Singapore (+08:00)','America/New_York':'US East (EST)','Asia/Dubai':'Dubai (+04:00)','Europe/London':'London'};
+function fmtFull(ms, tz) {
+  try {
+    const fmt = new Intl.DateTimeFormat('sv-SE',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+    const p = new Intl.DateTimeFormat('en',{timeZone:tz,timeZoneName:'longOffset'}).formatToParts(new Date(ms));
+    const off = (p.find(x=>x.type==='timeZoneName')?.value||'').match(/GMT([+-]\d{2}:\d{2})/)?.[1]||'+00:00';
+    return fmt.format(new Date(ms)).replace(' ','T') + off;
+  } catch { return new Date(ms).toISOString(); }
+}
+function fmtShort(ms, tz) {
+  try { return new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ms)); }
+  catch { return '--:--'; }
+}
 
-function runSim() {
-  const dtVal = document.getElementById('simDT').value;
-  if (!dtVal) { alert('Pick a date and time first.'); return; }
-  const inputTZ = document.getElementById('simTZ').value;
-  const srvTZ = document.getElementById('simServer').value;
-  const orgTZ = document.getElementById('simOrg').value;
-  const [d,t] = dtVal.split('T');
-  const [Y,M,D] = d.split('-').map(Number);
-  const [H,Min] = (t||'00:00').split(':').map(Number);
-  const epochMs = Date.UTC(Y,M-1,D,H,Min,0) - getOffMin(inputTZ)*60000;
-  const srvStr = fmtTime(epochMs, srvTZ);
-  const orgStr = fmtTime(epochMs, orgTZ);
-  const inStr = `${d}T${String(H).padStart(2,'0')}:${String(Min).padStart(2,'0')}:00${inputTZ}`;
+// ─── VIEW NAV ───
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('view-'+id)?.classList.add('on');
+  document.getElementById('nb-'+id)?.classList.add('on');
+  window.scrollTo(0,0);
+}
 
-  const steps = [
-    ['📍 Your original input',inStr,'The local time at source — a customer purchase or a configuration date you entered.'],
-    ['⚡ Stored internally as epoch',`${epochMs} ms`,'Converted to a universal number with no timezone — represents the same moment everywhere.'],
-    [`🔵 GET API response · ${TZ_LABELS[srvTZ]||srvTZ}`,`${srvStr}`,`Time in your server cluster's timezone. This is what any GET API call returns. Not your local time.`],
-    ['💾 Original offset preserved alongside',`billingTimeInputOffset: ${inputTZ}   eventDateTimeInputOffset: ${inputTZ}`,'Capillary keeps the original offset so promotion engines can reconstruct exact local time.'],
-    [`🏢 InTouch UI display · ${TZ_LABELS[orgTZ]||orgTZ}`,orgStr,'What PMs and support teams see on listing pages — converted to your org\'s configured timezone.'],
-    ['🎯 Promotion eligibility check',`${srvStr} + offset ${inputTZ}  →  local: ${inStr}`,'The promotion engine uses the offset to evaluate "9–11 AM" windows against local time, not server time.'],
-  ];
+// ─── OVERVIEW ───
+let _filter = 'all';
+function setChip(v, btn) {
+  _filter = v;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  renderMods();
+}
+function renderMods() {
+  const q = (document.getElementById('modSearch').value||'').toLowerCase();
+  const list = MODS.filter(m => {
+    const fOk = _filter==='all' || m.tz===_filter || (_filter==='excl' && m.excl);
+    const qOk = !q || m.name.toLowerCase().includes(q) || m.scope.toLowerCase().includes(q) || m.plain.toLowerCase().includes(q);
+    return fOk && qOk;
+  });
+  const grid = document.getElementById('modGrid');
+  if (!list.length) { grid.innerHTML='<div class="empty">No modules match.</div>'; return; }
+  grid.innerHTML = list.map(m => {
+    const idx = MODS.indexOf(m);
+    const cls = m.tz==='na'?'na':m.tz;
+    return `<div class="mod-card" onclick="openMod(${idx})">
+      <div class="mc-head">
+        <div class="mc-left">
+          <div class="mc-ico ${cls}">${m.icon}</div>
+          <div><div class="mc-name">${m.name}</div><div class="mc-scope">${m.scope}</div></div>
+        </div>
+        ${tzPill(m.tz, m.excl)}
+      </div>
+      <div class="mc-desc">${m.plain}</div>
+      <div class="mc-cta">See how it works <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>`;
+  }).join('');
+}
 
-  document.getElementById('simSteps').innerHTML = steps.map((s,i) => `
-    <div class="ss">
-      <div class="ss-num">${i+1}</div>
-      <div style="flex:1">
-        <div class="ss-lbl">${s[0]}</div>
-        <div class="ss-val">${s[1]}</div>
-        <div class="ss-note">${s[2]}</div>
+// ─── MODULE DETAIL ───
+function openMod(idx) {
+  const m = MODS[idx];
+  document.getElementById('bc-name').textContent = m.name;
+  document.getElementById('dh-name').textContent = m.name;
+  document.getElementById('dh-scope').textContent = m.scope;
+  document.getElementById('dh-desc').textContent = m.plain;
+  const ico = document.getElementById('dh-ico');
+  ico.textContent = m.icon;
+  ico.className = 'dh-ico mc-ico '+(m.tz==='na'?'na':m.tz);
+  document.getElementById('dh-pill').innerHTML = tzPill(m.tz, m.excl);
+  document.getElementById('dh-excl').style.display = m.excl ? '' : 'none';
+  buildFlow(m, idx);
+  buildTest(m, idx);
+  buildApis(m);
+  switchTab('flow');
+  showView('detail');
+}
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('tb-'+id)?.classList.add('on');
+  document.getElementById('tp-'+id)?.classList.add('on');
+}
+
+// ─── FLOW TAB ───
+function mkArrow(lbl) {
+  return `<div class="fa"><svg width="34" height="16" viewBox="0 0 34 16"><line x1="0" y1="8" x2="26" y2="8" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="3,2"/><polygon points="26,4 34,8 26,12" fill="#CBD5E1"/></svg><div class="fa-lbl">${lbl}</div></div>`;
+}
+function mkNode(lbl, val, tz, cls, sub) {
+  return `<div class="fn"><div class="fn-lbl">${lbl}</div><div class="fn-box ${cls}"><div class="fn-val">${val}</div><div class="fn-tz">${tz}</div></div><div class="fn-sub">${sub}</div></div>`;
+}
+
+function buildFlow(m, idx) {
+  const el = document.getElementById('tp-flow');
+
+  if (m.tz === 'na') {
+    el.innerHTML = `<div class="flow-card"><div class="ibox danger"><strong>Not standardized.</strong> Insights is excluded from Capillary's timezone standardization. Behavior follows legacy patterns and varies by report type. No ISO fields have been added.</div></div>`;
+    return;
+  }
+
+  if (m.tz === 'org') {
+    el.innerHTML = `<div class="flow-card">
+      <div class="fc-eyebrow">Timestamp journey — ${m.name}</div>
+      <div class="flow-row">
+        ${mkNode('You input','9:00 AM','+05:30 IST','blue','Your local time<br>with offset')}
+        ${mkArrow('stored as')}
+        ${mkNode('Internal storage','epoch ms','timezone-free','neutral','Universal number,<br>no TZ attached')}
+        ${mkArrow('API returns')}
+        ${mkNode('GET API response','03:30Z','server cluster TZ','amber','Server TZ + offset<br>in every GET call')}
+        ${mkArrow('UI converts')}
+        ${mkNode('UI Display','9:00 AM','org TZ ✓','green','Re-converted to<br>your org timezone')}
+      </div>
+      <div class="flow-notes">
+        <div class="flow-note"><b>API vs UI look different</b><br>GET API always returns server cluster timezone. InTouch UI re-converts to org TZ for display. They show different values — this is by design.</div>
+        <div class="flow-note"><b>Offset is preserved</b><br>The original input offset is stored alongside (e.g. <code>billingTimeInputOffset</code>). The promotion engine uses it to evaluate time-window rules against local time.</div>
+        ${m.note ? `<div class="flow-note"><b>Note</b><br>${m.note}</div>` : ''}
+      </div>
+    </div>`;
+    return;
+  }
+
+  if (m.tz === 'server') {
+    el.innerHTML = `<div class="flow-card">
+      <div class="fc-eyebrow">Timestamp journey — ${m.name}</div>
+      <div class="flow-row">
+        ${mkNode('You configure','9:00 AM','Dubai +04:00','blue','Your intended<br>reward time')}
+        ${mkArrow('stored as')}
+        ${mkNode('Internal storage','epoch ms','timezone-free','neutral','Universal number')}
+        ${mkArrow('API returns')}
+        ${mkNode('GET API response','05:00Z','server TZ','amber','In server TZ,<br>not Dubai')}
+        ${mkArrow('evaluates at')}
+        ${mkNode('Daily limit resets','server<br>midnight','⚠ not org TZ','red','Resets at<br>server midnight')}
+      </div>
+      ${m.gotcha ? `<div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>` : ''}
+      <div class="flow-notes" style="margin-top:16px">
+        <div class="flow-note"><b>Fix available</b><br>Enable <code>CONF_ENABLE_ORG_TIMEZONE</code> via a Capillary support ticket. This switches daily limit resets and reward calculations to org timezone.</div>
+        <div class="flow-note"><b>POST inputs require UTC</b><br>When creating rewards via API, always send <code>startTime</code> and <code>endTime</code> in UTC regardless of your org TZ.</div>
+        <div class="flow-note"><b>Marvel UI</b><br>${m.note}</div>
+      </div>
+    </div>`;
+    return;
+  }
+
+  if (m.tz === 'mixed') {
+    if (m.name === 'Audience') {
+      el.innerHTML = `<div class="flow-card">
+        <div class="fc-eyebrow">Two timezone paths — ${m.name}</div>
+        <div class="two-col" style="margin-bottom:16px">
+          <div class="path-card green">
+            <div class="path-tag green">Audience listings</div>
+            <div class="path-node green"><div class="path-val">Listing dates</div><div class="path-tz">shown in org TZ ✓</div></div>
+            <div class="path-desc">Audience creation dates and metadata display in your org timezone. Consistent with the rest of InTouch.</div>
+          </div>
+          <div class="path-card amber">
+            <div class="path-tag amber">Date range filters ⚠</div>
+            <div class="path-node amber"><div class="path-val">Filter input</div><div class="path-tz">interpreted as server UTC</div></div>
+            <div class="path-desc">When you type "Jan 23" in a filter, the system uses <strong>Jan 23 UTC midnight</strong> — not your org midnight.</div>
+          </div>
+        </div>
+        <div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>
+      </div>`;
+    } else {
+      el.innerHTML = `<div class="flow-card">
+        <div class="fc-eyebrow">Two timezone paths — ${m.name}</div>
+        <div class="two-col" style="margin-bottom:16px">
+          <div class="path-card blue">
+            <div class="path-tag blue">Duration column</div>
+            <div class="path-node blue"><div class="path-val">9:00 AM GMT</div><div class="path-tz">timezone at creation</div></div>
+            <div class="path-desc">Shows the timezone you chose when creating the promotion. If you picked GMT, it shows GMT dates.</div>
+          </div>
+          <div class="path-card green">
+            <div class="path-tag green">"Updated at" column</div>
+            <div class="path-node green"><div class="path-val">2:30 PM IST</div><div class="path-tz">org timezone always</div></div>
+            <div class="path-desc">Always shown in org timezone, regardless of which timezone the promotion was created in.</div>
+          </div>
+        </div>
+        <div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>
+        <div class="flow-notes" style="margin-top:16px">
+          <div class="flow-note"><b>Why two timezones?</b><br>Duration uses creation TZ so teams in different regions see consistent promo windows. "Updated at" uses org TZ for operational consistency.</div>
+          <div class="flow-note"><b>Tip</b><br>When creating promotions, choose a timezone that all relevant teams understand and document it alongside the promotion.</div>
+        </div>
+      </div>`;
+    }
+  }
+}
+
+// ─── TEST TAB ───
+function buildTest(m, idx) {
+  const el = document.getElementById('tp-test');
+  const now = new Date();
+  const dtDef = `${now.getFullYear()}-${p2(now.getMonth()+1)}-${p2(now.getDate())}T09:00`;
+  el.innerHTML = `<div class="sim-card">
+    <div class="sim-title">Test how ${m.name} handles a timestamp</div>
+    <div class="sim-fields">
+      <div class="sf"><label>Date &amp; time</label><input type="datetime-local" id="sdt${idx}" value="${dtDef}"></div>
+      <div class="sf"><label>Your timezone</label>
+        <select id="stz${idx}">
+          <option value="+05:30">India IST +05:30</option>
+          <option value="+00:00">UK / EU UTC</option>
+          <option value="+04:00">Dubai GST +04:00</option>
+          <option value="+08:00">Singapore +08:00</option>
+          <option value="-05:00">US East −05:00</option>
+          <option value="+07:00">Jakarta +07:00</option>
+        </select>
+      </div>
+      <div class="sf"><label>Server cluster</label>
+        <select id="ssrv${idx}">
+          <option value="Asia/Kolkata">India +05:30</option>
+          <option value="UTC">EU UTC</option>
+          <option value="Asia/Singapore">APAC +08:00</option>
+          <option value="America/New_York">US East −05:00</option>
+        </select>
+      </div>
+      <div class="sf"><label>Org timezone</label>
+        <select id="sorg${idx}">
+          <option value="Asia/Kolkata">Asia/Kolkata IST</option>
+          <option value="UTC">UTC</option>
+          <option value="Asia/Singapore">Asia/Singapore +08:00</option>
+          <option value="Asia/Dubai">Asia/Dubai +04:00</option>
+          <option value="America/New_York">America/New_York EST</option>
+          <option value="Europe/London">Europe/London GMT</option>
+        </select>
       </div>
     </div>
-  `).join('');
-  document.getElementById('simOut').classList.add('on');
+    <button class="run-btn" onclick="runTest(${idx})">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      Trace this timestamp
+    </button>
+    <div id="sout${idx}" class="sim-results"></div>
+  </div>`;
 }
 
-// ─────────────────── INIT ───────────────────
-function init() {
+function runTest(idx) {
+  const m = MODS[idx];
+  const dtVal = document.getElementById('sdt'+idx).value;
+  if (!dtVal) return;
+  const inTZ  = document.getElementById('stz'+idx).value;
+  const srvTZ = document.getElementById('ssrv'+idx).value;
+  const orgTZ = document.getElementById('sorg'+idx).value;
+  const [d,t] = dtVal.split('T');
+  const [Y,Mo,D] = d.split('-').map(Number);
+  const [H,Mi]   = (t||'00:00').split(':').map(Number);
+  const epoch = Date.UTC(Y,Mo-1,D,H,Mi,0) - getOffMin(inTZ)*60000;
+  const inStr  = `${d}T${p2(H)}:${p2(Mi)}:00${inTZ}`;
+  const srvStr = fmtFull(epoch, srvTZ);
+  const orgStr = fmtFull(epoch, orgTZ);
+
+  let steps = [];
+  if (m.tz === 'org') {
+    steps = [
+      {l:'Your original input', v:inStr, n:'The local time with your timezone offset.'},
+      {l:'Stored internally as epoch', v:`${epoch} ms`, n:'Converted to a universal number. No timezone — same moment everywhere on earth.'},
+      {l:'GET API response', v:srvStr, n:`Returned in your server cluster timezone. This is what your API call receives.`},
+      {l:'InTouch UI display ('+orgTZ+')', v:orgStr, n:`The API response is re-converted to org timezone for display. What your team sees.`},
+      {l:'Promotion engine uses', v:`offset ${inTZ} → evaluates local time as ${p2(H)}:${p2(Mi)}`, n:`If this has a promotion rule like "9–11 AM", the engine uses the original offset to evaluate against local time, not server time.`},
+    ];
+  } else if (m.tz === 'server') {
+    steps = [
+      {l:'Your configuration input', v:inStr, n:'The time you intend the reward to start, or when limits should reset.'},
+      {l:'Stored internally as epoch', v:`${epoch} ms`, n:'Universal epoch — same moment everywhere.'},
+      {l:'GET API response', v:srvStr, n:`Returned in server cluster timezone.`},
+      {l:'Daily limit resets at', v:`Server midnight in ${srvTZ}`, n:`⚠ Not your org midnight. Limits may reset at the wrong local time. Enable CONF_ENABLE_ORG_TIMEZONE to fix.`},
+    ];
+  } else if (m.tz === 'mixed') {
+    if (m.name === 'Audience') {
+      steps = [
+        {l:'Audience listing dates show', v:orgStr, n:`✓ Shown in your org timezone.`},
+        {l:'Date range filter for this date', v:`"${d}" interpreted as UTC midnight`, n:`⚠ The filter treats the date as UTC midnight. For IST (+05:30), a filter for "${d}" captures from ${d}T00:00:00+00:00 = ${fmtShort(Date.UTC(Y,Mo-1,D),  'Asia/Kolkata')} IST.`},
+      ];
+    } else {
+      steps = [
+        {l:'Duration column shows', v:`Based on the timezone chosen at creation`, n:`If you created this with "India" timezone, Duration shows IST times.`},
+        {l:'"Updated at" column shows', v:orgStr, n:`Always your org timezone. These two columns may show different offsets on the same row — this is by design.`},
+      ];
+    }
+  } else {
+    steps = [{l:'Not standardized', v:'Legacy behavior applies', n:'Insights is excluded from timezone standardization. Behavior depends on the specific report type.'}];
+  }
+
+  document.getElementById('sout'+idx).innerHTML = steps.map((s,i) => `
+    <div class="sim-result">
+      <div class="sr-num">${i+1}</div>
+      <div><div class="sr-lbl">${s.l}</div><div class="sr-val">${s.v}</div><div class="sr-note">${s.n}</div></div>
+    </div>`).join('');
+}
+
+// ─── API TAB ───
+function buildApis(m) {
+  const el = document.getElementById('tp-apis');
+  el.innerHTML = `
+  <div class="api-card">
+    <div class="api-card-title">Date fields in ${m.name}</div>
+    ${m.apis.map(a=>`<div class="field-row">
+      <div><div class="field-name">${a.field}</div>${a.note?`<div class="field-note-sm">${a.note}</div>`:''}</div>
+      <div class="field-meta">${a.fmt}</div>
+    </div>`).join('')}
+  </div>
+
+  <div class="api-card">
+    <div class="api-card-title">ISO 8601 — always include the offset</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Capillary stores the offset alongside the epoch. The promotion engine uses it to evaluate time-window rules against local time, not server time.</p>
+    <div class="code-blk"><span class="c-good">✓</span> 2026-01-23T09:00:00<span class="c-em">+05:30</span>  <span class="c-dim">// India IST — offset stored</span>
+<span class="c-good">✓</span> 2026-01-23T09:00:00<span class="c-em">Z</span>       <span class="c-dim">// UTC — explicit</span>
+<span class="c-bad">✗</span> 2026-01-23T09:00:00         <span class="c-dim">// No offset — ambiguous!</span></div>
+  </div>
+
+  <div class="api-card">
+    <div class="api-card-title">Deprecated → ISO field migration</div>
+    <div class="ibox info">Old date fields return dates without timezone context. Migrate to the new <code>*ISO</code> fields — the old ones are deprecated.</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Old field (deprecated)</th><th>New ISO field</th><th>API</th></tr></thead>
+        <tbody>${SHADOWS.map(s=>`<tr>
+          <td><span class="td-old">${s.old}</span></td>
+          <td><span class="td-new">${s.iso}</span></td>
+          <td style="font-size:12px;color:var(--text2)">${s.api}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+// ─── FAQ ───
+function renderFAQ() {
+  document.getElementById('faqList').innerHTML = FAQS.map((f,i)=>`
+    <div class="faq-item" id="fq${i}">
+      <div class="faq-q" onclick="document.getElementById('fq${i}').classList.toggle('open')">
+        <span>${f.q}</span>
+        <svg class="faq-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">${f.a}</div>
+    </div>`).join('');
+}
+
+// ─── LIVE CLOCKS ───
+function updateClocks() {
+  const now = new Date();
+  const cb = document.getElementById('cbClocks');
+  if (cb) cb.innerHTML = CLUSTERS.map(c => {
+    let t='--:--:--';
+    try { t = new Intl.DateTimeFormat('en-GB',{timeZone:c.tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now); } catch{}
+    return `<div class="cbc"><div class="cbc-name">${c.name}</div><div class="cbc-time">${t}</div><div class="cbc-off">${c.off}</div></div>`;
+  }).join('');
+  const nc = document.getElementById('navClock');
+  if (nc) {
+    try { nc.textContent = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now) + ' IST'; } catch{}
+  }
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
   renderMods();
-  renderRefTable();
-  renderShadowTable();
   renderFAQ();
-  const n = new Date(), p = x => String(x).padStart(2,'0');
-  document.getElementById('simDT').value = `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}T${p(n.getHours())}:${p(n.getMinutes())}`;
   updateClocks();
   setInterval(updateClocks, 1000);
-}
-document.addEventListener('DOMContentLoaded', init);
+});
 </script>
 </body>
 </html>
