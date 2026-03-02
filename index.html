@@ -132,6 +132,41 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .mc-desc{font-size:13px;color:var(--text2);line-height:1.55}
 .mc-cta{font-size:12px;font-weight:500;color:var(--blue);display:flex;align-items:center;gap:4px;margin-top:auto}
 
+/* CARD FIELD ROWS */
+.mc-rows{display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--border);padding-top:10px}
+.mc-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mc-row-lbl{font-size:12px;color:var(--text2);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tz-mini{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.tz-mini.org{background:var(--green-light);color:var(--green)}
+.tz-mini.server{background:var(--amber-light);color:var(--amber)}
+.tz-mini.creation{background:var(--blue-light);color:var(--blue)}
+.tz-mini.na{background:var(--surface);color:var(--text3)}
+.tz-mini.warn{background:var(--red-light);color:var(--red)}
+
+/* UI MOCKUP */
+.ui-mock{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-xs)}
+.uim-bar{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.uim-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.uim-tbl th{padding:8px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text2);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+.uim-tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+.uim-tbl tr:last-child td{border-bottom:none}
+.uim-tag{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;margin-left:5px;vertical-align:middle;text-transform:none;letter-spacing:0}
+.uim-tag.blue{background:var(--blue-light);color:var(--blue)}
+.uim-tag.green{background:var(--green-light);color:var(--green)}
+.uim-tag.amber{background:var(--amber-light);color:var(--amber)}
+.uim-val{font-weight:500;color:var(--text)}
+.uim-sub{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* GET RESPONSE SNIPPET */
+.get-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-xs);margin-bottom:16px}
+.get-card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:12px}
+.get-blk{background:#F8FAFC;border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;font:11.5px/1.85 'SF Mono',Monaco,monospace;overflow-x:auto;margin-bottom:10px}
+.gk{color:var(--text2)}
+.gv{color:var(--blue)}
+.gc{color:var(--text3);font-style:italic}
+.gw{color:var(--amber);font-weight:600}
+.gg{color:var(--green);font-weight:600}
+
 /* DETAIL VIEW */
 .breadcrumb{display:flex;align-items:center;gap:8px;padding:24px 0 0;font-size:13px;color:var(--text3)}
 .bc-back{color:var(--blue);cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:5px}
@@ -479,6 +514,13 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
 // ─── DATA ───
 const MODS = [
   {name:'Member Care',icon:'👥',tz:'org',scope:'Customer Support',excl:false,
+   short:'All timestamps shown in org TZ. Agents can switch via dropdown.',
+   rows:[
+     {lbl:'Customer timestamps',tz:'org'},
+     {lbl:'Interaction dates',tz:'org'},
+     {lbl:'Points & tier dates',tz:'org'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:'When support looks up a customer, all timestamps show in your org timezone. Agents can switch to any supported timezone via dropdown.',
    note:'Before this fix, interaction timestamps showed in the cluster timezone. Now always org timezone.',
    gotcha:'',
@@ -488,6 +530,12 @@ const MODS = [
      {field:'Points & tier dates',fmt:'Org timezone in UI',note:'Selectable via dropdown'},
    ]},
   {name:'Promotions',icon:'🎯',tz:'mixed',scope:'Loyalty Promotions',excl:false,
+   short:'Duration column = creation TZ. "Updated at" = org TZ. Two TZs on the same row.',
+   rows:[
+     {lbl:'Duration column',tz:'creation'},
+     {lbl:'"Updated at" column',tz:'org'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:'You pick a timezone at creation. The Duration column uses that timezone, but "Updated at" always uses org timezone — two different timezones on the same row.',
    note:'The listing intentionally shows two timezones.',
    gotcha:'Duration and "Updated at" columns use different timezones on the same row. Duration = creation TZ. "Updated at" = org TZ.',
@@ -496,14 +544,31 @@ const MODS = [
      {field:'"Updated at" column',fmt:'Org timezone always',note:'Regardless of creation timezone'},
    ]},
   {name:'Campaigns',icon:'📢',tz:'org',scope:'Engage+',excl:false,
+   short:"All campaign dates locked to org timezone — no option to change.",
+   rows:[
+     {lbl:'All date fields',tz:'org'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:"All campaign dates are in org timezone. No option to change — it's locked.",
    note:'',gotcha:'',
    apis:[{field:'All date fields',fmt:'Org timezone',note:'Fixed, not selectable'}]},
   {name:'Journeys',icon:'🗺️',tz:'org',scope:'Customer Journeys',excl:false,
+   short:'Listing and detail page dates shown in org timezone.',
+   rows:[
+     {lbl:'Listing dates',tz:'org'},
+     {lbl:'Detail page dates',tz:'org'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:'All journey listing and detail page dates are shown in org timezone.',
    note:'',gotcha:'',
    apis:[{field:'Listing & detail dates',fmt:'Org timezone',note:''}]},
   {name:'Audience',icon:'🎪',tz:'mixed',scope:'Audience Management',excl:false,
+   short:'Listings show in org TZ. Date range filters use server UTC — common gotcha.',
+   rows:[
+     {lbl:'Audience listings',tz:'org'},
+     {lbl:'Date range filters',tz:'warn'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:'The audience list shows in org timezone. BUT — date range filters are interpreted in server time (UTC). This is the most common gotcha.',
    note:'',
    gotcha:'Audience date filters use SERVER TIME (UTC) — not org timezone. A filter for "Jan 23" means Jan 23 UTC midnight.',
@@ -512,30 +577,66 @@ const MODS = [
      {field:'Date range filters',fmt:'Server time (UTC) ⚠',note:'Common source of data discrepancies'},
    ]},
   {name:'Cart Promotions',icon:'🛒',tz:'org',scope:'Promotions',excl:false,
+   short:'Creation and listing dates follow org timezone. Use validTillISO field.',
+   rows:[
+     {lbl:'All date fields',tz:'org'},
+     {lbl:'GET API (validTillISO)',tz:'server'},
+   ],
    plain:'All dates during creation and listing follow your org timezone.',
    note:'',gotcha:'',
    apis:[{field:'validTill → validTillISO',fmt:'Org timezone',note:'Use the ISO field'}]},
   {name:'Streaks',icon:'🔥',tz:'org',scope:'Gamification',excl:false,
+   short:'Streak setup and listing dates shown in org timezone.',
+   rows:[
+     {lbl:'All dates in UI',tz:'org'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:'Streak setup and listing dates show in org timezone.',
    note:'',gotcha:'',
    apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
   {name:'Milestones',icon:'🏆',tz:'org',scope:'Gamification',excl:false,
+   short:'All milestone dates are in org timezone.',
+   rows:[
+     {lbl:'All dates in UI',tz:'org'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:'Milestone dates are all in org timezone.',
    note:'',gotcha:'',
    apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
   {name:'Offers / Gift Vouchers',icon:'🎁',tz:'org',scope:'Incentives',excl:true,
+   short:'UI shows org TZ. API is not timezone-standardized (excluded).',
+   rows:[
+     {lbl:'UI display',tz:'org'},
+     {lbl:'API fields',tz:'warn'},
+   ],
    plain:'Offer dates show in org timezone in the UI. However, Offers are excluded from full timezone standardization — the API is not standardized.',
    note:'Offers (UI & API) excluded from standardization scope.',gotcha:'',
    apis:[{field:'All dates',fmt:'Org TZ in UI only',note:'API not standardized'}]},
   {name:'Alternate Currency',icon:'💰',tz:'org',scope:'Loyalty',excl:false,
+   short:'All alternate currency dates show in org timezone.',
+   rows:[
+     {lbl:'All dates in UI',tz:'org'},
+     {lbl:'GET API response',tz:'server'},
+   ],
    plain:'All alternate currency dates show in org timezone.',
    note:'',gotcha:'',
    apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
   {name:'Gift Cards',icon:'🎴',tz:'org',scope:'Incentives',excl:false,
+   short:'Dates shown in org TZ. Use createdDateTimeISO — not createdDate.',
+   rows:[
+     {lbl:'All dates in UI',tz:'org'},
+     {lbl:'GET API (createdDateTimeISO)',tz:'server'},
+   ],
    plain:'Gift card dates shown in org timezone across creation and listing.',
    note:'',gotcha:'',
    apis:[{field:'createdDate → createdDateTimeISO',fmt:'Org timezone',note:'Use ISO field'}]},
   {name:'Rewards Catalog',icon:'🏅',tz:'server',scope:'Rewards',excl:true,
+   short:'Daily limits reset at SERVER midnight by default. Flag needed to fix.',
+   rows:[
+     {lbl:'Daily limit resets',tz:'warn'},
+     {lbl:'startTime / endTime (POST)',tz:'server'},
+     {lbl:'Marvel UI',tz:'warn'},
+   ],
    plain:"By default, all reward timing uses the server's timezone. Daily limits reset at server midnight — not your local midnight. Enable a config flag to fix this.",
    note:'Marvel UI has no timezone changes yet.',
    gotcha:'Daily limits reset at SERVER MIDNIGHT by default. If server is India IST but org is Dubai, limits reset 1.5 hrs early. Enable CONF_ENABLE_ORG_TIMEZONE to fix.',
@@ -545,6 +646,10 @@ const MODS = [
      {field:'Marvel UI',fmt:'Not updated yet',note:'Still follows server timezone entirely'},
    ]},
   {name:'Insights',icon:'📊',tz:'na',scope:'Reporting',excl:true,
+   short:'Excluded from standardization. Legacy behavior varies by report type.',
+   rows:[
+     {lbl:'All date fields',tz:'na'},
+   ],
    plain:'Insights is explicitly excluded from timezone standardization. It follows legacy timezone patterns that vary by report type.',
    note:'Explicitly excluded from standardization.',gotcha:'',
    apis:[{field:'All date fields',fmt:'Legacy — not standardized',note:'No ISO fields added to Insights'}]},
@@ -586,7 +691,7 @@ const FAQS = [
   {q:"Our org is in the India cluster but we operate in Dubai. Which timezone shows in UI?",
    a:"The UI shows your <strong>org's configured timezone</strong> (set it to Dubai GST in Organization Settings) — not the cluster timezone."},
   {q:"What's the difference between old date fields and new *ISO fields?",
-   a:"Old fields like <code>expiryDate</code> returned dates without timezone info — ambiguous. New <code>*ISO</code> fields return full ISO 8601 with timezone offset. <strong>Migrate to ISO fields</strong> — old ones are deprecated."},
+   a:"Old fields like <code>expiryDate</code> return dates without timezone info — ambiguous. New <code>*ISO</code> fields return full ISO 8601 with timezone offset. Both are returned together in API responses for <strong>backward compatibility</strong> — old fields are not removed, but use the ISO fields for any new integrations."},
   {q:"My org was created before 2026. What do I need for timezone standardization?",
    a:"ISO API formats and shadow fields are already available. For UI and loyalty processing improvements, raise a <strong>support ticket with Capillary Product Support</strong>."},
   {q:"Which modules are NOT covered by timezone standardization?",
@@ -594,6 +699,9 @@ const FAQS = [
 ];
 
 // ─── HELPERS ───
+function tzLabel(tz) {
+  return {org:'Org TZ', server:'Server TZ', creation:'Creation TZ', na:'Legacy', warn:'⚠ Varies'}[tz] || tz;
+}
 function tzPill(tz, excl) {
   if (excl) return `<span class="tz-pill excl">Excluded</span>`;
   const M = {
@@ -651,6 +759,9 @@ function renderMods() {
   grid.innerHTML = list.map(m => {
     const idx = MODS.indexOf(m);
     const cls = m.tz==='na'?'na':m.tz;
+    const rowsHtml = (m.rows||[]).map(r =>
+      `<div class="mc-row"><span class="mc-row-lbl">${r.lbl}</span><span class="tz-mini ${r.tz}">${tzLabel(r.tz)}</span></div>`
+    ).join('');
     return `<div class="mod-card" onclick="openMod(${idx})">
       <div class="mc-head">
         <div class="mc-left">
@@ -659,7 +770,8 @@ function renderMods() {
         </div>
         ${tzPill(m.tz, m.excl)}
       </div>
-      <div class="mc-desc">${m.plain}</div>
+      <div class="mc-desc" style="font-size:12.5px;color:var(--text3);line-height:1.5">${m.short||m.plain}</div>
+      ${rowsHtml ? `<div class="mc-rows">${rowsHtml}</div>` : ''}
       <div class="mc-cta">See how it works <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </div>`;
   }).join('');
@@ -765,6 +877,23 @@ function buildFlow(m, idx) {
             <div class="path-desc">When you type "Jan 23" in a filter, the system uses <strong>Jan 23 UTC midnight</strong> — not your org midnight.</div>
           </div>
         </div>
+        <div class="ui-mock">
+          <div class="uim-bar">InTouch — Audience listing (what you see)</div>
+          <table class="uim-tbl">
+            <thead><tr>
+              <th>Audience name</th>
+              <th>Created <span class="uim-tag green">Org TZ</span></th>
+              <th>Date filter applied <span class="uim-tag amber">⚠ Server UTC</span></th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="uim-val">Jan buyers</div></td>
+                <td><div class="uim-val">23 Jan 2026</div><div class="uim-sub">10:00 IST</div></td>
+                <td><div class="uim-val">Jan 23 00:00 UTC</div><div class="uim-sub">= Jan 23 05:30 IST — not midnight IST</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>
       </div>`;
     } else {
@@ -781,6 +910,23 @@ function buildFlow(m, idx) {
             <div class="path-node green"><div class="path-val">2:30 PM IST</div><div class="path-tz">org timezone always</div></div>
             <div class="path-desc">Always shown in org timezone, regardless of which timezone the promotion was created in.</div>
           </div>
+        </div>
+        <div class="ui-mock">
+          <div class="uim-bar">InTouch — Promotions listing (same row, two timezones)</div>
+          <table class="uim-tbl">
+            <thead><tr>
+              <th>Name</th>
+              <th>Duration <span class="uim-tag blue">Creation TZ</span></th>
+              <th>Updated at <span class="uim-tag green">Org TZ</span></th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="uim-val">Summer Sale</div></td>
+                <td><div class="uim-val">Jan 1 – Jan 31</div><div class="uim-sub">09:00 GMT (creation TZ)</div></td>
+                <td><div class="uim-val">26 Jan 2026</div><div class="uim-sub">14:30 IST (org TZ)</div></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>
         <div class="flow-notes" style="margin-top:16px">
@@ -893,9 +1039,75 @@ function runTest(idx) {
 }
 
 // ─── API TAB ───
+function getResponseSnippet(m) {
+  if (m.tz === 'org') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — what the API returns vs what UI shows</div>
+    <div class="get-blk"><span class="gc">// What the GET API returns (server TZ):</span>
+{
+  <span class="gk">"enrollmentDateISO"</span>: <span class="gw">"2026-01-23T03:30:00+00:00"</span>,  <span class="gc">// ← server cluster TZ</span>
+  <span class="gk">"enrollmentDate"</span>:    <span class="gc">"2026-01-23T03:30:00"</span>,       <span class="gc">// ← kept for backward compat, no offset</span>
+  <span class="gk">"billingTimeInputOffset"</span>: <span class="gv">"+05:30"</span>                  <span class="gc">// ← stored input offset</span>
+}
+
+<span class="gc">// What InTouch UI displays (org TZ re-conversion):</span>
+<span class="gg">23 Jan 2026 · 09:00 IST</span>  <span class="gc">// ← converted from 03:30Z to org TZ</span></div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">API and UI show different values — this is by design. Use <code>*ISO</code> fields for the correct offset.</div>
+  </div>`;
+  }
+  if (m.tz === 'server') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — reward timing in server TZ</div>
+    <div class="get-blk"><span class="gc">// What the GET API returns (server TZ):</span>
+{
+  <span class="gk">"startTime"</span>: <span class="gw">"2026-01-23T05:00:00+05:30"</span>,  <span class="gc">// ← India server TZ</span>
+  <span class="gk">"endTime"</span>:   <span class="gw">"2026-01-31T05:00:00+05:30"</span>,  <span class="gc">// ← India server TZ</span>
+  <span class="gk">"dailyLimitResetAt"</span>: <span class="gc">"server midnight (00:00 IST)"</span>   <span class="gc">// ⚠ not org midnight</span>
+}
+
+<span class="gc">// POST input — always send UTC:</span>
+<span class="gg">"startTime": "2026-01-23T00:00:00Z"</span>  <span class="gc">// ← required for Rewards Catalog</span></div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">Enable <code>CONF_ENABLE_ORG_TIMEZONE</code> to switch daily resets to org timezone.</div>
+  </div>`;
+  }
+  if (m.tz === 'mixed' && m.name === 'Audience') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — audience metadata vs filter interpretation</div>
+    <div class="get-blk"><span class="gc">// Audience metadata (org TZ):</span>
+{
+  <span class="gk">"audience_id"</span>: <span class="gv">"A101"</span>,
+  <span class="gk">"created_at"</span>: <span class="gg">"2026-01-23T10:00:00+05:30"</span>,  <span class="gc">// ← org TZ ✓</span>
+  <span class="gk">"filter"</span>: {
+    <span class="gk">"date_from"</span>: <span class="gw">"2026-01-23T00:00:00Z"</span>,  <span class="gc">// ← ⚠ UTC midnight</span>
+    <span class="gk">"date_to"</span>:   <span class="gw">"2026-01-24T00:00:00Z"</span>   <span class="gc">// ← ⚠ UTC midnight</span>
+  }
+}
+<span class="gc">// For IST (+05:30): "Jan 23" filter = Jan 23 05:30 IST to Jan 24 05:30 IST</span></div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">Date filters are always stored and applied as UTC midnight regardless of org timezone.</div>
+  </div>`;
+  }
+  if (m.tz === 'mixed') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — two timezones in one object</div>
+    <div class="get-blk"><span class="gc">// Promotion GET response:</span>
+{
+  <span class="gk">"promotionId"</span>: <span class="gv">"P456"</span>,
+  <span class="gk">"startDate"</span>:   <span class="gw">"2026-01-01T09:00:00+00:00"</span>,  <span class="gc">// ← creation TZ (GMT)</span>
+  <span class="gk">"endDate"</span>:     <span class="gw">"2026-01-31T09:00:00+00:00"</span>,  <span class="gc">// ← creation TZ (GMT)</span>
+  <span class="gk">"lastUpdated"</span>: <span class="gg">"2026-01-26T09:00:00+05:30"</span>   <span class="gc">// ← org TZ always</span>
+}
+<span class="gc">// Duration column uses startDate/endDate offset · Updated at uses org TZ</span></div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">Same row, two offsets — intentional by design. Always check which field drives which column.</div>
+  </div>`;
+  }
+  return '';
+}
+
 function buildApis(m) {
   const el = document.getElementById('tp-apis');
   el.innerHTML = `
+  ${getResponseSnippet(m)}
+
   <div class="api-card">
     <div class="api-card-title">Date fields in ${m.name}</div>
     ${m.apis.map(a=>`<div class="field-row">
@@ -913,11 +1125,11 @@ function buildApis(m) {
   </div>
 
   <div class="api-card">
-    <div class="api-card-title">Deprecated → ISO field migration</div>
-    <div class="ibox info">Old date fields return dates without timezone context. Migrate to the new <code>*ISO</code> fields — the old ones are deprecated.</div>
+    <div class="api-card-title">Old fields → ISO fields (both returned for backward compatibility)</div>
+    <div class="ibox info">Old date fields return dates without timezone context. New <code>*ISO</code> fields return full ISO 8601 with offset. <strong>Both are returned together</strong> — old fields are kept for backward compatibility. Use ISO fields for new integrations.</div>
     <div class="tbl-wrap">
       <table>
-        <thead><tr><th>Old field (deprecated)</th><th>New ISO field</th><th>API</th></tr></thead>
+        <thead><tr><th>Old field (backward compat)</th><th>New ISO field</th><th>API</th></tr></thead>
         <tbody>${SHADOWS.map(s=>`<tr>
           <td><span class="td-old">${s.old}</span></td>
           <td><span class="td-new">${s.iso}</span></td>
