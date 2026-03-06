@@ -332,6 +332,23 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
 .faq-a{display:none;padding:0 0 17px;font-size:13px;color:var(--text2);line-height:1.7;max-width:700px}
 .faq-item.open .faq-a{display:block}
 
+/* FAQ QUESTION SUBMISSION */
+.q-form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:28px;box-shadow:var(--shadow-xs);margin-top:32px}
+.q-form-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);margin-bottom:8px}
+.q-form-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px}
+.q-form-sub{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6;max-width:560px}
+.q-row{display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:16px}
+.q-field label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);display:block;margin-bottom:6px}
+.q-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r-xs);font:13px 'Inter',system-ui,sans-serif;color:var(--text);background:var(--white);outline:none;transition:border-color .15s}
+.q-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.q-textarea{resize:vertical;min-height:88px}
+.q-bottom{display:flex;align-items:center;gap:14px;margin-top:4px}
+.q-submit{display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:#fff;font:600 13px 'Inter',system-ui,sans-serif;padding:10px 20px;border-radius:var(--r-xs);border:none;cursor:pointer;transition:background .15s;flex-shrink:0}
+.q-submit:hover{background:#1d4ed8}.q-submit:disabled{opacity:.55;cursor:default}
+.q-feedback{font-size:12px;line-height:1.5}
+.q-feedback.ok{color:var(--green)}.q-feedback.err{color:var(--red)}
+@media(max-width:768px){.q-row{grid-template-columns:1fr}}
+
 /* BOTTOM CLOCK BAR */
 .clock-bar{
   position:fixed;bottom:0;left:0;right:0;height:var(--bar-h);
@@ -540,6 +557,30 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
       <div class="page-sub">The most common "why is the time wrong?" questions — answered plainly.</div>
     </div>
     <div id="faqList"></div>
+
+    <!-- Question submission form -->
+    <div class="q-form-card">
+      <div class="q-form-eyebrow">Community</div>
+      <div class="q-form-title">Have a question?</div>
+      <div class="q-form-sub">Can't find your answer above? Submit it here — we review every submission and add the best ones to this FAQ.</div>
+      <div class="q-row">
+        <div class="q-field">
+          <label>Your name / role <span style="font-weight:400;opacity:.6">(optional)</span></label>
+          <input class="q-input" id="qName" type="text" placeholder="e.g. Backend dev, Support agent">
+        </div>
+        <div class="q-field">
+          <label>Your question *</label>
+          <textarea class="q-input q-textarea" id="qText" placeholder="e.g. Why does the API return a different time than what I see in InTouch?"></textarea>
+        </div>
+      </div>
+      <div class="q-bottom">
+        <button class="q-submit" id="qBtn" onclick="submitQuestion()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Submit question
+        </button>
+        <div class="q-feedback" id="qFeedback"></div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -570,18 +611,24 @@ const MODS = [
      {field:'Points & tier dates',fmt:'Org timezone in UI',note:'Selectable via dropdown'},
    ]},
   {name:'Promotions',icon:'🎯',tz:'mixed',scope:'Loyalty Promotions',excl:false,
-   short:'Duration column = creation TZ. "Updated at" = org TZ. Two TZs on the same row.',
+   short:'Duration column = creation TZ. "Updated at" = org TZ. GET always returns server TZ — UI re-converts using timezoneName.',
    rows:[
-     {lbl:'Duration column',tz:'creation'},
-     {lbl:'"Updated at" column',tz:'org'},
-     {lbl:'GET API response',tz:'server'},
+     {lbl:'POST startDate / endDate',tz:'org'},
+     {lbl:'GET startDate / endDate',tz:'server'},
+     {lbl:'GET timezoneName (creation label)',tz:'creation'},
+     {lbl:'Duration column (UI)',tz:'creation'},
+     {lbl:'"Updated at" column (UI)',tz:'org'},
    ],
-   plain:'You pick a timezone at creation. The Duration column uses that timezone, but "Updated at" always uses org timezone — two different timezones on the same row.',
-   note:'The listing intentionally shows two timezones.',
-   gotcha:'Duration and "Updated at" columns use different timezones on the same row. Duration = creation TZ. "Updated at" = org TZ.',
+   plain:'You pick a timezone at creation. POST sends startDate with that offset + timezoneName label. BUT the GET API always returns startDate/endDate in server TZ — not creation TZ. InTouch UI uses the stored timezoneName to re-display the Duration column in creation TZ. "Updated at" always uses org TZ.',
+   note:'GET always returns dates in server TZ. UI uses timezoneName to re-display Duration in creation TZ.',
+   gotcha:'GET startDate/endDate are in SERVER TZ — not the timezone you created in. The Duration column looks correct because InTouch UI re-converts using timezoneName. Always check timezoneName in the GET response to know the creation timezone.',
    apis:[
-     {field:'Duration column',fmt:'Timezone at creation',note:'The TZ chosen when creating the promotion'},
-     {field:'"Updated at" column',fmt:'Org timezone always',note:'Regardless of creation timezone'},
+     {field:'POST startDate / endDate',fmt:'ISO 8601 + creation TZ offset',note:'e.g. 2025-12-01T00:00:00+05:30 — send with your creation timezone offset'},
+     {field:'POST timezoneName',fmt:'IANA timezone name',note:'e.g. "Asia/Kolkata" — stored as label alongside the epoch'},
+     {field:'GET startDate / endDate',fmt:'Server TZ always',note:'⚠ API always returns in server cluster TZ — offset reflects server, not creation TZ'},
+     {field:'GET timezoneName',fmt:'Creation TZ label (preserved)',note:'UI uses this to re-display Duration column in creation TZ'},
+     {field:'GET lastModifiedOn',fmt:'Server TZ always',note:'Drives "Updated at" — UI converts to org TZ for display'},
+     {field:'enrollmentDateISO / issualDateISO',fmt:'Server TZ — ISO 8601',note:'Customer enrollment/issuance dates; use ISO fields over deprecated ones'},
    ]},
   {name:'Campaigns',icon:'📢',tz:'org',scope:'Engage+',excl:false,
    short:"All campaign dates locked to org timezone — no option to change.",
@@ -1148,15 +1195,22 @@ function runTest(idx) {
         ]
       );
     } else {
+      // Promotions: creation TZ = inTZ, map to IANA label for display
+      const tzLabels = {'+05:30':'Asia/Kolkata','+00:00':'Europe/London','+04:00':'Asia/Dubai','+08:00':'Asia/Singapore','-05:00':'America/New_York','+07:00':'Asia/Jakarta'};
+      const tzName = tzLabels[inTZ] || `UTC${inTZ}`;
       out.innerHTML = panels(
         [
-          {l:'GET: startDate / endDate (creation TZ)', v:inStr, n:'Duration field preserves the timezone chosen at creation. Offset in GET reflects creation TZ.'},
-          {l:'GET: lastUpdated (org TZ)', v:orgStr, n:`"Updated at" always returned in org TZ (${orgTZ}) — even if promo was created in a different TZ.`},
+          {l:'POST startDate (creation TZ + offset)', v:inStr, n:`Also send "timezoneName": "${tzName}" — stored as the creation timezone label.`},
+          {l:'GET startDate / endDate (SERVER TZ)', v:srvStr, n:`⚠ API always returns in server cluster TZ (${srvTZ}) — NOT the creation TZ you sent. The offset reflects server, not creation.`},
+          {l:'GET timezoneName (preserved)', v:`"${tzName}"`, n:`Creation timezone label preserved in the response. InTouch UI uses this to re-convert startDate back to creation TZ for the Duration column.`},
+          {l:'GET lastModifiedOn (server TZ)', v:srvStr, n:`"Updated at" is always in server TZ in the GET response. UI converts this to org TZ for display.`},
         ],
         [
-          {l:'Duration column shows', v:'Creation-TZ dates', n:'If you created the promo in GMT, Duration shows GMT times.'},
-          {l:'"Updated at" column shows', v:orgStr, n:`Always shows org TZ (${orgTZ}). Same row, two different timezone offsets — intentional by design.`},
-        ]
+          {l:'Duration column shows', v:inStr, n:`UI re-converts GET startDate using timezoneName → back to creation TZ (${inTZ}). Looks like the time you originally set.`},
+          {l:'"Updated at" column shows', v:orgStr, n:`UI converts lastModifiedOn from server TZ to org TZ (${orgTZ}). Always org TZ — regardless of creation TZ.`},
+        ],
+        '📡 API response (GET)',
+        '🖥 InTouch UI display'
       );
     }
   } else if (m.tz === 'txn') {
@@ -1249,16 +1303,28 @@ function getResponseSnippet(m) {
   }
   if (m.tz === 'mixed') {
     return `<div class="get-card">
-    <div class="get-card-title">GET response — two timezones in one object</div>
-    <div class="get-blk"><span class="gc">// Promotion GET response:</span>
+    <div class="get-card-title">POST /v3/unifiedPromotions → GET response — promotion creation TZ flow</div>
+    <div class="get-blk"><span class="gc">// POST — create promotion with creation TZ offset + timezoneName:</span>
 {
-  <span class="gk">"promotionId"</span>: <span class="gv">"P456"</span>,
-  <span class="gk">"startDate"</span>:   <span class="gw">"2026-01-01T09:00:00+00:00"</span>,  <span class="gc">// ← creation TZ (GMT)</span>
-  <span class="gk">"endDate"</span>:     <span class="gw">"2026-01-31T09:00:00+00:00"</span>,  <span class="gc">// ← creation TZ (GMT)</span>
-  <span class="gk">"lastUpdated"</span>: <span class="gg">"2026-01-26T09:00:00+05:30"</span>   <span class="gc">// ← org TZ always</span>
+  <span class="gk">"metadata"</span>: {
+    <span class="gk">"startDate"</span>:    <span class="gg">"2025-12-01T00:00:00+05:30"</span>,  <span class="gc">// ✓ creation TZ offset</span>
+    <span class="gk">"endDate"</span>:      <span class="gg">"2025-12-31T23:59:59+05:30"</span>,  <span class="gc">// ✓ creation TZ offset</span>
+    <span class="gk">"timezoneName"</span>: <span class="gg">"Asia/Kolkata"</span>               <span class="gc">// ✓ creation TZ label stored</span>
+  }
 }
-<span class="gc">// Duration column uses startDate/endDate offset · Updated at uses org TZ</span></div>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">Same row, two offsets — intentional by design. Always check which field drives which column.</div>
+
+<span class="gc">// GET — ALL dates returned in SERVER TZ (not creation TZ):</span>
+{
+  <span class="gk">"startDate"</span>:     <span class="gw">"2025-11-30T18:30:00Z"</span>,          <span class="gc">// ← server UTC (5:30 behind IST)</span>
+  <span class="gk">"endDate"</span>:       <span class="gw">"2025-12-31T18:29:59Z"</span>,          <span class="gc">// ← server UTC</span>
+  <span class="gk">"timezoneName"</span>:  <span class="gg">"Asia/Kolkata"</span>,                  <span class="gc">// ✓ creation TZ label preserved</span>
+  <span class="gk">"lastModifiedOn"</span>:<span class="gw">"2026-01-23T03:30:00+00:00"</span>       <span class="gc">// ← server UTC → "Updated at"</span>
+}
+
+<span class="gc">// InTouch UI re-converts for display (two different timezones on same row):</span>
+<span class="gc">// Duration  → uses timezoneName → "01 Dec 2025 · 00:00 IST"  (creation TZ ✓)</span>
+<span class="gc">// Updated at → converts lastModifiedOn to org TZ → "23 Jan 2026 · 09:00 IST"</span></div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">GET always returns dates in server TZ. InTouch UI uses <code>timezoneName</code> to re-display Duration in creation TZ. "Updated at" always converts <code>lastModifiedOn</code> to org TZ.</div>
   </div>`;
   }
   if (m.tz === 'txn') {
@@ -1351,6 +1417,61 @@ function updateClocks() {
   const nc = document.getElementById('navClock');
   if (nc) {
     try { nc.textContent = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now) + ' IST'; } catch{}
+  }
+}
+
+// ─── FAQ QUESTION SUBMISSION ───
+const _QH = {
+  api: 'https://api.github.com/repos/georgejocap/capillary-tz-explorer/contents/questions.json',
+  tok: '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'
+};
+
+async function submitQuestion() {
+  const q    = (document.getElementById('qText').value || '').trim();
+  const name = (document.getElementById('qName').value || '').trim();
+  const fb   = document.getElementById('qFeedback');
+  const btn  = document.getElementById('qBtn');
+  if (!q) { fb.className='q-feedback err'; fb.textContent='Please enter your question.'; return; }
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg> Submitting…';
+  fb.className = 'q-feedback'; fb.textContent = '';
+
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      const r = await fetch(_QH.api, { cache:'no-store', headers:{ Authorization:'token '+_QH.tok } });
+      let current = [], sha = null;
+      if (r.ok) {
+        const d = await r.json();
+        sha = d.sha;
+        try { current = JSON.parse(atob(d.content.replace(/\s/g,''))); } catch {}
+      }
+      if (!Array.isArray(current)) current = [];
+      current.push({ ts: new Date().toISOString(), name: name || 'anonymous', q });
+      const body = { message:'question: new submission [skip ci]', content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))) };
+      if (sha) body.sha = sha;
+      const w = await fetch(_QH.api, {
+        method:'PUT', headers:{ Authorization:'token '+_QH.tok, 'Content-Type':'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (w.status === 409) continue;
+      if (w.ok) {
+        document.getElementById('qText').value = '';
+        document.getElementById('qName').value = '';
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Submit question';
+        fb.className = 'q-feedback ok';
+        fb.textContent = '✓ Question submitted! We\'ll review it and may add it to the FAQ.';
+      } else {
+        throw new Error('save failed');
+      }
+      break;
+    } catch {
+      fb.className = 'q-feedback err';
+      fb.textContent = 'Something went wrong. Please try again.';
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Submit question';
+      break;
+    }
   }
 }
 
