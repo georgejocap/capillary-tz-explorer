@@ -70,6 +70,13 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text3)}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.stats-pop{display:none;position:absolute;top:calc(var(--nav-h) - 4px);left:16px;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:14px 18px;z-index:300;box-shadow:var(--shadow);min-width:170px}
+.stats-pop.on{display:block}
+.sp-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:6px}
+.sp-count{font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.sp-sub{font-size:11px;color:var(--text3);margin-top:4px}
 
 /* LAYOUT */
 .wrap{max-width:1120px;margin:0 auto;padding:0 28px calc(var(--bar-h) + 36px)}
@@ -170,6 +177,7 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .gc{color:var(--text3);font-style:italic}
 .gw{color:var(--amber);font-weight:600}
 .gg{color:var(--green);font-weight:600}
+.gr{color:var(--red);font-weight:600}
 
 /* DETAIL VIEW */
 .breadcrumb{display:flex;align-items:center;gap:8px;padding:24px 0 0;font-size:13px;color:var(--text3)}
@@ -249,6 +257,26 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .sr-lbl{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
 .sr-val{font:600 12px 'SF Mono',Monaco,monospace;color:var(--blue);margin-bottom:4px;word-break:break-all}
 .sr-note{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* TEST DUAL-PANEL */
+.trace-panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.trace-panel{border-radius:var(--r-sm);padding:14px 16px}
+.trace-panel.api{border:1px solid var(--amber-border);background:var(--amber-light)}
+.trace-panel.ui{border:1px solid var(--green-border);background:var(--green-light)}
+.tp-hd{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.tp-hd.api{color:var(--amber)}.tp-hd.ui{color:var(--green)}
+/* TRANSACTION COMPARE */
+.txn-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.txn-col{border-radius:var(--r-sm);padding:16px}
+.txn-col.good{border:1px solid var(--green-border);background:var(--green-light)}
+.txn-col.bad{border:1px solid var(--red-border);background:var(--red-light)}
+.txn-col-head{font-size:13px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.08)}
+.txn-col.good .txn-col-head{color:var(--green)}.txn-col.bad .txn-col-head{color:var(--red)}
+.promo-badge{display:inline-flex;align-items:center;gap:6px;border-radius:var(--r-xs);padding:8px 14px;font-weight:700;font-size:12px;margin-top:14px;width:100%;justify-content:center}
+.promo-badge.ok{background:#fff;color:var(--green);border:1.5px solid var(--green-border)}
+.promo-badge.fail{background:#fff;color:var(--red);border:1.5px solid var(--red-border)}
+.promo-rule{font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xs);padding:7px 12px;margin-bottom:14px;text-align:center}
+.sim-hint{font-size:12px;color:var(--text2);background:var(--blue-light);border:1px solid var(--blue-border);border-radius:var(--r-xs);padding:8px 12px;margin-bottom:16px;line-height:1.5}
 
 /* API REFERENCE */
 .api-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow-xs);margin-bottom:16px}
@@ -335,15 +363,20 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
 
 <!-- NAV -->
 <nav class="nav">
-  <div class="nav-brand" onclick="showView('overview')">
-    <div class="nav-mark">
+  <div class="nav-brand">
+    <div class="nav-mark" onclick="toggleStats(event)" style="cursor:pointer">
       <img class="nav-mark-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACTUlEQVQ4jaWTTUhUURTH//feeW8+zZkas8bK0bKighlLs9pkCGb2gUWSRUXuChclLbTduAl3JeUmCgVb1SJJEFz1LFpIBGoSMVa+NFJj0BmtmTe+d99tkSPPdBMeuHDPPfd3+J9z7yFCCKzF6JpoADark9s6UL64Vaeby1RrLHGlKAggCADZXaNK5pwIIZDbOhAG0A0g38J8AxAZnqgrslNxgRFsFxqD0OjfmEBNdtfoYKaETgvcBoizfjLxttro6bi5te72T9mZMLN4E9uitbE8LUE3LOQTD++0lhACAEJ441TTkfsAMNdUeC0+Y4vf2VsRO1d8hlGWfDR88UE81Z4zKDTWIVI0BCw2kVC9X7LH4HCrKgD8ainopC4RXB/QC0c2sVLJHhuU5Fml5EWtlwbScRbQwPK0/iUFDrcasdnmXwFG+5u7ZbXFwEli52F38/jsEIDS7tpbhOiKh6Ues43aDqFRQGORJQVqw2VFdv6oz9Gn/fulyUvXgwG9Zucununmu5rn8Srv2NdjWd9PJb0iyDan66XK38rSK2Ts9ZN9D+fd6YarcwWI7JnRT2dN7e5LumbczFA81Ah9jvrhlvW+G+c/VK36Dw4FxmPEwdG7TXvv9MkHfGai90s695OL8pCLGo2T3H7Pv84YszLLElDfggrJRIk0NQLTfEoYyscXPHBSo8VJeFjO49AYG7Ay5N9Z4B+ZQqg4CgqAiMaKaGVcJmaHnXI4iNn/7LhSvgwQQqxYPIowj8Kb8Q++rPYe7jkRXu3uCgX/a2uexj+DSAEGLQm5QAAAAABJRU5ErkJggg==" alt="Capillary">
       <span class="nav-mark-tz">TZ</span>
     </div>
-    <div>
+    <div onclick="showView('overview')" style="cursor:pointer">
       <div class="nav-name">Timezone Reference</div>
       <div class="nav-tagline">Capillary Platform</div>
     </div>
+  </div>
+  <div class="stats-pop" id="statsPop">
+    <div class="sp-label">Total visits</div>
+    <div class="sp-count" id="statsCount">—</div>
+    <div class="sp-sub">all time</div>
   </div>
   <div class="nav-menu">
     <span class="nav-btn on" id="nb-overview" onclick="showView('overview')">Overview</span>
@@ -660,6 +693,25 @@ const MODS = [
    plain:'Insights is explicitly excluded from timezone standardization. It follows legacy timezone patterns that vary by report type.',
    note:'Explicitly excluded from standardization.',gotcha:'',
    apis:[{field:'All date fields',fmt:'Legacy — not standardized',note:'No ISO fields added to Insights'}]},
+  {name:'Transaction Promotions',icon:'💳',tz:'txn',scope:'POS / Transactions',excl:false,
+   short:'billingDate offset drives promotion evaluation. Missing offset = engine evaluates in wrong timezone.',
+   rows:[
+     {lbl:'POST billingDate (with offset)',tz:'org'},
+     {lbl:'GET billingTime',tz:'server'},
+     {lbl:'GET billingTimeInputOffset',tz:'org'},
+     {lbl:'Promotion engine evaluation',tz:'org'},
+     {lbl:'GET awardedOnISO / expiresOnISO',tz:'server'},
+   ],
+   plain:"When a POS transaction is posted via POST /v2/transactions, billingDate must include a timezone offset. The promotion engine uses billingTimeInputOffset from the GET response to reconstruct the customer's local time and evaluate time-window rules. Without the offset, the engine defaults to server UTC — causing time-window promotions to silently miss.",
+   note:'Always send billingDate with offset: e.g. 2026-01-23T09:00:00+05:30',
+   gotcha:"If billingDate has no offset, the promotion engine cannot reconstruct local time. Time-window promotions (e.g. '9–11 AM') will silently evaluate against server UTC instead of the customer's local time — causing missed promotions.",
+   apis:[
+     {field:'billingDate (POST body)',fmt:'ISO 8601 + local offset',note:'Required — e.g. 2026-01-23T09:00:00+05:30'},
+     {field:'billingTime (GET response)',fmt:'Server cluster TZ always',note:'Same moment expressed in server TZ'},
+     {field:'billingTimeInputOffset (GET)',fmt:'Original input offset preserved',note:'Used by promotion engine to reconstruct local time'},
+     {field:'awardedOnISO (GET)',fmt:'Server TZ — ISO 8601',note:'Use over deprecated awardedOn field'},
+     {field:'expiresOnISO (GET)',fmt:'Server TZ — ISO 8601',note:'Use over deprecated expiresOn field'},
+   ]},
 ];
 
 const CLUSTERS = [
@@ -943,6 +995,28 @@ function buildFlow(m, idx) {
       </div>`;
     }
   }
+
+  if (m.tz === 'txn') {
+    el.innerHTML = `<div class="flow-card">
+      <div class="fc-eyebrow">Transaction promotion flow — ${m.name}</div>
+      <div class="flow-row">
+        ${mkNode('POS sends','billingDate<br>T09:00+05:30','with local offset ✓','blue','Always include<br>the UTC offset')}
+        ${mkArrow('stored as')}
+        ${mkNode('Storage','epoch ms<br>+ offset: +05:30','both preserved','neutral','Epoch for absolute time<br>offset for local time')}
+        ${mkArrow('GET returns')}
+        ${mkNode('GET API','billingTime<br>T03:30:00Z','server cluster TZ','amber','billingTimeInputOffset<br>+05:30 preserved')}
+        ${mkArrow('engine reads')}
+        ${mkNode('Promo engine','09:00 local','reconstructed ✓','green','Evaluates "9–11 AM"<br>rule correctly')}
+      </div>
+      <div class="gotcha-box">⚠ <strong>Without offset:</strong> ${m.gotcha}</div>
+      <div class="flow-notes" style="margin-top:16px">
+        <div class="flow-note"><b>billingTimeInputOffset</b><br>Always check this field in your GET response. If it's missing or empty, your POST sent <code>billingDate</code> without an offset — fix at the POS integration level.</div>
+        <div class="flow-note"><b>Points fields</b><br><code>awardedOnISO</code> and <code>expiresOnISO</code> are returned in server cluster timezone — use these over the deprecated <code>awardedOn</code> / <code>expiresOn</code> fields.</div>
+        <div class="flow-note"><b>extendedFields</b><br><code>extendedFields.event_input_date_offset</code> also stores the original offset. Note: extendedFields are outside the timezone standardization scope.</div>
+      </div>
+    </div>`;
+    return;
+  }
 }
 
 // ─── TEST TAB ───
@@ -950,8 +1024,12 @@ function buildTest(m, idx) {
   const el = document.getElementById('tp-test');
   const now = new Date();
   const dtDef = `${now.getFullYear()}-${p2(now.getMonth()+1)}-${p2(now.getDate())}T09:00`;
+  const hint = m.tz === 'txn'
+    ? `<div class="sim-hint">💡 Tests a <strong>"9–11 AM local time"</strong> promotion rule. Pick a time, pick your local TZ — then see exactly what happens with and without a timezone offset in <code>billingDate</code>.</div>`
+    : '';
   el.innerHTML = `<div class="sim-card">
     <div class="sim-title">Test how ${m.name} handles a timestamp</div>
+    ${hint}
     <div class="sim-fields">
       <div class="sf"><label>Date &amp; time</label><input type="datetime-local" id="sdt${idx}" value="${dtDef}"></div>
       <div class="sf"><label>Your timezone</label>
@@ -1006,43 +1084,119 @@ function runTest(idx) {
   const srvStr = fmtFull(epoch, srvTZ);
   const orgStr = fmtFull(epoch, orgTZ);
 
-  let steps = [];
+  // Helper: render one step row (no number badge — used inside panels)
+  const mkStep = (lbl, val, note) => `
+    <div class="sim-result" style="background:rgba(255,255,255,.55)">
+      <div style="width:7px;height:7px;border-radius:50%;background:#CBD5E1;flex-shrink:0;margin-top:8px"></div>
+      <div><div class="sr-lbl">${lbl}</div><div class="sr-val">${val}</div>${note?`<div class="sr-note">${note}</div>`:''}</div>
+    </div>`;
+
+  // Helper: build the two-panel layout (API response left, InTouch UI right)
+  const panels = (aSteps, uSteps, aLabel, uLabel) => `
+    <div class="trace-panels">
+      <div class="trace-panel api">
+        <div class="tp-hd api">${aLabel||'📡 API response (GET)'}</div>
+        ${aSteps.map(s=>mkStep(s.l,s.v,s.n)).join('')}
+      </div>
+      <div class="trace-panel ui">
+        <div class="tp-hd ui">${uLabel||'🖥 InTouch UI display'}</div>
+        ${uSteps.map(s=>mkStep(s.l,s.v,s.n)).join('')}
+      </div>
+    </div>`;
+
+  const out = document.getElementById('sout'+idx);
+
   if (m.tz === 'org') {
-    steps = [
-      {l:'Your original input', v:inStr, n:'The local time with your timezone offset.'},
-      {l:'Stored internally as epoch', v:`${epoch} ms`, n:'Converted to a universal number. No timezone — same moment everywhere on earth.'},
-      {l:'GET API response', v:srvStr, n:`Returned in your server cluster timezone. This is what your API call receives.`},
-      {l:'InTouch UI display ('+orgTZ+')', v:orgStr, n:`The API response is re-converted to org timezone for display. What your team sees.`},
-      {l:'Promotion engine uses', v:`offset ${inTZ} → evaluates local time as ${p2(H)}:${p2(Mi)}`, n:`If this has a promotion rule like "9–11 AM", the engine uses the original offset to evaluate against local time, not server time.`},
-    ];
+    out.innerHTML = panels(
+      [
+        {l:'What you send (POST / input)', v:inStr, n:'ISO 8601 with your timezone offset. Always include the offset.'},
+        {l:'Stored internally as epoch', v:`${epoch} ms`, n:'Timezone-free universal number. Same moment everywhere on Earth.'},
+        {l:'GET: date field (server cluster TZ)', v:srvStr, n:`API always returns in server cluster timezone (${srvTZ}). This is what your raw API call receives.`},
+        {l:'GET: billingTimeInputOffset', v:inTZ, n:'Original input offset preserved alongside the epoch. Promotion engine uses this to reconstruct local time.'},
+      ],
+      [
+        {l:`InTouch UI display (${orgTZ})`, v:orgStr, n:'Re-converted from server TZ to org TZ. API and UI show different values — this is by design.'},
+        {l:'Promotion engine evaluates', v:`local time ${p2(H)}:${p2(Mi)} (via offset ${inTZ})`, n:`Time-window rules like "9–11 AM" apply against this reconstructed local time, not server time.`},
+      ]
+    );
   } else if (m.tz === 'server') {
-    steps = [
-      {l:'Your configuration input', v:inStr, n:'The time you intend the reward to start, or when limits should reset.'},
-      {l:'Stored internally as epoch', v:`${epoch} ms`, n:'Universal epoch — same moment everywhere.'},
-      {l:'GET API response', v:srvStr, n:`Returned in server cluster timezone.`},
-      {l:'Daily limit resets at', v:`Server midnight in ${srvTZ}`, n:`⚠ Not your org midnight. Limits may reset at the wrong local time. Enable CONF_ENABLE_ORG_TIMEZONE to fix.`},
-    ];
+    out.innerHTML = panels(
+      [
+        {l:'Your configuration input', v:inStr, n:'The time you intend the reward to start, or when limits should reset.'},
+        {l:'Stored internally as epoch', v:`${epoch} ms`, n:'Universal epoch — same moment everywhere.'},
+        {l:'GET API response', v:srvStr, n:`Returned in server cluster timezone (${srvTZ}).`},
+        {l:'Daily limit resets at', v:`Server midnight in ${srvTZ}`, n:'⚠ Resets at server midnight, not org midnight. Enable CONF_ENABLE_ORG_TIMEZONE to fix.'},
+      ],
+      [
+        {l:'What UI shows', v:srvStr, n:`Rewards Catalog UI follows server TZ (${srvTZ}).`},
+        {l:'In org TZ (not shown by default)', v:orgStr, n:`This is ${orgTZ}. UI does NOT auto-convert until CONF_ENABLE_ORG_TIMEZONE is enabled.`},
+      ]
+    );
   } else if (m.tz === 'mixed') {
     if (m.name === 'Audience') {
-      steps = [
-        {l:'Audience listing dates show', v:orgStr, n:`✓ Shown in your org timezone.`},
-        {l:'Date range filter for this date', v:`"${d}" interpreted as UTC midnight`, n:`⚠ The filter treats the date as UTC midnight. For IST (+05:30), a filter for "${d}" captures from ${d}T00:00:00+00:00 = ${fmtShort(Date.UTC(Y,Mo-1,D),  'Asia/Kolkata')} IST.`},
-      ];
+      const filterUTCStr = `${d}T00:00:00+00:00`;
+      const filterInOrgStr = fmtFull(Date.UTC(Y,Mo-1,D,0,0,0), orgTZ);
+      out.innerHTML = panels(
+        [
+          {l:'GET: audience metadata (org TZ)', v:orgStr, n:`✓ created_at and metadata returned in org TZ (${orgTZ}).`},
+          {l:'Date range filter stored as', v:filterUTCStr, n:`⚠ The filter "${d}" is always stored as UTC midnight, regardless of org TZ.`},
+          {l:'Filter start in org TZ', v:filterInOrgStr, n:`For org ${orgTZ}: a "${d}" filter captures from this moment — not your local midnight.`},
+        ],
+        [
+          {l:'Audience listing display', v:orgStr, n:`✓ Listing dates shown in org TZ (${orgTZ}).`},
+          {l:'Date filter shown as', v:d, n:`UI displays "${d}" but the underlying cutoff is UTC midnight — actual coverage differs by your org offset.`},
+        ]
+      );
     } else {
-      steps = [
-        {l:'Duration column shows', v:`Based on the timezone chosen at creation`, n:`If you created this with "India" timezone, Duration shows IST times.`},
-        {l:'"Updated at" column shows', v:orgStr, n:`Always your org timezone. These two columns may show different offsets on the same row — this is by design.`},
-      ];
+      out.innerHTML = panels(
+        [
+          {l:'GET: startDate / endDate (creation TZ)', v:inStr, n:'Duration field preserves the timezone chosen at creation. Offset in GET reflects creation TZ.'},
+          {l:'GET: lastUpdated (org TZ)', v:orgStr, n:`"Updated at" always returned in org TZ (${orgTZ}) — even if promo was created in a different TZ.`},
+        ],
+        [
+          {l:'Duration column shows', v:'Creation-TZ dates', n:'If you created the promo in GMT, Duration shows GMT times.'},
+          {l:'"Updated at" column shows', v:orgStr, n:`Always shows org TZ (${orgTZ}). Same row, two different timezone offsets — intentional by design.`},
+        ]
+      );
     }
-  } else {
-    steps = [{l:'Not standardized', v:'Legacy behavior applies', n:'Insights is excluded from timezone standardization. Behavior depends on the specific report type.'}];
-  }
+  } else if (m.tz === 'txn') {
+    // WITH offset — correct behavior
+    const withSrvStr = fmtFull(epoch, srvTZ);
+    // WITHOUT offset — time treated as UTC (no offset = UTC interpretation by system)
+    const noOffEpoch = Date.UTC(Y, Mo-1, D, H, Mi, 0);
+    const noOffSrvStr = fmtFull(noOffEpoch, srvTZ);
+    // Promotion rule example: 9 AM – 11 AM local time
+    const promoStart = 9, promoEnd = 11;
+    const eligibleWith = H >= promoStart && H < promoEnd;
+    // Without offset: engine evaluates in server TZ
+    let noOffSrvHour = H;
+    try { noOffSrvHour = parseInt(new Intl.DateTimeFormat('en-US',{timeZone:srvTZ,hour:'numeric',hour12:false}).format(new Date(noOffEpoch))); } catch {}
+    const noOffSrvTime = fmtShort(noOffEpoch, srvTZ);
+    const eligibleWithout = noOffSrvHour >= promoStart && noOffSrvHour < promoEnd;
 
-  document.getElementById('sout'+idx).innerHTML = steps.map((s,i) => `
-    <div class="sim-result">
-      <div class="sr-num">${i+1}</div>
-      <div><div class="sr-lbl">${s.l}</div><div class="sr-val">${s.v}</div><div class="sr-note">${s.n}</div></div>
-    </div>`).join('');
+    out.innerHTML = `
+      <div class="promo-rule">Promotion rule: active 09:00–11:00 local time · Enter a time in that window to see the difference</div>
+      <div class="txn-compare">
+        <div class="txn-col good">
+          <div class="txn-col-head">✓ With offset — correct</div>
+          ${mkStep('POST billingDate', `${d}T${p2(H)}:${p2(Mi)}:00${inTZ}`, 'Local time with timezone offset included.')}
+          ${mkStep('GET billingTime', withSrvStr, `API returns in server TZ (${srvTZ}).`)}
+          ${mkStep('GET billingTimeInputOffset', inTZ, 'Offset preserved — promotion engine reads this field.')}
+          ${mkStep('Engine reconstructs local time', `${p2(H)}:${p2(Mi)} via offset ${inTZ}`, 'Checks reconstructed local time against "09:00–11:00" window.')}
+          <span class="promo-badge ${eligibleWith?'ok':'fail'}">${eligibleWith?'✓ ELIGIBLE — promotion fires':'✗ Outside 9–11 AM window'}</span>
+        </div>
+        <div class="txn-col bad">
+          <div class="txn-col-head">✗ Without offset — broken</div>
+          ${mkStep('POST billingDate', `${d}T${p2(H)}:${p2(Mi)}:00  (no offset)`, 'No offset — system cannot determine the customer\'s local timezone.')}
+          ${mkStep('GET billingTime', noOffSrvStr, `Treated as UTC → server TZ (${srvTZ}) returns a shifted value.`)}
+          ${mkStep('GET billingTimeInputOffset', '(missing)', '⚠ No offset stored — promotion engine is blind to local time.')}
+          ${mkStep('Engine uses server TZ instead', `${noOffSrvTime} in ${srvTZ}`, 'Evaluates against server TZ, not customer\'s local time — wrong timezone.')}
+          <span class="promo-badge ${eligibleWithout?'ok':'fail'}">${eligibleWithout?'⚠ ELIGIBLE by coincidence (unreliable)':'✗ NOT ELIGIBLE — promotion misses'}</span>
+        </div>
+      </div>`;
+  } else {
+    out.innerHTML = mkStep('Not standardized', 'Legacy behavior applies', 'Insights is excluded from timezone standardization. Behavior depends on the specific report type.');
+  }
 }
 
 // ─── API TAB ───
@@ -1105,6 +1259,32 @@ function getResponseSnippet(m) {
 }
 <span class="gc">// Duration column uses startDate/endDate offset · Updated at uses org TZ</span></div>
     <div style="font-size:12px;color:var(--text3);margin-top:4px">Same row, two offsets — intentional by design. Always check which field drives which column.</div>
+  </div>`;
+  }
+  if (m.tz === 'txn') {
+    return `<div class="get-card">
+    <div class="get-card-title">POST /v2/transactions → GET response — transaction timestamp fields</div>
+    <div class="get-blk"><span class="gc">// POST /v2/transactions — always send billingDate WITH offset:</span>
+{
+  <span class="gk">"billingDate"</span>: <span class="gg">"2026-01-23T09:00:00+05:30"</span>,  <span class="gc">// ✓ local time + offset</span>
+  <span class="gk">"customerId"</span>: <span class="gv">"C1001"</span>,
+  <span class="gk">"amount"</span>:     <span class="gv">2500</span>
+}
+
+<span class="gc">// GET /v2/transactions/{id} — timestamp fields in response:</span>
+{
+  <span class="gk">"billingTime"</span>:           <span class="gw">"2026-01-23T03:30:00+00:00"</span>,  <span class="gc">// server cluster TZ always</span>
+  <span class="gk">"billingTimeInputOffset"</span>: <span class="gg">"+05:30"</span>,                    <span class="gc">// ✓ original offset preserved</span>
+  <span class="gk">"awardedOn"</span>:             <span class="gc">"2026-01-23T03:30:00"</span>,        <span class="gc">// ← deprecated, no offset</span>
+  <span class="gk">"awardedOnISO"</span>:          <span class="gg">"2026-01-23T03:30:00+00:00"</span>,  <span class="gc">// ✓ use this</span>
+  <span class="gk">"expiresOn"</span>:             <span class="gc">"2026-04-23T03:30:00"</span>,        <span class="gc">// ← deprecated</span>
+  <span class="gk">"expiresOnISO"</span>:          <span class="gg">"2026-04-23T03:30:00+00:00"</span>   <span class="gc">// ✓ use this</span>
+}
+
+<span class="gc">// ✗ WITHOUT offset — what breaks:</span>
+<span class="gr">"billingDate": "2026-01-23T09:00:00"</span>          <span class="gc">// no offset → promotion engine uses server UTC</span>
+<span class="gr">"billingTimeInputOffset": ""</span>                   <span class="gc">// missing → time-window promotions may miss</span></div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">Always include timezone offset in <code>billingDate</code>. Missing offset = promotion engine evaluates in server UTC — time-window promotions may silently miss.</div>
   </div>`;
   }
   return '';
@@ -1175,11 +1355,74 @@ function updateClocks() {
 }
 
 // ─── INIT ───
+// ─── VISITOR COUNTER (GitHub file storage) ───
+const _GH = {
+  api: 'https://api.github.com/repos/georgejocap/capillary-tz-explorer/contents/count.json',
+  tok: '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'
+};
+window._visitCount = null;
+
+async function _trackVisit() {
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      // cache:'no-store' bypasses browser cache so every visit reads the real latest value
+      const r = await fetch(_GH.api, {
+        cache: 'no-store',
+        headers: { Authorization: 'token ' + _GH.tok }
+      });
+      if (!r.ok) break;
+      const d = await r.json();
+      const current = JSON.parse(atob(d.content.replace(/\s/g, ''))).count || 0;
+      const next = current + 1;
+      const w = await fetch(_GH.api, {
+        method: 'PUT',
+        headers: { Authorization: 'token ' + _GH.tok, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: 'chore: visit ' + next + ' [skip ci]',
+          content: btoa(JSON.stringify({ count: next })),
+          sha: d.sha
+        })
+      });
+      if (w.status === 409) continue; // SHA conflict (two visitors at same time) → retry
+      if (w.ok) { window._visitCount = next; }
+      break;
+    } catch { break; }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderMods();
   renderFAQ();
   updateClocks();
   setInterval(updateClocks, 1000);
+  _trackVisit();
+});
+
+// ─── VISITOR STATS POPOVER ───
+function toggleStats(e) {
+  e.stopPropagation();
+  const pop = document.getElementById('statsPop');
+  const isOpen = pop.classList.contains('on');
+  pop.classList.toggle('on');
+  if (!isOpen) fetchVisitorCount();
+}
+function fetchVisitorCount() {
+  const el = document.getElementById('statsCount');
+  if (window._visitCount !== null) {
+    el.textContent = window._visitCount.toLocaleString();
+    return;
+  }
+  el.textContent = '…';
+  fetch(_GH.api, { headers: { Authorization: 'token ' + _GH.tok } })
+    .then(r => r.json())
+    .then(d => {
+      const n = JSON.parse(atob(d.content.replace(/\s/g, ''))).count || 0;
+      el.textContent = n.toLocaleString();
+    })
+    .catch(() => { el.textContent = '—'; });
+}
+document.addEventListener('click', () => {
+  document.getElementById('statsPop')?.classList.remove('on');
 });
 </script>
 </body>
