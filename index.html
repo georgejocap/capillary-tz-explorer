@@ -93,7 +93,8 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 
 /* CONCEPT ROW */
 .concept-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px}
-.cc{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-xs)}
+.cc{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-xs);transition:box-shadow .28s cubic-bezier(.4,0,.2,1),transform .28s cubic-bezier(.4,0,.2,1),border-color .2s}
+.cc:hover{box-shadow:var(--shadow);transform:translateY(-3px);border-color:var(--border-strong)}
 .cc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .cc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .cc-dot.g{background:var(--green)}
@@ -117,21 +118,46 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .search-box svg{color:var(--text3);flex-shrink:0}
 
 /* MODULE GRID */
-.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
 .mod-card{
   background:var(--white);border:1px solid var(--border);border-radius:var(--r);
   padding:22px;cursor:pointer;
-  transition:box-shadow .2s,transform .2s,border-color .2s;
+  transition:box-shadow .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),border-color .25s;
   box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
 }
-.mod-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow);transform:translateY(-2px)}
+.mod-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.4,0,.2,1);
+}
+.mod-card:hover::before{transform:scaleX(1)}
+.mod-card:hover{
+  border-color:var(--border-strong);
+  box-shadow:0 20px 48px rgba(0,0,0,.13),0 6px 16px rgba(0,0,0,.07);
+  transform:translateY(-5px);
+}
+.mod-card.mc-org::before{background:linear-gradient(90deg,var(--green),#34D399)}
+.mod-card.mc-server::before{background:linear-gradient(90deg,var(--amber),#FBBF24)}
+.mod-card.mc-mixed::before{background:linear-gradient(90deg,var(--purple),#A78BFA)}
+.mod-card.mc-txn::before{background:linear-gradient(90deg,var(--blue),#60A5FA)}
+.mod-card.mc-insights::before{background:linear-gradient(90deg,#6366F1,#818CF8)}
+.mod-card.mc-na::before{background:var(--text3)}
+.mod-card.excl::before{background:linear-gradient(90deg,var(--red),#F87171)}
 .mc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .mc-left{display:flex;align-items:center;gap:12px}
-.mc-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.mc-ico.org{background:var(--green-light)}
-.mc-ico.server{background:var(--amber-light)}
-.mc-ico.mixed{background:var(--purple-light)}
-.mc-ico.na{background:var(--surface)}
+.mc-ico{
+  width:42px;height:42px;border-radius:11px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;
+  transition:transform .28s cubic-bezier(.4,0,.2,1),box-shadow .28s cubic-bezier(.4,0,.2,1);
+}
+.mod-card:hover .mc-ico{transform:scale(1.12);box-shadow:0 4px 14px rgba(0,0,0,.14)}
+.mc-ico.org{background:linear-gradient(135deg,#ECFDF5,#A7F3D0);color:var(--green)}
+.mc-ico.server{background:linear-gradient(135deg,#FFFBEB,#FDE68A);color:var(--amber)}
+.mc-ico.mixed{background:linear-gradient(135deg,#F5F3FF,#DDD6FE);color:var(--purple)}
+.mc-ico.na{background:linear-gradient(135deg,var(--surface),var(--border));color:var(--text3)}
+.mc-ico.txn{background:linear-gradient(135deg,#EFF6FF,#BFDBFE);color:var(--blue)}
+.mc-ico.insights{background:linear-gradient(135deg,#EEF2FF,#C7D2FE);color:#6366F1}
 .mc-name{font-size:14px;font-weight:600;color:var(--text);line-height:1.3}
 .mc-scope{font-size:11px;color:var(--text3);margin-top:2px}
 .tz-pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px;white-space:nowrap;flex-shrink:0}
@@ -140,8 +166,12 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .tz-pill.mixed{background:var(--purple-light);color:var(--purple)}
 .tz-pill.na{background:var(--surface);color:var(--text3)}
 .tz-pill.excl{background:var(--red-light);color:var(--red)}
+.tz-pill.txn{background:var(--blue-light);color:var(--blue)}
+.tz-pill.insights{background:#EEF2FF;color:#4F46E5}
 .mc-desc{font-size:13px;color:var(--text2);line-height:1.55}
-.mc-cta{font-size:12px;font-weight:500;color:var(--blue);display:flex;align-items:center;gap:4px;margin-top:auto}
+.mc-cta{font-size:12px;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:5px;margin-top:auto;letter-spacing:.01em}
+.mc-cta-arrow{display:inline-flex;align-items:center;transition:transform .22s cubic-bezier(.4,0,.2,1)}
+.mod-card:hover .mc-cta-arrow{transform:translateX(5px)}
 
 /* CARD FIELD ROWS */
 .mc-rows{display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--border);padding-top:10px}
@@ -153,6 +183,21 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .tz-mini.creation{background:var(--blue-light);color:var(--blue)}
 .tz-mini.na{background:var(--surface);color:var(--text3)}
 .tz-mini.warn{background:var(--red-light);color:var(--red)}
+.cfg-tag{cursor:pointer;border:none;font:inherit;display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;transition:opacity .15s}
+.cfg-tag:hover{opacity:.75}
+.cfg-popover{display:none;position:fixed;z-index:900;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px 18px 14px;max-width:310px;box-shadow:0 8px 32px rgba(0,0,0,.18),0 2px 8px rgba(0,0,0,.09)}
+.cfg-popover.on{display:block}
+.cfg-pop-close{position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;line-height:1;padding:2px 4px;border-radius:4px}
+.cfg-pop-close:hover{background:var(--surface);color:var(--text)}
+.cfg-pop-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:6px}
+.cfg-pop-key{font-family:'JetBrains Mono',monospace;background:rgba(0,0,0,.06);padding:2px 7px;border-radius:5px;font-size:11px;color:var(--text);display:inline-block;margin-bottom:12px}
+.cfg-pop-table{width:100%;border-collapse:collapse;margin-bottom:12px}
+.cfg-pop-table td{font-size:12px;padding:4px 0;vertical-align:top}
+.cfg-pop-table td:first-child{color:var(--text3);width:80px;padding-right:8px}
+.cfg-pop-table td:last-child{color:var(--text);line-height:1.5}
+.cfg-pop-footer{font-size:11px;color:var(--text3);line-height:1.5;border-top:1px solid var(--border);padding-top:10px}
+html.dark .cfg-popover{background:var(--white);border-color:var(--border)}
+html.dark .cfg-pop-key{background:rgba(255,255,255,.1);color:var(--text)}
 
 /* UI MOCKUP */
 .ui-mock{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-xs)}
@@ -224,6 +269,21 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .flow-note{background:var(--surface);border-radius:var(--r-xs);padding:13px;font-size:12.5px;color:var(--text2);line-height:1.55}
 .flow-note b{color:var(--text)}
 .gotcha-box{background:var(--amber-light);border:1px solid var(--amber-border);border-radius:var(--r-xs);padding:13px 16px;font-size:13px;color:#92400E;margin-top:14px;line-height:1.55}
+/* Flow section headers — UI vs API split */
+.flow-section{margin-bottom:24px}
+.flow-section:last-child{margin-bottom:0}
+.flow-section-hd{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:5px;margin-bottom:16px}
+.flow-section-hd.ui{background:#ECFDF5;color:#065F46;border:1px solid #A7F3D0}
+.flow-section-hd.api{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+html.dark .flow-section-hd.ui{background:rgba(5,150,105,.15);color:#6EE7B7;border-color:#15803D}
+html.dark .flow-section-hd.api{background:rgba(180,83,9,.15);color:#FCD34D;border-color:#B45309}
+.flow-divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.doc-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--blue);background:var(--blue-light);border:1px solid var(--blue-border);padding:4px 10px;border-radius:var(--r-xs);text-decoration:none;transition:background .15s,border-color .15s;white-space:nowrap}
+.doc-link:hover{background:#DBEAFE;border-color:#93C5FD}
+html.dark .doc-link{background:rgba(37,99,235,.15);border-color:#1D4ED8;color:#93C5FD}
+html.dark .doc-link:hover{background:rgba(37,99,235,.25)}
+.field-name a{color:var(--text);text-decoration:none;border-bottom:1px dashed var(--border-strong)}
+.field-name a:hover{color:var(--blue);border-bottom-color:var(--blue)}
 
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .path-card{border-radius:var(--r-sm);padding:18px;border:1.5px solid}
@@ -298,6 +358,25 @@ td{padding:10px 14px;border-top:1px solid var(--border);vertical-align:top}
 tr:hover td{background:#FAFAFE}
 .td-old{font:500 12px 'SF Mono',Monaco,monospace;color:var(--red)}
 .td-new{font:500 12px 'SF Mono',Monaco,monospace;color:var(--green)}
+.tag-ui-only{display:inline-flex;align-items:center;background:#EFF6FF;color:#1D4ED8;font-size:10px;font-weight:700;letter-spacing:.6px;padding:3px 9px;border-radius:4px;text-transform:uppercase;border:1px solid #BFDBFE;flex-shrink:0}
+.api-ui-rows{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.api-ui-rows-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase}
+
+/* PRIMER STRIP */
+.tz-primer{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px;margin-bottom:28px}
+.tz-primer-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:8px}
+.tz-primer-headline{font-size:14px;font-weight:600;color:var(--text);margin-bottom:16px;line-height:1.5}
+.tz-primer-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.tz-primer-item{flex:1;min-width:200px}
+.tz-primer-source{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.tz-primer-val{font:600 13px 'SF Mono',Monaco,monospace;padding:9px 14px;border-radius:6px;margin-bottom:5px;display:inline-block}
+.tz-pv-green{background:var(--green-light);color:#065F46;border:1px solid var(--green-border)}
+.tz-pv-amber{background:var(--amber-light);color:#92400E;border:1px solid var(--amber-border)}
+.tz-primer-context{font-size:12px;color:var(--text3);line-height:1.5}
+.tz-primer-eq{font-size:22px;color:var(--text3);font-weight:300;flex-shrink:0;padding:0 4px;margin-top:14px}
+.tz-primer-footer{font-size:13px;color:var(--text2);line-height:1.6}
+html.dark .tz-pv-green{background:rgba(5,150,105,.16);color:#6EE7B7;border-color:#15803D}
+html.dark .tz-pv-amber{background:rgba(180,83,9,.16);color:#FCD34D;border-color:#B45309}
 
 /* INFO BOXES */
 .ibox{border-radius:var(--r-xs);padding:12px 15px;font-size:13px;line-height:1.55;margin-bottom:14px}
@@ -374,6 +453,111 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
   .nav{padding:0 16px}
   .nav-tagline{display:none}
 }
+
+/* ═══ DARK MODE ════════════════════════════════════════════════ */
+html.dark{
+  --bg:#0B1120;--surface:#172033;--white:#1C2B3E;
+  --border:#263348;--border-strong:#374F67;
+  --text:#E8F0FE;--text2:#94A3B8;--text3:#536880;
+  --blue:#60A5FA;--blue-light:#0F2252;--blue-border:#1D4ED8;
+  --green:#34D399;--green-light:#052E16;--green-border:#15803D;
+  --amber:#FCD34D;--amber-light:#2D1600;--amber-border:#B45309;
+  --purple:#A78BFA;--purple-light:#1E1040;--purple-border:#6D28D9;
+  --red:#FCA5A5;--red-light:#2D0A0A;--red-border:#B91C1C;
+  --shadow:0 4px 24px rgba(0,0,0,.6),0 2px 6px rgba(0,0,0,.35);
+  --shadow-sm:0 1px 4px rgba(0,0,0,.35),0 1px 2px rgba(0,0,0,.25);
+  --shadow-xs:0 1px 3px rgba(0,0,0,.4);
+}
+/* Glass nav + bottom bar */
+html.dark .nav{background:rgba(11,17,32,.92)!important;border-bottom-color:var(--border)}
+html.dark .clock-bar{background:rgba(11,17,32,.95)!important;border-top-color:var(--border)}
+/* Body */
+html.dark body{background:var(--bg)}
+/* Nav brand + buttons */
+html.dark .nav-mark{background:#263348}
+html.dark .nav-btn:hover{background:rgba(255,255,255,.06);color:var(--text)}
+html.dark .nav-btn.on{background:rgba(255,255,255,.06);color:var(--text)}
+/* Chips */
+html.dark .chip{background:var(--surface);border-color:var(--border);color:var(--text2)}
+html.dark .chip:hover{border-color:var(--border-strong);color:var(--text)}
+html.dark .chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+/* Search */
+html.dark .search-box{background:var(--surface);border-color:var(--border)}
+/* Active tab */
+html.dark .tab-btn.on{color:var(--blue);border-bottom-color:var(--blue)}
+/* Module icon backgrounds in dark */
+html.dark .mc-ico.org{background:rgba(52,211,153,.14);color:var(--green)}
+html.dark .mc-ico.server{background:rgba(252,211,77,.11);color:var(--amber)}
+html.dark .mc-ico.mixed{background:rgba(167,139,250,.14);color:var(--purple)}
+html.dark .mc-ico.na{background:rgba(83,104,128,.18);color:var(--text2)}
+html.dark .mc-ico.txn{background:rgba(96,165,250,.13);color:var(--blue)}
+html.dark .mc-ico.insights{background:rgba(99,102,241,.18);color:#818CF8}
+/* Card hover shadow in dark */
+html.dark .mod-card:hover{box-shadow:0 20px 50px rgba(0,0,0,.7),0 6px 18px rgba(0,0,0,.45)}
+/* Concept cards */
+html.dark .cc{background:var(--surface)}
+/* Code blocks */
+html.dark .get-blk{background:#080E1C;border-color:var(--border)}
+html.dark code{background:rgba(255,255,255,.09);color:#CBD5E1}
+/* Info boxes — full contrast fix */
+html.dark .ibox.info{background:rgba(37,99,235,.16);border-color:#1D4ED8;color:#93C5FD}
+html.dark .ibox.warn{background:rgba(180,83,9,.16);border-color:#B45309;color:#FCD34D}
+html.dark .ibox.success{background:rgba(5,150,105,.16);border-color:#15803D;color:#6EE7B7}
+html.dark .ibox.danger{background:rgba(185,28,28,.16);border-color:#B91C1C;color:#FCA5A5}
+html.dark .tag-ui-only{background:rgba(37,99,235,.18);color:#93C5FD;border-color:#1D4ED8}
+/* Gotcha box */
+html.dark .gotcha-box{background:rgba(180,83,9,.18);border-color:#B45309;color:#FCD34D}
+/* Sim results */
+html.dark .sim-result{background:rgba(255,255,255,.04)!important}
+html.dark .step-dot{background:#374F67!important}
+/* Run button */
+html.dark .run-btn{background:#2563EB}
+html.dark .run-btn:hover{background:#3B82F6}
+/* Table row hover */
+html.dark tr:hover td{background:rgba(255,255,255,.03)!important}
+/* Trace panels */
+html.dark .trace-panel.api{background:rgba(180,83,9,.12);border-color:#B45309}
+html.dark .trace-panel.ui{background:rgba(5,150,105,.12);border-color:#15803D}
+/* Path cards */
+html.dark .path-card.green{background:rgba(5,150,105,.11)}
+html.dark .path-card.amber{background:rgba(180,83,9,.11)}
+html.dark .path-card.blue{background:rgba(37,99,235,.11)}
+html.dark .path-node.green,html.dark .path-node.amber,html.dark .path-node.blue{background:var(--surface);border-color:var(--border-strong)}
+/* Promo badges */
+html.dark .promo-badge.ok,html.dark .promo-badge.fail{background:var(--surface)}
+/* Txn compare */
+html.dark .txn-col-head{border-bottom-color:rgba(255,255,255,.08)}
+/* Tier cards (Setup page) */
+html.dark .tier-card{background:var(--surface)}
+/* Insights pill dark override */
+html.dark .tz-pill.insights{background:rgba(99,102,241,.22);color:#818CF8}
+/* Dark mode toggle button */
+.dm-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r-xs);color:var(--text3);background:none;border:1px solid var(--border);cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);flex-shrink:0;margin-right:2px}
+.dm-btn:hover{background:var(--surface);color:var(--text);border-color:var(--border-strong)}
+
+/* ═══ COPY BUTTON ══════════════════════════════════════════════ */
+.sim-result{background:rgba(255,255,255,.55)}
+.step-dot{width:7px;height:7px;border-radius:50%;background:#CBD5E1;flex-shrink:0;margin-top:8px}
+.sr-val-row{display:flex;align-items:center;gap:6px}
+.copy-btn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;border:1px solid var(--border);background:var(--white);color:var(--text3);cursor:pointer;flex-shrink:0;padding:2px;opacity:0;pointer-events:none;transition:all .15s}
+.sim-result:hover .copy-btn,.copy-btn.copied{opacity:1;pointer-events:auto}
+.copy-btn:hover{background:var(--surface);color:var(--text2)}
+.copy-btn.copied{color:var(--green);border-color:var(--green-border)}
+
+/* ═══ PASTE / EPOCH INPUT ══════════════════════════════════════ */
+.imt-wrap{display:flex;gap:4px;margin-bottom:6px}
+.imt-btn{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--r-xs);border:1px solid var(--border);background:var(--white);color:var(--text3);cursor:pointer;transition:all .15s;line-height:1.4}
+.imt-btn:hover{background:var(--surface)}
+.imt-btn.on{background:var(--blue-light);color:var(--blue);border-color:var(--blue-border)}
+.paste-input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:var(--r-xs);background:var(--white);color:var(--text);font:12px/1 'SF Mono',Monaco,monospace;transition:border-color .15s}
+.paste-input:focus{outline:none;border-color:var(--blue)}
+.paste-input::placeholder{color:var(--text3);font-family:inherit}
+
+/* ═══ GLOSSARY TOOLTIPS ════════════════════════════════════════ */
+.gls{border-bottom:1px dashed var(--text3);cursor:help;position:relative;display:inline}
+.gls::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:#1E293B;color:#F1F5F9;font-size:11px;line-height:1.55;padding:7px 11px;border-radius:7px;width:max-content;max-width:240px;white-space:normal;z-index:700;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .15s;font-weight:400;font-style:normal;text-align:left;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.gls:hover::after{opacity:1;visibility:visible}
+html.dark .gls::after{background:#F1F5F9;color:#0F172A;box-shadow:0 4px 14px rgba(0,0,0,.5)}
 </style>
 </head>
 <body>
@@ -401,6 +585,9 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
     <span class="nav-btn" id="nb-faq" onclick="showView('faq')">FAQ</span>
   </div>
   <div class="nav-right">
+    <button class="dm-btn" id="dmBtn" onclick="toggleDark()" title="Toggle dark mode">
+      <svg id="dmIco" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
     <div class="live-dot"></div>
     <span id="navClock">--:--:-- IST</span>
   </div>
@@ -414,7 +601,7 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
     <div class="hero">
       <div class="hero-eyebrow">Capillary Platform</div>
       <div class="hero-title">Timezone reference for every module</div>
-      <div class="hero-sub">Dates behave differently across modules. Click any module to see a visual flow of how timestamps travel, test behavior with your own inputs, and understand API interactions.</div>
+      <div class="hero-sub">The same date can look different in InTouch versus the API — and the behavior varies across modules. This guide explains why, so your team always knows what time they're actually looking at.</div>
     </div>
 
     <!-- 3 Concepts -->
@@ -422,21 +609,41 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
       <div class="cc">
         <div class="cc-top"><div class="cc-dot g"></div><div class="cc-tag">Org Timezone</div></div>
         <div class="cc-title">Your company's clock</div>
-        <div class="cc-desc">Set in Organization Settings. Most UI screens display dates in this timezone — what your team sees in InTouch.</div>
+        <div class="cc-desc">Set in Organization Settings. Every InTouch screen — promotions, members, journeys — shows dates in this timezone. When your team says "9 AM", this is whose 9 AM they mean.</div>
         <code class="cc-eg">Asia/Kolkata · Asia/Singapore · UTC</code>
       </div>
       <div class="cc">
         <div class="cc-top"><div class="cc-dot a"></div><div class="cc-tag">Server Timezone</div></div>
-        <div class="cc-title">Where your data lives</div>
-        <div class="cc-desc">The timezone of the Capillary server cluster. All GET API responses return timestamps in this timezone.</div>
-        <code class="cc-eg">India +05:30 · EU UTC · APAC +08:00 · US −05:00</code>
+        <div class="cc-title">What the API sends back</div>
+        <div class="cc-desc">Capillary servers run in data centers with their own clocks. Every API response uses the server's timezone — regardless of your org's timezone. India cluster = IST, EU = UTC.</div>
+        <code class="cc-eg">India +05:30 · EU UTC · APAC2 +08:00 · US ~−05:00</code>
       </div>
       <div class="cc">
         <div class="cc-top"><div class="cc-dot b"></div><div class="cc-tag">Input Timezone</div></div>
-        <div class="cc-title">Offset you send in</div>
-        <div class="cc-desc">When you POST with an ISO 8601 offset, Capillary stores it. The promotion engine uses it to evaluate time-window rules.</div>
-        <code class="cc-eg">2026-01-23T09:00:00+05:30 → offset stored</code>
+        <div class="cc-title">Timezone you include when sending</div>
+        <div class="cc-desc">When sending a date to Capillary via API, include your timezone (+05:30 for IST, Z for UTC). Without it, Capillary can't tell which 9 AM you mean — and promotions can fire at the wrong time.</div>
+        <code class="cc-eg">2026-01-23T09:00:00+05:30 → IST stored ✓</code>
       </div>
+    </div>
+
+    <!-- Primer strip -->
+    <div class="tz-primer">
+      <div class="tz-primer-label">The key thing to know before you start</div>
+      <p class="tz-primer-headline">InTouch and the API show the same event at different times — and that's by design.</p>
+      <div class="tz-primer-row">
+        <div class="tz-primer-item">
+          <div class="tz-primer-source">InTouch (what your team sees)</div>
+          <div class="tz-primer-val tz-pv-green">23 Jan 2026 · 09:00 IST</div>
+          <div class="tz-primer-context">Converted to org timezone for display</div>
+        </div>
+        <div class="tz-primer-eq">≠</div>
+        <div class="tz-primer-item">
+          <div class="tz-primer-source">API response (what a developer gets)</div>
+          <div class="tz-primer-val tz-pv-amber">2026-01-23T03:30:00+00:00</div>
+          <div class="tz-primer-context">Server timezone — same moment, different clock</div>
+        </div>
+      </div>
+      <p class="tz-primer-footer">Both are correct — they represent the same point in time. The modules below show which timezone each feature uses and where the gaps are.</p>
     </div>
 
     <!-- Module Grid -->
@@ -585,6 +792,9 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
 
 </div>
 
+<!-- CONFIG INFO POPOVER -->
+<div id="cfgPopover" class="cfg-popover"></div>
+
 <!-- BOTTOM CLOCK BAR -->
 <div class="clock-bar">
   <div class="cb-label"><div class="live-dot"></div>Live Clocks</div>
@@ -595,25 +805,20 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
 // ─── DATA ───
 const MODS = [
   {name:'Member Care',icon:'👥',tz:'org',scope:'Customer Support',excl:false,
-   short:'All timestamps shown in org TZ. Agents can switch via dropdown.',
+   short:'All timestamps shown in org TZ by default. Agents can switch via dropdown.',
    rows:[
      {lbl:'Customer timestamps',tz:'org'},
      {lbl:'Interaction dates',tz:'org'},
      {lbl:'Points & tier dates',tz:'org'},
-     {lbl:'GET API response',tz:'server'},
    ],
-   plain:'When support looks up a customer, all timestamps show in your org timezone. Agents can switch to any supported timezone via dropdown.',
-   note:'Before this fix, interaction timestamps showed in the cluster timezone. Now always org timezone.',
-   gotcha:'',
-   apis:[
-     {field:'Customer timestamps',fmt:'ISO 8601 + server TZ offset',note:'UI re-converts to org TZ for display'},
-     {field:'Interaction dates',fmt:'Org timezone in UI',note:''},
-     {field:'Points & tier dates',fmt:'Org timezone in UI',note:'Selectable via dropdown'},
-   ]},
+   plain:'Member Care is a UI viewer — it displays data from other modules\' APIs but has no dedicated Member Care API of its own. All timestamps show in your org timezone by default. Agents can switch to any supported timezone via the dropdown.',
+   note:'UI only — no dedicated Member Care API documented in CapDoc. Displays data sourced from customer, transaction, and loyalty APIs, all converted to org TZ for display.',
+   gotcha:'Agents can switch the viewing timezone via a dropdown in Member Care. The available timezones come from the supported timezones configured in Organization Settings.',
+   apis:[]},
   {name:'Promotions',icon:'🎯',tz:'mixed',scope:'Loyalty Promotions',excl:false,
    short:'Duration column = creation TZ. "Updated at" = org TZ. GET always returns server TZ — UI re-converts using timezoneName.',
    rows:[
-     {lbl:'POST startDate / endDate',tz:'org'},
+     {lbl:'POST startDate / endDate',tz:'creation'},
      {lbl:'GET startDate / endDate',tz:'server'},
      {lbl:'GET timezoneName (creation label)',tz:'creation'},
      {lbl:'Duration column (UI)',tz:'creation'},
@@ -622,47 +827,43 @@ const MODS = [
    plain:'You pick a timezone at creation. POST sends startDate with that offset + timezoneName label. BUT the GET API always returns startDate/endDate in server TZ — not creation TZ. InTouch UI uses the stored timezoneName to re-display the Duration column in creation TZ. "Updated at" always uses org TZ.',
    note:'GET always returns dates in server TZ. UI uses timezoneName to re-display Duration in creation TZ.',
    gotcha:'GET startDate/endDate are in SERVER TZ — not the timezone you created in. The Duration column looks correct because InTouch UI re-converts using timezoneName. Always check timezoneName in the GET response to know the creation timezone.',
+   docUrl:'https://docs.capillarytech.com/reference/create-a-loyalty-promotion',
    apis:[
-     {field:'POST startDate / endDate',fmt:'ISO 8601 + creation TZ offset',note:'e.g. 2025-12-01T00:00:00+05:30 — send with your creation timezone offset'},
-     {field:'POST timezoneName',fmt:'IANA timezone name',note:'e.g. "Asia/Kolkata" — stored as label alongside the epoch'},
-     {field:'GET startDate / endDate',fmt:'Server TZ always',note:'⚠ API always returns in server cluster TZ — offset reflects server, not creation TZ'},
-     {field:'GET timezoneName',fmt:'Creation TZ label (preserved)',note:'UI uses this to re-display Duration column in creation TZ'},
-     {field:'GET lastModifiedOn',fmt:'Server TZ always',note:'Drives "Updated at" — UI converts to org TZ for display'},
-     {field:'enrollmentDateISO / issualDateISO',fmt:'Server TZ — ISO 8601',note:'Customer enrollment/issuance dates; use ISO fields over deprecated ones'},
+     {field:'POST startDate / endDate',fmt:'ISO 8601 + creation TZ offset',note:'e.g. 2025-12-01T00:00:00+05:30 — send with your creation timezone offset',url:'https://docs.capillarytech.com/reference/create-a-loyalty-promotion'},
+     {field:'POST timezoneName',fmt:'IANA timezone name',note:'e.g. "Asia/Kolkata" — stored as label alongside the epoch',url:'https://docs.capillarytech.com/reference/create-a-loyalty-promotion'},
+     {field:'GET startDate / endDate',fmt:'Server TZ always',note:'Legacy — will be deprecated. Use startDateISO / endDateISO for new integrations',url:'https://docs.capillarytech.com/reference/get-loyalty-promotion-all'},
+     {field:'GET startDateISO / endDateISO',fmt:'Server TZ — ISO 8601',note:'Recommended — use over legacy startDate / endDate',url:'https://docs.capillarytech.com/reference/get-loyalty-promotion-all'},
+     {field:'GET timezoneName',fmt:'Creation TZ label (preserved)',note:'UI uses this to re-display Duration column in creation TZ',url:'https://docs.capillarytech.com/reference/get-loyalty-promotion-all'},
+     {field:'GET lastModifiedOn',fmt:'Server TZ always',note:'Drives "Updated at" — UI converts to org TZ for display',url:'https://docs.capillarytech.com/reference/get-loyalty-promotion-all'},
+     {field:'enrollmentDateISO / issualDateISO',fmt:'Server TZ — ISO 8601',note:'Customer enrollment/issuance dates; use ISO fields — legacy fields will be deprecated',url:'https://docs.capillarytech.com/reference/get-promotion-data-list-for-a-customer'},
    ]},
   {name:'Campaigns',icon:'📢',tz:'org',scope:'Engage+',excl:false,
    short:"All campaign dates locked to org timezone — no option to change.",
    rows:[
      {lbl:'All date fields',tz:'org'},
-     {lbl:'GET API response',tz:'server'},
    ],
    plain:"All campaign dates are in org timezone. No option to change — it's locked.",
-   note:'',gotcha:'',
-   apis:[{field:'All date fields',fmt:'Org timezone',note:'Fixed, not selectable'}]},
+   note:'UI only — no public GET API documented.',gotcha:'',
+   apis:[]},
   {name:'Journeys',icon:'🗺️',tz:'org',scope:'Customer Journeys',excl:false,
    short:'Listing and detail page dates shown in org timezone.',
    rows:[
      {lbl:'Listing dates',tz:'org'},
      {lbl:'Detail page dates',tz:'org'},
-     {lbl:'GET API response',tz:'server'},
    ],
    plain:'All journey listing and detail page dates are shown in org timezone.',
-   note:'',gotcha:'',
-   apis:[{field:'Listing & detail dates',fmt:'Org timezone',note:''}]},
+   note:'UI only — no public GET API documented.',gotcha:'',
+   apis:[]},
   {name:'Audience',icon:'🎪',tz:'mixed',scope:'Audience Management',excl:false,
    short:'Listings show in org TZ. Date range filters use server UTC — common gotcha.',
    rows:[
      {lbl:'Audience listings',tz:'org'},
-     {lbl:'Date range filters',tz:'warn'},
-     {lbl:'GET API response',tz:'server'},
+     {lbl:'Date range filters',tz:'server'},
    ],
    plain:'The audience list shows in org timezone. BUT — date range filters are interpreted in server time (UTC). This is the most common gotcha.',
-   note:'',
+   note:'UI only — no public GET API documented.',
    gotcha:'Audience date filters use SERVER TIME (UTC) — not org timezone. A filter for "Jan 23" means Jan 23 UTC midnight.',
-   apis:[
-     {field:'Audience listings',fmt:'Org timezone',note:''},
-     {field:'Date range filters',fmt:'Server time (UTC) ⚠',note:'Common source of data discrepancies'},
-   ]},
+   apis:[]},
   {name:'Cart Promotions',icon:'🛒',tz:'org',scope:'Promotions',excl:false,
    short:'Creation and listing dates follow org timezone. Use validTillISO field.',
    rows:[
@@ -671,30 +872,44 @@ const MODS = [
    ],
    plain:'All dates during creation and listing follow your org timezone.',
    note:'',gotcha:'',
-   apis:[{field:'validTill → validTillISO',fmt:'Org timezone',note:'Use the ISO field'}]},
+   docUrl:'https://docs.capillarytech.com/reference/get_all_cart_promotion_details_',
+   apis:[{field:'validTill → validTillISO',fmt:'Server TZ — ISO 8601',note:'Use the ISO field',url:'https://docs.capillarytech.com/reference/get-promotions-code-api'}]},
   {name:'Streaks',icon:'🔥',tz:'org',scope:'Gamification',excl:false,
-   short:'Streak setup and listing dates shown in org timezone.',
+   short:'UI shows org timezone. GET API (targetGroups) returns dates in server TZ via ISO fields.',
    rows:[
      {lbl:'All dates in UI',tz:'org'},
      {lbl:'GET API response',tz:'server'},
    ],
-   plain:'Streak setup and listing dates show in org timezone.',
+   plain:'Streak setup and listing dates show in org timezone in InTouch. The GET API (GET /api_gateway/v1/targetGroups) returns all dates in server timezone via ISO 8601 fields.',
    note:'',gotcha:'',
-   apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
+   docUrl:'https://docs.capillarytech.com/reference/get-target-groups-all',
+   apis:[
+     {field:'targetCycleStartDate → targetCycleStartDateISO',fmt:'Server TZ — ISO 8601',note:'Streak cycle start — use ISO field; legacy will be deprecated',url:'https://docs.capillarytech.com/reference/get-target-groups-all'},
+     {field:'targetCycleEndDate → targetCycleEndDateISO',  fmt:'Server TZ — ISO 8601',note:'Streak cycle end — use ISO field; legacy will be deprecated',url:'https://docs.capillarytech.com/reference/get-target-groups-all'},
+     {field:'streakAchievedDateTime → streakAchievedDateTimeISO',fmt:'Server TZ — ISO 8601',note:'When the streak was achieved by the user',url:'https://docs.capillarytech.com/reference/getusertargetgroupdetails'},
+     {field:'attribution.createdOn → createdOnISO',        fmt:'Server TZ — ISO 8601',note:'Target group creation date — use ISO field',url:'https://docs.capillarytech.com/reference/get-target-groups-all'},
+   ]},
   {name:'Milestones',icon:'🏆',tz:'org',scope:'Gamification',excl:false,
-   short:'All milestone dates are in org timezone.',
+   short:'UI shows org timezone. GET API (targetGroups) returns dates in server TZ via ISO fields.',
    rows:[
      {lbl:'All dates in UI',tz:'org'},
      {lbl:'GET API response',tz:'server'},
    ],
-   plain:'Milestone dates are all in org timezone.',
+   plain:'Milestone dates show in org timezone in InTouch. The GET API (GET /api_gateway/v1/targetGroups) returns all dates in server timezone via ISO 8601 fields.',
    note:'',gotcha:'',
-   apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
+   docUrl:'https://docs.capillarytech.com/reference/get-target-groups-all',
+   apis:[
+     {field:'targetCycleStartDate → targetCycleStartDateISO',fmt:'Server TZ — ISO 8601',note:'Milestone cycle start — use ISO field; legacy will be deprecated',url:'https://docs.capillarytech.com/reference/get-target-groups-all'},
+     {field:'targetCycleEndDate → targetCycleEndDateISO',  fmt:'Server TZ — ISO 8601',note:'Milestone cycle end — use ISO field; legacy will be deprecated',url:'https://docs.capillarytech.com/reference/get-target-groups-all'},
+     {field:'enrolledOn → enrolledOnISO',                  fmt:'Server TZ — ISO 8601',note:'Customer enrollment date',url:'https://docs.capillarytech.com/reference/getusertargetgroupdetails'},
+     {field:'targetAchievedDateTime → targetAchievedDateTimeISO',fmt:'Server TZ — ISO 8601',note:'When the target was achieved by the user',url:'https://docs.capillarytech.com/reference/getusertargetgroupdetails'},
+     {field:'attribution.createdOn → createdOnISO',        fmt:'Server TZ — ISO 8601',note:'Target group creation date — use ISO field',url:'https://docs.capillarytech.com/reference/get-target-groups-all'},
+   ]},
   {name:'Offers / Gift Vouchers',icon:'🎁',tz:'org',scope:'Incentives',excl:true,
    short:'UI shows org TZ. API is not timezone-standardized (excluded).',
    rows:[
      {lbl:'UI display',tz:'org'},
-     {lbl:'API fields',tz:'warn'},
+     {lbl:'API fields',tz:'na'},
    ],
    plain:'Offer dates show in org timezone in the UI. However, Offers are excluded from full timezone standardization — the API is not standardized.',
    note:'Offers (UI & API) excluded from standardization scope.',gotcha:'',
@@ -703,33 +918,38 @@ const MODS = [
    short:'All alternate currency dates show in org timezone.',
    rows:[
      {lbl:'All dates in UI',tz:'org'},
-     {lbl:'GET API response',tz:'server'},
    ],
    plain:'All alternate currency dates show in org timezone.',
-   note:'',gotcha:'',
-   apis:[{field:'All dates',fmt:'Org timezone',note:''}]},
+   note:'UI only — no public GET API documented.',gotcha:'',
+   apis:[]},
   {name:'Gift Cards',icon:'🎴',tz:'org',scope:'Incentives',excl:false,
    short:'Dates shown in org TZ. Use createdDateTimeISO — not createdDate.',
    rows:[
      {lbl:'All dates in UI',tz:'org'},
-     {lbl:'GET API (createdDateTimeISO)',tz:'server'},
+     {lbl:'createdDateTimeISO (via customer API)',tz:'server'},
    ],
    plain:'Gift card dates shown in org timezone across creation and listing.',
    note:'',gotcha:'',
-   apis:[{field:'createdDate → createdDateTimeISO',fmt:'Org timezone',note:'Use ISO field'}]},
+   docUrl:'https://docs.capillarytech.com/reference/get-card-details',
+   apis:[
+     {field:'issuedDate',                          fmt:'Server TZ — ISO 8601',note:'GET /v2/card — card issue date in ISO 8601 format',url:'https://docs.capillarytech.com/reference/get-card-details'},
+     {field:'createdDate → createdDateTimeISO',    fmt:'Server TZ — ISO 8601',note:'GET /v2/customers/{id} — legacy createdDate (date only) replaced by createdDateTimeISO with full timestamp',url:'https://docs.capillarytech.com/reference/get-customer-details'},
+     {field:'autoUpdateTime → autoUpdateTimeISO',  fmt:'Server TZ — ISO 8601',note:'Card status modification date — use ISO field; legacy will be deprecated',url:'https://docs.capillarytech.com/reference/get-customer-details'},
+   ]},
   {name:'Rewards Catalog',icon:'🏅',tz:'server',scope:'Rewards',excl:true,
    short:'Daily limits reset at SERVER midnight by default. Flag needed to fix.',
    rows:[
-     {lbl:'Daily limit resets',tz:'warn'},
+     {lbl:'Daily limit resets',tz:'warn',config:'CONF_ENABLE_ORG_TIMEZONE'},
      {lbl:'startTime / endTime (POST)',tz:'server'},
-     {lbl:'Marvel UI',tz:'warn'},
+     {lbl:'Marvel UI',tz:'na'},
    ],
    plain:"By default, all reward timing uses the server's timezone. Daily limits reset at server midnight — not your local midnight. Enable a config flag to fix this.",
    note:'Marvel UI has no timezone changes yet.',
    gotcha:'Daily limits reset at SERVER MIDNIGHT by default. If server is India IST but org is Dubai, limits reset 1.5 hrs early. Enable CONF_ENABLE_ORG_TIMEZONE to fix.',
+   docUrl:'https://docs.capillarytech.com/reference/timezone-in-rewards-catalog',
    apis:[
-     {field:'startTime / endTime (POST)',fmt:'Send in UTC always',note:'Rewards Catalog API requires UTC input'},
-     {field:'Daily limit resets',fmt:'Server midnight (default)',note:'Enable flag for org midnight'},
+     {field:'startTime / endTime (POST)',fmt:'Send in UTC always',note:'Rewards Catalog API requires UTC input',url:'https://docs.capillarytech.com/reference/post-create-reward'},
+     {field:'Daily limit resets',fmt:'Server midnight (default)',note:'Enable flag for org midnight',url:'https://docs.capillarytech.com/reference/timezone-in-rewards-catalog'},
      {field:'Marvel UI',fmt:'Not updated yet',note:'Still follows server timezone entirely'},
    ]},
   {name:'Insights',icon:'📊',tz:'na',scope:'Reporting',excl:true,
@@ -752,38 +972,96 @@ const MODS = [
    plain:"When a POS transaction is posted via POST /v2/transactions, billingDate must include a timezone offset. The promotion engine uses billingTimeInputOffset from the GET response to reconstruct the customer's local time and evaluate time-window rules. Without the offset, the engine defaults to server UTC — causing time-window promotions to silently miss.",
    note:'Always send billingDate with offset: e.g. 2026-01-23T09:00:00+05:30',
    gotcha:"If billingDate has no offset, the promotion engine cannot reconstruct local time. Time-window promotions (e.g. '9–11 AM') will silently evaluate against server UTC instead of the customer's local time — causing missed promotions.",
+   docUrl:'https://docs.capillarytech.com/reference/add-transaction-single',
    apis:[
-     {field:'billingDate (POST body)',fmt:'ISO 8601 + local offset',note:'Required — e.g. 2026-01-23T09:00:00+05:30'},
-     {field:'billingTime (GET response)',fmt:'Server cluster TZ always',note:'Same moment expressed in server TZ'},
-     {field:'billingTimeInputOffset (GET)',fmt:'Original input offset preserved',note:'Used by promotion engine to reconstruct local time'},
-     {field:'awardedOnISO (GET)',fmt:'Server TZ — ISO 8601',note:'Use over deprecated awardedOn field'},
-     {field:'expiresOnISO (GET)',fmt:'Server TZ — ISO 8601',note:'Use over deprecated expiresOn field'},
+     {field:'billingDate (POST body)',fmt:'ISO 8601 + local offset',note:'Required — e.g. 2026-01-23T09:00:00+05:30',url:'https://docs.capillarytech.com/reference/add-transaction-single'},
+     {field:'billingTime (GET response)',fmt:'Server cluster TZ always',note:'Same moment expressed in server TZ',url:'https://docs.capillarytech.com/reference/retrieve-transaction-details-with-bill-number'},
+     {field:'billingTimeInputOffset (GET)',fmt:'Original input offset preserved',note:'Used by promotion engine to reconstruct local time',url:'https://docs.capillarytech.com/reference/handling-datetime-in-apis'},
+     {field:'awardedOnISO (GET)',fmt:'Server TZ — ISO 8601',note:'Use over deprecated awardedOn field',url:'https://docs.capillarytech.com/reference/get-points-ledger-explode-info'},
+     {field:'expiresOnISO (GET)',fmt:'Server TZ — ISO 8601',note:'Use over deprecated expiresOn field',url:'https://docs.capillarytech.com/reference/get-points-ledger-explode-info'},
    ]},
+
 ];
 
+// ─── MODULE SVG ICONS (Lucide-style, 24×24 viewBox) ───
+const MODULE_ICONS = {
+  'Member Care':
+    '<circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="m16 11 2 2 4-4"/>',
+  'Promotions':
+    '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+  'Campaigns':
+    '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
+  'Journeys':
+    '<line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+  'Audience':
+    '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  'Cart Promotions':
+    '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
+  'Streaks':
+    '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  'Milestones':
+    '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+  'Offers / Gift Vouchers':
+    '<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+  'Alternate Currency':
+    '<circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/>',
+  'Gift Cards':
+    '<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/><line x1="12" y1="4" x2="12" y2="10"/>',
+  'Rewards Catalog':
+    '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  'Insights':
+    '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+  'Transaction Promotions':
+    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+};
+function modIcoSvg(name, size) {
+  const paths = MODULE_ICONS[name];
+  if (!paths) return '';
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+}
+
+// Cluster names match CapDoc (India / US / EU / APAC2).
+// Offsets reflect typical server locations; US may vary ±1h during DST.
 const CLUSTERS = [
-  {name:'India',    tz:'Asia/Kolkata',    off:'+05:30'},
-  {name:'EU',       tz:'Europe/London',   off:'+00:00'},
-  {name:'APAC / SG',tz:'Asia/Singapore',  off:'+08:00'},
-  {name:'US',       tz:'America/New_York',off:'−05:00'},
-  {name:'China',    tz:'Asia/Shanghai',   off:'+08:00'},
+  {name:'India',     tz:'Asia/Kolkata',    off:'+05:30'},
+  {name:'EU',        tz:'Europe/London',   off:'+00:00'},
+  {name:'APAC2 / SG',tz:'Asia/Singapore',  off:'+08:00'},
+  {name:'US',        tz:'America/New_York',off:'−05:00 *'},
 ];
 
 const SHADOWS = [
-  {old:'expiryDate',       iso:'expiryDateISO',         api:'Points Expiry'},
-  {old:'expiryChangeTime', iso:'expiryChangeTimeISO',   api:'Points Expiry Updates'},
-  {old:'awardedOn',        iso:'awardedOnISO',          api:'Points Ledger'},
-  {old:'expiresOn',        iso:'expiresOnISO',          api:'Points Ledger'},
-  {old:'enrollmentDate',   iso:'enrollmentDateISO',     api:'Promotions for Customer'},
-  {old:'issualDate',       iso:'issualDateISO',         api:'Promotions for Customer'},
-  {old:'enrolledOn',       iso:'enrolledOnISO',         api:'Target Groups'},
-  {old:'startOn',          iso:'startOnISO',            api:'Badges / Promotions'},
-  {old:'validTill',        iso:'validTillISO',          api:'Cart Promotions'},
-  {old:'createdDate',      iso:'createdDateTimeISO',    api:'Customer Card Details'},
-  {old:'autoUpdateTime',   iso:'autoUpdateTimeISO',     api:'Customer Status'},
+  {old:'expiryDate',            iso:'expiryDateISO',              api:'Points Expiry'},
+  {old:'expiryChangeTime',      iso:'expiryChangeTimeISO',        api:'Points Expiry Updates'},
+  {old:'awardedOn',             iso:'awardedOnISO',               api:'Points Ledger'},
+  {old:'expiresOn',             iso:'expiresOnISO',               api:'Points Ledger'},
+  {old:'enrollmentDate',        iso:'enrollmentDateISO',          api:'Promotions for Customer'},
+  {old:'enrollmentExpiryDate',  iso:'enrollmentExpiryDateISO',    api:'Promotions for Customer'},
+  {old:'issualDate',            iso:'issualDateISO',              api:'Promotions for Customer'},
+  {old:'issualExpiryDate',      iso:'issualExpiryDateISO',        api:'Promotions for Customer'},
+  {old:'startDate',             iso:'startDateISO',               api:'Promotions'},
+  {old:'endDate',               iso:'endDateISO',                 api:'Promotions'},
+  {old:'enrolledOn',              iso:'enrolledOnISO',                    api:'Target Groups'},
+  {old:'targetCycleStartDate',   iso:'targetCycleStartDateISO',         api:'Streaks / Milestones'},
+  {old:'targetCycleEndDate',     iso:'targetCycleEndDateISO',           api:'Streaks / Milestones'},
+  {old:'streakAchievedDateTime', iso:'streakAchievedDateTimeISO',       api:'Streaks'},
+  {old:'targetAchievedDateTime', iso:'targetAchievedDateTimeISO',       api:'Milestones'},
+  {old:'startOn',               iso:'startOnISO',                       api:'Badges / Promotions'},
+  {old:'validTill',             iso:'validTillISO',               api:'Cart Promotions'},
+  {old:'createdDate',           iso:'createdDateTimeISO',         api:'Customer API'},
+  {old:'autoUpdateTime',        iso:'autoUpdateTimeISO',          api:'Customer Status'},
+  {old:'eventDate',             iso:'eventDateISO',               api:'Transactions'},
+  {old:'eventProcessedDate',    iso:'eventProcessedDateISO',      api:'Transactions'},
+  {old:'pointsNewExpiryDate',  iso:'pointsNewExpiryDateISO',     api:'Points Expiry Updates'},
+  {old:'pointsOldExpiryDate',  iso:'pointsOldExpiryDateISO',     api:'Points Expiry Updates'},
+  {old:'oldExpiryDate',        iso:'oldExpiryDateISO',           api:'Update Points Expiry'},
+  {old:'newExpiryDate',        iso:'newExpiryDateISO',           api:'Update Points Expiry'},
 ];
 
 const FAQS = [
+  {q:"I'm new here. What's the one thing I need to understand about timezones in Capillary?",
+   a:"Think of it as <strong>two clocks</strong>, not one.<br><br><strong>Clock 1 — Org timezone:</strong> This is what your team configured in Organization Settings. Every screen in InTouch (promotions, members, journeys) shows dates in this timezone. When your team says '9 AM', this is whose 9 AM they mean.<br><br><strong>Clock 2 — Server timezone:</strong> Capillary's data centers run on their own clock — India IST, EU UTC, etc. When a developer pulls data via API, dates come back in this timezone, not your org's.<br><br>These two clocks can be hours apart. That gap is the source of most timezone confusion. The modules in this guide show which clock each feature uses and where the tricky parts are."},
+  {q:"Why does InTouch show a different time than what the API returns?",
+   a:"InTouch <strong>converts</strong> every date to your org timezone before displaying it — so your team always sees familiar local times. The API returns dates in the <strong>server's timezone</strong> — it doesn't know (or care) about your org's timezone.<br><br>Example: a customer enrolls at 9:00 AM IST.<br>InTouch shows: <code>23 Jan 2026 · 09:00 IST</code><br>API returns: <code>2026-01-23T03:30:00+00:00</code> (server UTC)<br><br>Same moment. Different clock. Neither is wrong — they're just different representations of the same point in time."},
   {q:"Why do my promotion dates look different on the listing vs when I created it?",
    a:"Promotions show <strong>two different timezones</strong> intentionally. The <em>Duration</em> column uses the timezone you chose at creation. The <em>Updated at</em> column always shows org timezone. If you created in GMT but org is IST, listing shows GMT for duration and IST for 'Updated at'."},
   {q:"Why does my reward daily limit reset at the wrong time?",
@@ -804,17 +1082,55 @@ const FAQS = [
    a:"Explicitly excluded: <strong>Insights</strong>, <strong>Badges UI</strong>, <strong>Offers (UI &amp; API)</strong>, <strong>Rewards Catalog / Marvel UI</strong>, all <strong>v1 APIs</strong>, and values inside <code>extendedFields</code>."},
 ];
 
+// ─── CONFIG INFO POPOVER ───
+const CONFIG_INFO = {
+  'CONF_ENABLE_ORG_TIMEZONE': {
+    title: 'Config-driven behavior',
+    key: 'CONF_ENABLE_ORG_TIMEZONE',
+    rows: [
+      {state:'Default (OFF)', desc:'Daily limits reset at <strong>server midnight</strong>. Reward timing uses server TZ — may not align with your business day.'},
+      {state:'Enabled (ON)', desc:'Daily limits reset at <strong>org midnight</strong>. All reward timing follows your org timezone exactly.'},
+    ],
+    footer:'To enable on older orgs: raise a support ticket with Capillary Product Support.'
+  }
+};
+function showCfgInfo(e, key) {
+  e.stopPropagation();
+  const info = CONFIG_INFO[key];
+  if (!info) return;
+  const pop = document.getElementById('cfgPopover');
+  pop.innerHTML = `
+    <button class="cfg-pop-close" onclick="hideCfgInfo()">✕</button>
+    <div class="cfg-pop-title">${info.title}</div>
+    <div><span class="cfg-pop-key">${info.key}</span></div>
+    <table class="cfg-pop-table">${info.rows.map(r=>`<tr><td>${r.state}</td><td>${r.desc}</td></tr>`).join('')}</table>
+    <div class="cfg-pop-footer">${info.footer}</div>`;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const left = Math.min(rect.left, window.innerWidth - 330);
+  pop.style.top = (rect.bottom + 8) + 'px';
+  pop.style.left = left + 'px';
+  pop.classList.add('on');
+}
+function hideCfgInfo() {
+  document.getElementById('cfgPopover').classList.remove('on');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#cfgPopover, .cfg-tag')) hideCfgInfo();
+});
+
 // ─── HELPERS ───
 function tzLabel(tz) {
-  return {org:'Org TZ', server:'Server TZ', creation:'Creation TZ', na:'Legacy', warn:'⚠ Varies'}[tz] || tz;
+  return {org:'Org TZ', server:'Server TZ', creation:'Creation TZ', na:'Legacy', warn:'Config-driven'}[tz] || tz;
 }
 function tzPill(tz, excl) {
   if (excl) return `<span class="tz-pill excl">Excluded</span>`;
   const M = {
-    org:   `<span class="tz-pill org">Org TZ</span>`,
-    server:`<span class="tz-pill server">Server TZ</span>`,
-    mixed: `<span class="tz-pill mixed">Mixed TZ</span>`,
-    na:    `<span class="tz-pill na">Not Standardized</span>`,
+    org:      `<span class="tz-pill org">Org TZ</span>`,
+    server:   `<span class="tz-pill server">Server TZ</span>`,
+    mixed:    `<span class="tz-pill mixed">Mixed TZ</span>`,
+    na:       `<span class="tz-pill na">Not Standardized</span>`,
+    txn:      `<span class="tz-pill txn">Input TZ</span>`,
+    insights: `<span class="tz-pill insights">IST · Server</span>`,
   };
   return M[tz] || tz;
 }
@@ -865,22 +1181,99 @@ function renderMods() {
   grid.innerHTML = list.map(m => {
     const idx = MODS.indexOf(m);
     const cls = m.tz==='na'?'na':m.tz;
-    const rowsHtml = (m.rows||[]).map(r =>
-      `<div class="mc-row"><span class="mc-row-lbl">${r.lbl}</span><span class="tz-mini ${r.tz}">${tzLabel(r.tz)}</span></div>`
-    ).join('');
-    return `<div class="mod-card" onclick="openMod(${idx})">
+    const rowsHtml = (m.rows||[]).map(r => {
+      const tag = (r.tz === 'warn' && r.config)
+        ? `<button class="tz-mini warn cfg-tag" onclick="showCfgInfo(event,'${r.config}')">${tzLabel(r.tz)}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;opacity:.7"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></button>`
+        : `<span class="tz-mini ${r.tz}">${tzLabel(r.tz)}</span>`;
+      return `<div class="mc-row"><span class="mc-row-lbl">${r.lbl}</span>${tag}</div>`;
+    }).join('');
+    return `<div class="mod-card mc-${cls}${m.excl?' excl':''}" onclick="openMod(${idx})">
       <div class="mc-head">
         <div class="mc-left">
-          <div class="mc-ico ${cls}">${m.icon}</div>
+          <div class="mc-ico ${cls}">${modIcoSvg(m.name, 20)}</div>
           <div><div class="mc-name">${m.name}</div><div class="mc-scope">${m.scope}</div></div>
         </div>
         ${tzPill(m.tz, m.excl)}
       </div>
       <div class="mc-desc" style="font-size:12.5px;color:var(--text3);line-height:1.5">${m.short||m.plain}</div>
       ${rowsHtml ? `<div class="mc-rows">${rowsHtml}</div>` : ''}
-      <div class="mc-cta">See how it works <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="mc-cta">Explore module <span class="mc-cta-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
     </div>`;
   }).join('');
+}
+
+// ─── DARK MODE ───
+const SUN = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+const MOON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+function toggleDark() {
+  const on = document.documentElement.classList.toggle('dark');
+  document.getElementById('dmIco').outerHTML = `<span id="dmIco">${on ? SUN : MOON}</span>`;
+  localStorage.setItem('tz-dark', on ? '1' : '0');
+}
+(function initDark() {
+  if (localStorage.getItem('tz-dark') === '1') {
+    document.documentElement.classList.add('dark');
+    document.addEventListener('DOMContentLoaded', () => {
+      const ico = document.getElementById('dmIco');
+      if (ico) ico.outerHTML = `<span id="dmIco">${SUN}</span>`;
+    });
+  }
+})();
+
+// ─── COPY BUTTON ───
+function copyEl(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(`[data-copy="${id}"]`);
+    if (btn) { btn.classList.add('copied'); setTimeout(() => btn.classList.remove('copied'), 1600); }
+  }).catch(() => {});
+}
+
+// ─── PASTE / EPOCH INPUT ───
+function parseRawTS(str) {
+  if (!str) return null;
+  const s = str.trim();
+  if (/^\d{10,13}$/.test(s)) {
+    const n = parseInt(s);
+    return { epoch: s.length <= 10 ? n * 1000 : n, offset: null };
+  }
+  const d = new Date(s);
+  if (!isNaN(d.getTime())) {
+    const m = s.match(/([+-]\d{2}:\d{2})$/);
+    return { epoch: d.getTime(), offset: s.endsWith('Z') ? '+00:00' : (m?.[1] || null) };
+  }
+  return null;
+}
+function setInputMode(idx, mode) {
+  document.getElementById('sfPick'+idx).style.display  = mode==='pick'  ? '' : 'none';
+  document.getElementById('sfPaste'+idx).style.display = mode==='paste' ? '' : 'none';
+  document.getElementById('imtPick'+idx).classList.toggle('on', mode==='pick');
+  document.getElementById('imtPaste'+idx).classList.toggle('on', mode==='paste');
+}
+
+// ─── GLOSSARY ───
+const GLOSSARY = [
+  ['epoch',    'Unix timestamp — milliseconds since 1 Jan 1970 00:00:00 UTC. Timezone-free: represents the exact same moment everywhere on Earth.', /\bepoch\b/gi],
+  ['UTC',      'Coordinated Universal Time — the world\'s primary time standard at offset ±00:00. All time zones are defined relative to UTC.', /\bUTC\b/g],
+  ['IST',      'India Standard Time — UTC+05:30. Capillary\'s India server cluster stores and returns all timestamps in IST.', /\bIST\b/g],
+  ['ISO 8601', 'International datetime format: 2026-01-23T09:00:00+05:30. The ±HH:MM suffix is the timezone offset — always include it in API requests.', /\bISO 8601\b/gi],
+  ['IANA',     'IANA timezone database — the authoritative global source for named timezones like "Asia/Kolkata" or "Europe/London".', /\bIANA\b/g],
+  ['offset',   'The ±HH:MM difference between a local timezone and UTC. e.g. +05:30 = 5 hours 30 minutes ahead of UTC (India IST).', /\boffset\b/gi],
+];
+function glossify(text) {
+  // HTML-escape the plain text first, then wrap terms
+  let html = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  GLOSSARY.forEach(([term, def, re]) => {
+    let done = false;
+    html = html.replace(re, match => {
+      if (done) return match;
+      done = true;
+      return `<span class="gls" data-tip="${def.replace(/"/g,'&quot;')}">${match}</span>`;
+    });
+  });
+  return html;
 }
 
 // ─── MODULE DETAIL ───
@@ -889,12 +1282,14 @@ function openMod(idx) {
   document.getElementById('bc-name').textContent = m.name;
   document.getElementById('dh-name').textContent = m.name;
   document.getElementById('dh-scope').textContent = m.scope;
-  document.getElementById('dh-desc').textContent = m.plain;
+  document.getElementById('dh-desc').innerHTML = glossify(m.plain);
   const ico = document.getElementById('dh-ico');
-  ico.textContent = m.icon;
+  ico.innerHTML = modIcoSvg(m.name, 24) || m.icon;
   ico.className = 'dh-ico mc-ico '+(m.tz==='na'?'na':m.tz);
   document.getElementById('dh-pill').innerHTML = tzPill(m.tz, m.excl);
   document.getElementById('dh-excl').style.display = m.excl ? '' : 'none';
+  // Hide the API reference tab entirely for UI-only modules (no documented GET API)
+  document.getElementById('tb-apis').style.display = m.apis.length ? '' : 'none';
   buildFlow(m, idx);
   buildTest(m, idx);
   buildApis(m);
@@ -924,22 +1319,52 @@ function buildFlow(m, idx) {
     return;
   }
 
-  if (m.tz === 'org') {
+  // UI-only org-TZ modules: no input, no API — just show what InTouch displays
+  if (m.tz === 'org' && !m.apis.length) {
     el.innerHTML = `<div class="flow-card">
-      <div class="fc-eyebrow">Timestamp journey — ${m.name}</div>
+      <div class="fc-eyebrow">How ${m.name} handles dates</div>
       <div class="flow-row">
-        ${mkNode('You input','9:00 AM','+05:30 IST','blue','Your local time<br>with offset')}
-        ${mkArrow('stored as')}
-        ${mkNode('Internal storage','epoch ms','timezone-free','neutral','Universal number,<br>no TZ attached')}
-        ${mkArrow('API returns')}
-        ${mkNode('GET API response','03:30Z','server cluster TZ','amber','Server TZ + offset<br>in every GET call')}
-        ${mkArrow('UI converts')}
-        ${mkNode('UI Display','9:00 AM','org TZ ✓','green','Re-converted to<br>your org timezone')}
+        ${mkNode('InTouch shows','9:00 AM','Org TZ ✓','green','All dates converted<br>to org timezone')}
       </div>
       <div class="flow-notes">
-        <div class="flow-note"><b>API vs UI look different</b><br>GET API always returns server cluster timezone. InTouch UI re-converts to org TZ for display. They show different values — this is by design.</div>
-        <div class="flow-note"><b>Offset is preserved</b><br>The original input offset is stored alongside (e.g. <code>billingTimeInputOffset</code>). The promotion engine uses it to evaluate time-window rules against local time.</div>
-        ${m.note ? `<div class="flow-note"><b>Note</b><br>${m.note}</div>` : ''}
+        <div class="flow-note"><b>Display only</b><br>${m.name} is a UI-only module. InTouch converts all stored dates to your org timezone. No API input or output is involved for this module.</div>
+        ${m.gotcha ? `<div class="flow-note"><b>Gotcha</b><br>${m.gotcha}</div>` : ''}
+      </div>
+    </div>`;
+    return;
+  }
+
+  // API-backed org-TZ modules: separate UI section and API section
+  if (m.tz === 'org') {
+    el.innerHTML = `<div class="flow-card">
+      <div class="fc-eyebrow">How ${m.name} handles dates</div>
+
+      <div class="flow-section">
+        <div class="flow-section-hd ui">📺 In InTouch (UI)</div>
+        <div class="flow-row">
+          ${mkNode('InTouch shows','9:00 AM','Org TZ ✓','green','All dates converted<br>to org timezone')}
+        </div>
+        <div class="flow-notes">
+          <div class="flow-note"><b>What your team sees</b><br>InTouch re-converts all stored dates to your org timezone before displaying them. No matter which server cluster stores the data, the UI always shows org TZ.</div>
+          ${m.note ? `<div class="flow-note"><b>Note</b><br>${m.note}</div>` : ''}
+        </div>
+      </div>
+
+      <hr class="flow-divider">
+
+      <div class="flow-section">
+        <div class="flow-section-hd api">🔌 Via API</div>
+        <div class="flow-row">
+          ${mkNode('You send (POST)','ISO 8601<br>+ offset','+05:30 IST','blue','Always include<br>your offset')}
+          ${mkArrow('stored as')}
+          ${mkNode('Internal storage','epoch ms','timezone-free','neutral','Universal number,<br>no TZ attached')}
+          ${mkArrow('GET returns')}
+          ${mkNode('GET response','03:30Z','server TZ','amber','Always server cluster TZ<br>— not org TZ')}
+        </div>
+        <div class="flow-notes">
+          <div class="flow-note"><b>GET returns server TZ — not org TZ</b><br>API responses always use the server cluster timezone. The value will look different from what InTouch shows. This is by design.</div>
+          <div class="flow-note"><b>Use the ISO fields</b><br>Legacy date fields may lack timezone context. Use the <code>*ISO</code> fields (e.g. <code>startDateISO</code>, <code>enrolledOnISO</code>) for full ISO 8601 timestamps with offset.</div>
+        </div>
       </div>
     </div>`;
     return;
@@ -947,21 +1372,35 @@ function buildFlow(m, idx) {
 
   if (m.tz === 'server') {
     el.innerHTML = `<div class="flow-card">
-      <div class="fc-eyebrow">Timestamp journey — ${m.name}</div>
-      <div class="flow-row">
-        ${mkNode('You configure','9:00 AM','Dubai +04:00','blue','Your intended<br>reward time')}
-        ${mkArrow('stored as')}
-        ${mkNode('Internal storage','epoch ms','timezone-free','neutral','Universal number')}
-        ${mkArrow('API returns')}
-        ${mkNode('GET API response','05:00Z','server TZ','amber','In server TZ,<br>not Dubai')}
-        ${mkArrow('evaluates at')}
-        ${mkNode('Daily limit resets','server<br>midnight','⚠ not org TZ','red','Resets at<br>server midnight')}
+      <div class="fc-eyebrow">How ${m.name} handles dates</div>
+
+      <div class="flow-section">
+        <div class="flow-section-hd ui">📺 In InTouch (UI)</div>
+        <div class="flow-notes">
+          <div class="flow-note"><b>Not yet standardised</b><br>${m.note || 'Rewards Catalog (Marvel UI) has not yet adopted the standardised timezone model. UI dates may reflect server timezone rather than org timezone.'}</div>
+          <div class="flow-note"><b>Daily limit resets</b><br>By default, fixed-window reward limits reset at <strong>server midnight</strong> — not your org midnight. This can cause limits to reset at unexpected local times.</div>
+          <div class="flow-note"><b>Fix available</b><br>Enable <code>CONF_ENABLE_ORG_TIMEZONE</code> via a Capillary support ticket. Once enabled, all reward timing and limit resets follow your org timezone.</div>
+        </div>
       </div>
-      ${m.gotcha ? `<div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>` : ''}
-      <div class="flow-notes" style="margin-top:16px">
-        <div class="flow-note"><b>Fix available</b><br>Enable <code>CONF_ENABLE_ORG_TIMEZONE</code> via a Capillary support ticket. This switches daily limit resets and reward calculations to org timezone.</div>
-        <div class="flow-note"><b>POST inputs require UTC</b><br>When creating rewards via API, always send <code>startTime</code> and <code>endTime</code> in UTC regardless of your org TZ.</div>
-        <div class="flow-note"><b>Marvel UI</b><br>${m.note}</div>
+
+      <hr class="flow-divider">
+
+      <div class="flow-section">
+        <div class="flow-section-hd api">🔌 Via API</div>
+        <div class="flow-row">
+          ${mkNode('You send (POST)','startTime<br>endTime','UTC required','blue','Always send<br>in UTC')}
+          ${mkArrow('stored as')}
+          ${mkNode('Internal storage','epoch ms','timezone-free','neutral','Universal number')}
+          ${mkArrow('GET returns')}
+          ${mkNode('GET response','05:00Z','server TZ','amber','In server TZ,<br>not your local TZ')}
+          ${mkArrow('evaluates at')}
+          ${mkNode('Daily limit','server<br>midnight','⚠ not org TZ','red','Resets at<br>server midnight')}
+        </div>
+        ${m.gotcha ? `<div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>` : ''}
+        <div class="flow-notes" style="margin-top:14px">
+          <div class="flow-note"><b>POST inputs require UTC</b><br>When creating rewards via API, always send <code>startTime</code> and <code>endTime</code> in UTC — regardless of your org timezone.</div>
+          <div class="flow-note"><b>Config-driven behaviour</b><br>With <code>CONF_ENABLE_ORG_TIMEZONE</code> enabled, the API evaluation also switches to org timezone for limit windows and reward timing.</div>
+        </div>
       </div>
     </div>`;
     return;
@@ -1004,40 +1443,61 @@ function buildFlow(m, idx) {
       </div>`;
     } else {
       el.innerHTML = `<div class="flow-card">
-        <div class="fc-eyebrow">Two timezone paths — ${m.name}</div>
-        <div class="two-col" style="margin-bottom:16px">
-          <div class="path-card blue">
-            <div class="path-tag blue">Duration column</div>
-            <div class="path-node blue"><div class="path-val">9:00 AM GMT</div><div class="path-tz">timezone at creation</div></div>
-            <div class="path-desc">Shows the timezone you chose when creating the promotion. If you picked GMT, it shows GMT dates.</div>
+        <div class="fc-eyebrow">How ${m.name} handles dates</div>
+
+        <div class="flow-section">
+          <div class="flow-section-hd ui">📺 In InTouch (UI)</div>
+          <div class="two-col" style="margin-bottom:16px">
+            <div class="path-card blue">
+              <div class="path-tag blue">Duration column</div>
+              <div class="path-node blue"><div class="path-val">9:00 AM GMT</div><div class="path-tz">timezone at creation</div></div>
+              <div class="path-desc">Shows the timezone you chose when creating the promotion. If you picked GMT, it shows GMT dates.</div>
+            </div>
+            <div class="path-card green">
+              <div class="path-tag green">"Updated at" column</div>
+              <div class="path-node green"><div class="path-val">2:30 PM IST</div><div class="path-tz">org timezone always</div></div>
+              <div class="path-desc">Always shown in org timezone, regardless of which timezone the promotion was created in.</div>
+            </div>
           </div>
-          <div class="path-card green">
-            <div class="path-tag green">"Updated at" column</div>
-            <div class="path-node green"><div class="path-val">2:30 PM IST</div><div class="path-tz">org timezone always</div></div>
-            <div class="path-desc">Always shown in org timezone, regardless of which timezone the promotion was created in.</div>
+          <div class="ui-mock">
+            <div class="uim-bar">InTouch — Promotions listing (same row, two timezones)</div>
+            <table class="uim-tbl">
+              <thead><tr>
+                <th>Name</th>
+                <th>Duration <span class="uim-tag blue">Creation TZ</span></th>
+                <th>Updated at <span class="uim-tag green">Org TZ</span></th>
+              </tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="uim-val">Summer Sale</div></td>
+                  <td><div class="uim-val">Jan 1 – Jan 31</div><div class="uim-sub">09:00 GMT (creation TZ)</div></td>
+                  <td><div class="uim-val">26 Jan 2026</div><div class="uim-sub">14:30 IST (org TZ)</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flow-notes" style="margin-top:14px">
+            <div class="flow-note"><b>Why two timezones?</b><br>Duration uses creation TZ so teams in different regions see consistent promo windows. "Updated at" uses org TZ for operational consistency.</div>
+            <div class="flow-note"><b>Tip</b><br>When creating promotions, choose a timezone that all relevant teams understand and document it alongside the promotion.</div>
           </div>
         </div>
-        <div class="ui-mock">
-          <div class="uim-bar">InTouch — Promotions listing (same row, two timezones)</div>
-          <table class="uim-tbl">
-            <thead><tr>
-              <th>Name</th>
-              <th>Duration <span class="uim-tag blue">Creation TZ</span></th>
-              <th>Updated at <span class="uim-tag green">Org TZ</span></th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td><div class="uim-val">Summer Sale</div></td>
-                <td><div class="uim-val">Jan 1 – Jan 31</div><div class="uim-sub">09:00 GMT (creation TZ)</div></td>
-                <td><div class="uim-val">26 Jan 2026</div><div class="uim-sub">14:30 IST (org TZ)</div></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="gotcha-box">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>
-        <div class="flow-notes" style="margin-top:16px">
-          <div class="flow-note"><b>Why two timezones?</b><br>Duration uses creation TZ so teams in different regions see consistent promo windows. "Updated at" uses org TZ for operational consistency.</div>
-          <div class="flow-note"><b>Tip</b><br>When creating promotions, choose a timezone that all relevant teams understand and document it alongside the promotion.</div>
+
+        <hr class="flow-divider">
+
+        <div class="flow-section">
+          <div class="flow-section-hd api">🔌 Via API</div>
+          <div class="flow-row">
+            ${mkNode('You send (POST)','startDate<br>+ timezoneName','creation TZ','blue','IANA TZ stored<br>alongside the date')}
+            ${mkArrow('stored as')}
+            ${mkNode('Internal storage','epoch ms<br>+ timezoneName','both preserved','neutral','Creation TZ label<br>never lost')}
+            ${mkArrow('GET returns')}
+            ${mkNode('GET response','startDate<br>in server TZ','⚠ not creation TZ','amber','Use timezoneName<br>to know creation TZ')}
+          </div>
+          <div class="gotcha-box" style="margin-top:14px">⚠ <strong>Gotcha:</strong> ${m.gotcha}</div>
+          <div class="flow-notes" style="margin-top:14px">
+            <div class="flow-note"><b>GET startDate / endDate = server TZ</b><br>The dates in the GET response are converted to server cluster timezone — not the timezone you created the promotion in.</div>
+            <div class="flow-note"><b>timezoneName is your reference</b><br>Always read <code>timezoneName</code> from the GET response. This is the IANA timezone used at creation and is what InTouch UI uses to re-convert Duration for display.</div>
+          </div>
         </div>
       </div>`;
     }
@@ -1045,24 +1505,58 @@ function buildFlow(m, idx) {
 
   if (m.tz === 'txn') {
     el.innerHTML = `<div class="flow-card">
-      <div class="fc-eyebrow">Transaction promotion flow — ${m.name}</div>
-      <div class="flow-row">
-        ${mkNode('POS sends','billingDate<br>T09:00+05:30','with local offset ✓','blue','Always include<br>the UTC offset')}
-        ${mkArrow('stored as')}
-        ${mkNode('Storage','epoch ms<br>+ offset: +05:30','both preserved','neutral','Epoch for absolute time<br>offset for local time')}
-        ${mkArrow('GET returns')}
-        ${mkNode('GET API','billingTime<br>T03:30:00Z','server cluster TZ','amber','billingTimeInputOffset<br>+05:30 preserved')}
-        ${mkArrow('engine reads')}
-        ${mkNode('Promo engine','09:00 local','reconstructed ✓','green','Evaluates "9–11 AM"<br>rule correctly')}
+      <div class="fc-eyebrow">How ${m.name} handles dates</div>
+
+      <div class="flow-section">
+        <div class="flow-section-hd ui">📺 In InTouch (UI)</div>
+        <div class="flow-notes">
+          <div class="flow-note"><b>Transaction listing</b><br>InTouch displays all transaction dates in your org timezone. Agents looking up a customer always see local, familiar times.</div>
+          <div class="flow-note"><b>Promotion window display</b><br>Time-window promotion rules (e.g. "9–11 AM") are shown in the creation timezone. InTouch uses the stored offset to reconstruct the original local time.</div>
+        </div>
       </div>
-      <div class="gotcha-box">⚠ <strong>Without offset:</strong> ${m.gotcha}</div>
-      <div class="flow-notes" style="margin-top:16px">
-        <div class="flow-note"><b>billingTimeInputOffset</b><br>Always check this field in your GET response. If it's missing or empty, your POST sent <code>billingDate</code> without an offset — fix at the POS integration level.</div>
-        <div class="flow-note"><b>Points fields</b><br><code>awardedOnISO</code> and <code>expiresOnISO</code> are returned in server cluster timezone — use these over the deprecated <code>awardedOn</code> / <code>expiresOn</code> fields.</div>
-        <div class="flow-note"><b>extendedFields</b><br><code>extendedFields.event_input_date_offset</code> also stores the original offset. Note: extendedFields are outside the timezone standardization scope.</div>
+
+      <hr class="flow-divider">
+
+      <div class="flow-section">
+        <div class="flow-section-hd api">🔌 Via API</div>
+        <div class="flow-row">
+          ${mkNode('POS sends (POST)','billingDate<br>T09:00+05:30','with local offset ✓','blue','Always include<br>the UTC offset')}
+          ${mkArrow('stored as')}
+          ${mkNode('Storage','epoch ms<br>+ offset: +05:30','both preserved','neutral','Epoch for ordering<br>offset for local time')}
+          ${mkArrow('GET returns')}
+          ${mkNode('GET response','billingTime<br>T03:30:00Z','server TZ','amber','billingTimeInputOffset<br>+05:30 preserved')}
+          ${mkArrow('engine reads')}
+          ${mkNode('Promo engine','09:00 local','reconstructed ✓','green','Evaluates "9–11 AM"<br>rule correctly')}
+        </div>
+        <div class="gotcha-box">⚠ <strong>Without offset:</strong> ${m.gotcha}</div>
+        <div class="flow-notes" style="margin-top:14px">
+          <div class="flow-note"><b>billingTimeInputOffset</b><br>Always check this field in your GET response. If it's missing, your POST sent <code>billingDate</code> without an offset — fix at the POS integration level.</div>
+          <div class="flow-note"><b>Points date fields</b><br><code>awardedOnISO</code> and <code>expiresOnISO</code> are returned in server timezone — use these over the deprecated <code>awardedOn</code> / <code>expiresOn</code> fields.</div>
+          <div class="flow-note"><b>extendedFields</b><br><code>event_input_date_offset</code> also stores the original offset inside extendedFields — note that extendedFields are outside the timezone standardisation scope.</div>
+        </div>
       </div>
     </div>`;
     return;
+  }
+
+}
+
+// ─── LIVE UPDATE: every input re-runs trace instantly after first trace ───
+function bindLiveUpdate(idx) {
+  const rerun = () => {
+    if (document.getElementById('sout' + idx)?.innerHTML.trim()) runTest(idx);
+  };
+  // Selects: fire on change
+  ['stz','ssrv','sorg'].forEach(pfx => {
+    document.getElementById(pfx + idx)?.addEventListener('change', rerun);
+  });
+  // Date picker: fire on change (commits when user closes picker)
+  document.getElementById('sdt' + idx)?.addEventListener('change', rerun);
+  // ISO/epoch paste: fire on input (each keystroke) with debounce
+  const raw = document.getElementById('sraw' + idx);
+  if (raw) {
+    let t;
+    raw.addEventListener('input', () => { clearTimeout(t); t = setTimeout(rerun, 400); });
   }
 }
 
@@ -1071,14 +1565,61 @@ function buildTest(m, idx) {
   const el = document.getElementById('tp-test');
   const now = new Date();
   const dtDef = `${now.getFullYear()}-${p2(now.getMonth()+1)}-${p2(now.getDate())}T09:00`;
+
+  // UI-only modules: simplified form — no API inputs needed
+  const isUiOnly = m.apis.length === 0 && m.name !== 'Audience';
+  if (isUiOnly) {
+    el.innerHTML = `<div class="sim-card">
+      <div class="sim-title">How InTouch displays dates for ${m.name}</div>
+      <div class="ibox info" style="margin-bottom:18px"><strong>${m.name}</strong> is UI-only — there is no API to send or receive dates for this module. InTouch always converts and displays dates in your org timezone.</div>
+      <div class="sim-fields">
+        <div class="sf">
+          <label>Date &amp; time</label>
+          <div class="imt-wrap">
+            <button class="imt-btn on" id="imtPick${idx}" onclick="setInputMode(${idx},'pick')">📅 Picker</button>
+            <button class="imt-btn" id="imtPaste${idx}" onclick="setInputMode(${idx},'paste')">⌨️ ISO / epoch</button>
+          </div>
+          <div id="sfPick${idx}"><input type="datetime-local" id="sdt${idx}" value="${dtDef}"></div>
+          <div id="sfPaste${idx}" style="display:none"><input type="text" id="sraw${idx}" class="paste-input" placeholder="2026-01-23T09:00:00+05:30  or  1737602400000"></div>
+        </div>
+        <div class="sf"><label>Org timezone</label>
+          <select id="sorg${idx}">
+            <option value="Asia/Kolkata">Asia/Kolkata IST</option>
+            <option value="UTC">UTC</option>
+            <option value="Asia/Singapore">Asia/Singapore +08:00</option>
+            <option value="Asia/Dubai">Asia/Dubai +04:00</option>
+            <option value="America/New_York">America/New_York EST</option>
+            <option value="Europe/London">Europe/London GMT</option>
+          </select>
+        </div>
+      </div>
+      <button class="run-btn" onclick="runTest(${idx})">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Show InTouch display
+      </button>
+      <div id="sout${idx}" class="sim-results"></div>
+    </div>`;
+    bindLiveUpdate(idx);
+    return;
+  }
+
   const hint = m.tz === 'txn'
     ? `<div class="sim-hint">💡 Tests a <strong>"9–11 AM local time"</strong> promotion rule. Pick a time, pick your local TZ — then see exactly what happens with and without a timezone offset in <code>billingDate</code>.</div>`
     : '';
+
   el.innerHTML = `<div class="sim-card">
     <div class="sim-title">Test how ${m.name} handles a timestamp</div>
     ${hint}
     <div class="sim-fields">
-      <div class="sf"><label>Date &amp; time</label><input type="datetime-local" id="sdt${idx}" value="${dtDef}"></div>
+      <div class="sf">
+        <label>Date &amp; time</label>
+        <div class="imt-wrap">
+          <button class="imt-btn on" id="imtPick${idx}" onclick="setInputMode(${idx},'pick')">📅 Picker</button>
+          <button class="imt-btn" id="imtPaste${idx}" onclick="setInputMode(${idx},'paste')">⌨️ ISO / epoch</button>
+        </div>
+        <div id="sfPick${idx}"><input type="datetime-local" id="sdt${idx}" value="${dtDef}"></div>
+        <div id="sfPaste${idx}" style="display:none"><input type="text" id="sraw${idx}" class="paste-input" placeholder="2026-01-23T09:00:00+05:30  or  1737602400000"></div>
+      </div>
       <div class="sf"><label>Your timezone</label>
         <select id="stz${idx}">
           <option value="+05:30">India IST +05:30</option>
@@ -1114,14 +1655,39 @@ function buildTest(m, idx) {
     </button>
     <div id="sout${idx}" class="sim-results"></div>
   </div>`;
+  bindLiveUpdate(idx);
 }
 
 function runTest(idx) {
   const m = MODS[idx];
+  const out = document.getElementById('sout'+idx);
+
+  // Handle paste / epoch input mode
+  const pasteDiv = document.getElementById('sfPaste'+idx);
+  if (pasteDiv && pasteDiv.style.display !== 'none') {
+    const raw = (document.getElementById('sraw'+idx)?.value || '').trim();
+    const pr = parseRawTS(raw);
+    if (!pr) {
+      out.innerHTML = `<div class="ibox danger" style="margin-top:14px">⚠ Cannot parse — try ISO 8601 (e.g. <code>2026-01-23T09:00:00+05:30</code>) or epoch ms (e.g. <code>1737602400000</code>)</div>`;
+      return;
+    }
+    // If we extracted an offset from the ISO string, update the TZ selector (not present on UI-only forms)
+    if (pr.offset) {
+      const sel = document.getElementById('stz'+idx);
+      if (sel) { for (const o of sel.options) { if (o.value === pr.offset) { sel.value = pr.offset; break; } } }
+    }
+    // Fill datetime-local from the parsed epoch + selected offset
+    const off = document.getElementById('stz'+idx)?.value || '+00:00';
+    const localMs = pr.epoch + getOffMin(off) * 60000;
+    const ld = new Date(localMs);
+    document.getElementById('sdt'+idx).value =
+      `${ld.getUTCFullYear()}-${p2(ld.getUTCMonth()+1)}-${p2(ld.getUTCDate())}T${p2(ld.getUTCHours())}:${p2(ld.getUTCMinutes())}`;
+  }
+
   const dtVal = document.getElementById('sdt'+idx).value;
   if (!dtVal) return;
-  const inTZ  = document.getElementById('stz'+idx).value;
-  const srvTZ = document.getElementById('ssrv'+idx).value;
+  const inTZ  = document.getElementById('stz'+idx)?.value  || '+00:00';
+  const srvTZ = document.getElementById('ssrv'+idx)?.value || 'Asia/Kolkata';
   const orgTZ = document.getElementById('sorg'+idx).value;
   const [d,t] = dtVal.split('T');
   const [Y,Mo,D] = d.split('-').map(Number);
@@ -1132,11 +1698,23 @@ function runTest(idx) {
   const orgStr = fmtFull(epoch, orgTZ);
 
   // Helper: render one step row (no number badge — used inside panels)
-  const mkStep = (lbl, val, note) => `
-    <div class="sim-result" style="background:rgba(255,255,255,.55)">
-      <div style="width:7px;height:7px;border-radius:50%;background:#CBD5E1;flex-shrink:0;margin-top:8px"></div>
-      <div><div class="sr-lbl">${lbl}</div><div class="sr-val">${val}</div>${note?`<div class="sr-note">${note}</div>`:''}</div>
+  let _sid = 0;
+  const mkStep = (lbl, val, note) => {
+    const id = 'sv'+(++_sid);
+    return `<div class="sim-result">
+      <div class="step-dot"></div>
+      <div style="flex:1;min-width:0">
+        <div class="sr-lbl">${lbl}</div>
+        <div class="sr-val-row">
+          <div class="sr-val" id="${id}">${val}</div>
+          <button class="copy-btn" data-copy="${id}" onclick="copyEl('${id}')" title="Copy">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+        ${note?`<div class="sr-note">${note}</div>`:''}
+      </div>
     </div>`;
+  };
 
   // Helper: build the two-panel layout (API response left, InTouch UI right)
   const panels = (aSteps, uSteps, aLabel, uLabel) => `
@@ -1151,7 +1729,19 @@ function runTest(idx) {
       </div>
     </div>`;
 
-  const out = document.getElementById('sout'+idx);
+  // UI-only modules: no API — show only what InTouch displays
+  if (m.apis.length === 0 && m.name !== 'Audience') {
+    const orgStr = fmtFull(epoch, orgTZ);
+    out.innerHTML = `
+      <div class="trace-panels" style="grid-template-columns:1fr;max-width:540px">
+        <div class="trace-panel ui">
+          <div class="tp-hd ui">🖥 InTouch UI display</div>
+          ${mkStep('InTouch shows this date as', orgStr, `${m.name} always displays dates in org timezone (${orgTZ}).`)}
+          ${mkStep('Stored internally as epoch', `${epoch} ms`, 'The timezone-free number stored internally — the same moment everywhere on Earth.')}
+        </div>
+      </div>`;
+    return;
+  }
 
   if (m.tz === 'org') {
     out.innerHTML = panels(
@@ -1358,20 +1948,50 @@ function getResponseSnippet(m) {
 
 function buildApis(m) {
   const el = document.getElementById('tp-apis');
+  const tzLbl = t => ({org:'Org timezone',server:'Server UTC',na:'Not applicable',warn:'Requires config flag',txn:'Transaction input TZ',mixed:'Mixed'})[t] || t;
+
+  // UI-only modules: no documented GET API → show simple notice only
+  if (!m.apis.length) {
+    el.innerHTML = `
+    <div class="api-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <span class="tag-ui-only">UI Only</span>
+        <div class="api-card-title" style="margin:0">No public GET API documented</div>
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin:0 0 4px;line-height:1.6">
+        <strong>${m.name}</strong> is documented as UI-only in CapDoc.
+        All dates are displayed in <strong>org timezone</strong> in InTouch —
+        there is no public GET API endpoint documented for this module.
+      </p>
+      <div class="api-ui-rows">
+        <div class="api-ui-rows-label">What InTouch shows</div>
+        ${m.rows.map(r=>`<div class="field-row">
+          <div class="field-name">${r.lbl}</div>
+          <div class="field-meta">${tzLbl(r.tz)}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+    return;
+  }
+
+  // API modules: show only documented fields + ISO 8601 guidance + migration table
   el.innerHTML = `
   ${getResponseSnippet(m)}
 
   <div class="api-card">
-    <div class="api-card-title">Date fields in ${m.name}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+      <div class="api-card-title" style="margin:0">Date fields in ${m.name}</div>
+      ${m.docUrl?`<a href="${m.docUrl}" target="_blank" rel="noopener" class="doc-link">View in CapDoc ↗</a>`:''}
+    </div>
     ${m.apis.map(a=>`<div class="field-row">
-      <div><div class="field-name">${a.field}</div>${a.note?`<div class="field-note-sm">${a.note}</div>`:''}</div>
+      <div><div class="field-name">${a.url?`<a href="${a.url}" target="_blank" rel="noopener">${a.field}</a>`:a.field}</div>${a.note?`<div class="field-note-sm">${a.note}</div>`:''}</div>
       <div class="field-meta">${a.fmt}</div>
     </div>`).join('')}
   </div>
 
   <div class="api-card">
     <div class="api-card-title">ISO 8601 — always include the offset</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Capillary stores the offset alongside the epoch. The promotion engine uses it to evaluate time-window rules against local time, not server time.</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Capillary stores the offset alongside the epoch — preserving the original local time context for each date field. Always include the offset so the correct local time is recorded.</p>
     <div class="code-blk"><span class="c-good">✓</span> 2026-01-23T09:00:00<span class="c-em">+05:30</span>  <span class="c-dim">// India IST — offset stored</span>
 <span class="c-good">✓</span> 2026-01-23T09:00:00<span class="c-em">Z</span>       <span class="c-dim">// UTC — explicit</span>
 <span class="c-bad">✗</span> 2026-01-23T09:00:00         <span class="c-dim">// No offset — ambiguous!</span></div>
@@ -1413,7 +2033,7 @@ function updateClocks() {
     let t='--:--:--';
     try { t = new Intl.DateTimeFormat('en-GB',{timeZone:c.tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now); } catch{}
     return `<div class="cbc"><div class="cbc-name">${c.name}</div><div class="cbc-time">${t}</div><div class="cbc-off">${c.off}</div></div>`;
-  }).join('');
+  }).join('') + `<div style="font-size:11px;color:var(--text3);margin-top:8px;grid-column:1/-1">* US offset varies ±1h during DST. Clusters: India / EU / APAC2 / US per CapDoc.</div>`;
   const nc = document.getElementById('navClock');
   if (nc) {
     try { nc.textContent = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now) + ' IST'; } catch{}
