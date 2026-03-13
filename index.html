@@ -2298,7 +2298,7 @@ async function submitQuestion() {
 
 // ─── INIT ───
 // ─── VISITOR COUNTER (countapi.xyz — no token, no backend needed) ───
-const _VISIT_API = 'https://api.countapi.xyz/hit/georgejocap/tz-explorer';
+const _VISIT_API = 'https://api.counterapi.dev/v1/georgejocap-tz/visits/up';
 window._visitCount = null;
 
 async function _trackVisit() {
@@ -2306,7 +2306,7 @@ async function _trackVisit() {
     const r = await fetch(_VISIT_API);
     if (!r.ok) return;
     const d = await r.json();
-    if (d.value) window._visitCount = d.value;
+    if (d.count) window._visitCount = d.count;
   } catch { /* silent — counter is non-critical */ }
 }
 
@@ -2335,7 +2335,7 @@ function fetchVisitorCount() {
   el.textContent = '…';
   fetch(_VISIT_API)
     .then(r => r.json())
-    .then(d => { el.textContent = (d.value || '—').toLocaleString(); })
+    .then(d => { el.textContent = (d.count || '—').toLocaleString(); })
     .catch(() => { el.textContent = '—'; });
 }
 document.addEventListener('click', () => {
