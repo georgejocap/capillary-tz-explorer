@@ -1881,6 +1881,130 @@ function pm(method,url,section,json,anns,note=''){
 }
 
 function getResponseSnippet(m) {
+
+  // ── Cart Promotions ──────────────────────────────────────────────────────
+  if (m.name === 'Cart Promotions') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — cart promotion code fields</div>
+    ${pm('GET','/api_gateway/v1/promotions/codes','Response',
+`{
+  <span class="gk">"promotionName"</span>: <span class="gv">"September Promo"</span>,
+  <span class="gk">"validTill"</span>:     <span class="gv">1769817600000</span>,
+  <span class="gk">"validTillISO"</span>:  <span class="gg">"2026-01-31T18:29:59+05:30"</span>,
+  <span class="gk">"createdOn"</span>:     <span class="gv">1756708893457</span>,
+  <span class="gk">"createdOnISO"</span>:  <span class="gg">"2025-09-01T06:41:33+05:30"</span>
+}`,
+      [
+        ['validTill',   'dep','Epoch ms',  'Milliseconds since epoch — no timezone context'],
+        ['validTillISO','ok', 'Server TZ', 'ISO 8601 with offset — use this over validTill'],
+        ['createdOn',   'dep','Epoch ms',  'Milliseconds since epoch — no timezone context'],
+        ['createdOnISO','ok', 'Server TZ', 'ISO 8601 with offset — preferred field'],
+      ]
+    )}
+  </div>`;
+  }
+
+  // ── Streaks ───────────────────────────────────────────────────────────────
+  if (m.name === 'Streaks') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — streak target group fields</div>
+    ${pm('GET','/api_gateway/v1/targetGroups','Response',
+`{
+  <span class="gk">"targetCycleStartDate"</span>:       <span class="gc">"2025-12-01T00:00:00"</span>,
+  <span class="gk">"targetCycleStartDateISO"</span>:    <span class="gg">"2025-12-01T00:00:00+05:30"</span>,
+  <span class="gk">"targetCycleEndDate"</span>:         <span class="gc">"2025-12-31T23:59:59"</span>,
+  <span class="gk">"targetCycleEndDateISO"</span>:      <span class="gg">"2025-12-31T23:59:59+05:30"</span>,
+  <span class="gk">"streakAchievedDateTime"</span>:     <span class="gc">"2025-12-15T10:00:00"</span>,
+  <span class="gk">"streakAchievedDateTimeISO"</span>:  <span class="gg">"2025-12-15T10:00:00+05:30"</span>,
+  <span class="gk">"attribution"</span>: {
+    <span class="gk">"createdOn"</span>:    <span class="gc">"2025-11-01T00:00:00"</span>,
+    <span class="gk">"createdOnISO"</span>: <span class="gg">"2025-11-01T00:00:00+05:30"</span>
+  }
+}`,
+      [
+        ['targetCycleStartDate',      'dep','Deprecated','No offset — will be replaced by targetCycleStartDateISO'],
+        ['targetCycleStartDateISO',   'ok', 'Server TZ', 'ISO 8601 with offset — use this field'],
+        ['targetCycleEndDate',        'dep','Deprecated','No offset — will be replaced by targetCycleEndDateISO'],
+        ['targetCycleEndDateISO',     'ok', 'Server TZ', 'ISO 8601 with offset — use this field'],
+        ['streakAchievedDateTime',    'dep','Deprecated','No offset — will be replaced by streakAchievedDateTimeISO'],
+        ['streakAchievedDateTimeISO', 'ok', 'Server TZ', 'When the streak was achieved by the user'],
+        ['attribution.createdOn',     'dep','Deprecated','No offset — use createdOnISO'],
+        ['attribution.createdOnISO',  'ok', 'Server TZ', 'Target group creation date — use this field'],
+      ]
+    )}
+  </div>`;
+  }
+
+  // ── Milestones ────────────────────────────────────────────────────────────
+  if (m.name === 'Milestones') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — milestone target group fields</div>
+    ${pm('GET','/api_gateway/v1/targetGroups','Response',
+`{
+  <span class="gk">"targetCycleStartDate"</span>:       <span class="gc">"2025-12-01T00:00:00"</span>,
+  <span class="gk">"targetCycleStartDateISO"</span>:    <span class="gg">"2025-12-01T00:00:00+05:30"</span>,
+  <span class="gk">"targetCycleEndDate"</span>:         <span class="gc">"2025-12-31T23:59:59"</span>,
+  <span class="gk">"targetCycleEndDateISO"</span>:      <span class="gg">"2025-12-31T23:59:59+05:30"</span>,
+  <span class="gk">"enrolledOn"</span>:                <span class="gc">"2025-11-15T09:00:00"</span>,
+  <span class="gk">"enrolledOnISO"</span>:             <span class="gg">"2025-11-15T09:00:00+05:30"</span>,
+  <span class="gk">"targetAchievedDateTime"</span>:     <span class="gc">"2025-12-15T10:00:00"</span>,
+  <span class="gk">"targetAchievedDateTimeISO"</span>:  <span class="gg">"2025-12-15T10:00:00+05:30"</span>,
+  <span class="gk">"attribution"</span>: {
+    <span class="gk">"createdOn"</span>:    <span class="gc">"2025-11-01T00:00:00"</span>,
+    <span class="gk">"createdOnISO"</span>: <span class="gg">"2025-11-01T00:00:00+05:30"</span>
+  }
+}`,
+      [
+        ['targetCycleStartDate',     'dep','Deprecated','No offset — will be replaced by targetCycleStartDateISO'],
+        ['targetCycleStartDateISO',  'ok', 'Server TZ', 'ISO 8601 with offset — use this field'],
+        ['targetCycleEndDate',       'dep','Deprecated','No offset — will be replaced by targetCycleEndDateISO'],
+        ['targetCycleEndDateISO',    'ok', 'Server TZ', 'ISO 8601 with offset — use this field'],
+        ['enrolledOn',               'dep','Deprecated','No offset — will be replaced by enrolledOnISO'],
+        ['enrolledOnISO',            'ok', 'Server TZ', 'Customer enrollment date — use this field'],
+        ['targetAchievedDateTime',   'dep','Deprecated','No offset — will be replaced by targetAchievedDateTimeISO'],
+        ['targetAchievedDateTimeISO','ok', 'Server TZ', 'When the milestone target was achieved by the user'],
+        ['attribution.createdOnISO', 'ok', 'Server TZ', 'Target group creation date — use this field'],
+      ]
+    )}
+  </div>`;
+  }
+
+  // ── Gift Cards ────────────────────────────────────────────────────────────
+  if (m.name === 'Gift Cards') {
+    return `<div class="get-card">
+    <div class="get-card-title">GET response — gift card &amp; customer date fields</div>
+    ${pm('GET','/v2/card','Response',
+`{
+  <span class="gk">"cardId"</span>:      <span class="gv">"CARD001"</span>,
+  <span class="gk">"issuedDate"</span>:  <span class="gg">"2026-01-23T03:30:00+00:00"</span>
+}`,
+      [
+        ['issuedDate','ok','Server TZ','Full ISO 8601 timestamp with offset — card issue date and time'],
+      ]
+    )}
+    ${pm('GET','/v2/customers/{id}','Response',
+`{
+  <span class="gk">"customerId"</span>:         <span class="gv">12345</span>,
+  <span class="gk">"createdDate"</span>:        <span class="gc">"2026-01-23"</span>,
+  <span class="gk">"createdDateTimeISO"</span>: <span class="gg">"2026-01-23T03:30:00+00:00"</span>,
+  <span class="gk">"autoUpdateTime"</span>:     <span class="gc">"2026-01-23T03:30:00"</span>,
+  <span class="gk">"autoUpdateTimeISO"</span>:  <span class="gg">"2026-01-23T03:30:00+00:00"</span>
+}`,
+      [
+        ['createdDate',        'dep','Deprecated','Date only — no time or offset. Use createdDateTimeISO'],
+        ['createdDateTimeISO', 'ok', 'Server TZ', 'Full timestamp with offset — use this over createdDate'],
+        ['autoUpdateTime',     'dep','Deprecated','No offset — will be replaced by autoUpdateTimeISO'],
+        ['autoUpdateTimeISO',  'ok', 'Server TZ', 'Card status last modified date — use this field'],
+      ]
+    )}
+  </div>`;
+  }
+
+  // ── Excluded / non-standardised modules ──────────────────────────────────
+  if (m.name === 'Offers / Gift Vouchers' || m.tz === 'na') {
+    return '';  // buildApis() field rows communicate the exclusion status
+  }
+
   if (m.tz === 'org') {
     return `<div class="get-card">
     <div class="get-card-title">API response vs InTouch display</div>
