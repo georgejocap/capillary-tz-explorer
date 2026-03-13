@@ -2297,8 +2297,11 @@ async function submitQuestion() {
 }
 
 // ─── INIT ───
-// ─── VISITOR COUNTER (countapi.xyz — no token, no backend needed) ───
-const _VISIT_API = 'https://api.counterapi.dev/v1/georgejocap-tz/visits/up';
+// ─── VISITOR COUNTER (counterapi.dev — no token needed) ───
+// _VISIT_SEED: visits recorded in count.json before migration (98)
+// minus the current counterapi count at migration time (32) = 66 offset
+const _VISIT_API = 'https://api.counterapi.dev/v1/capillary-tz-reference/visits/up';
+const _VISIT_SEED = 66;
 window._visitCount = null;
 
 async function _trackVisit() {
@@ -2306,7 +2309,7 @@ async function _trackVisit() {
     const r = await fetch(_VISIT_API);
     if (!r.ok) return;
     const d = await r.json();
-    if (d.count) window._visitCount = d.count;
+    if (d.count) window._visitCount = d.count + _VISIT_SEED;
   } catch { /* silent — counter is non-critical */ }
 }
 
@@ -2335,7 +2338,7 @@ function fetchVisitorCount() {
   el.textContent = '…';
   fetch(_VISIT_API)
     .then(r => r.json())
-    .then(d => { el.textContent = (d.count || '—').toLocaleString(); })
+    .then(d => { el.textContent = d.count ? (d.count + _VISIT_SEED).toLocaleString() : '—'; })
     .catch(() => { el.textContent = '—'; });
 }
 document.addEventListener('click', () => {
