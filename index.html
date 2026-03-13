@@ -601,7 +601,7 @@ html.dark .gls::after{background:#F1F5F9;color:#0F172A;box-shadow:0 4px 14px rgb
   <div class="stats-pop" id="statsPop">
     <div class="sp-label">Total visits</div>
     <div class="sp-count" id="statsCount">—</div>
-    <div class="sp-sub">all time</div>
+    <div class="sp-sub" id="statsSub">all time</div>
   </div>
   <div class="nav-menu">
     <span class="nav-btn on" id="nb-overview" onclick="showView('overview')">Overview</span>
@@ -2307,10 +2307,10 @@ window._visitCount = null;
 async function _trackVisit() {
   try {
     const r = await fetch(_VISIT_API);
-    if (!r.ok) return;
+    if (!r.ok) { window._visitCount = -1; return; } // -1 = blocked
     const d = await r.json();
     if (d.count) window._visitCount = d.count + _VISIT_SEED;
-  } catch { /* silent — counter is non-critical */ }
+  } catch { window._visitCount = -1; } // -1 = blocked (ad blocker)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -2331,15 +2331,37 @@ function toggleStats(e) {
 }
 function fetchVisitorCount() {
   const el = document.getElementById('statsCount');
+  const sub = document.getElementById('statsSub');
+  if (window._visitCount === -1) {
+    el.textContent = '🛡';
+    el.style.fontSize = '22px';
+    sub.textContent = 'Turn off ad blocker to see visit count';
+    return;
+  }
   if (window._visitCount !== null) {
     el.textContent = window._visitCount.toLocaleString();
+    el.style.fontSize = '';
+    sub.textContent = 'all time';
     return;
   }
   el.textContent = '…';
   fetch(_VISIT_API)
     .then(r => r.json())
-    .then(d => { el.textContent = d.count ? (d.count + _VISIT_SEED).toLocaleString() : '—'; })
-    .catch(() => { el.textContent = '—'; });
+    .then(d => {
+      if (d.count) {
+        el.textContent = (d.count + _VISIT_SEED).toLocaleString();
+        el.style.fontSize = '';
+        sub.textContent = 'all time';
+      } else {
+        el.textContent = '—';
+        sub.textContent = 'all time';
+      }
+    })
+    .catch(() => {
+      el.textContent = '🛡';
+      el.style.fontSize = '22px';
+      sub.textContent = 'Turn off ad blocker to see visit count';
+    });
 }
 document.addEventListener('click', () => {
   document.getElementById('statsPop')?.classList.remove('on');
