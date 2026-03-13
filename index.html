@@ -215,8 +215,25 @@ html.dark .cfg-pop-key{background:rgba(255,255,255,.1);color:var(--text)}
 
 /* GET RESPONSE SNIPPET */
 .get-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-xs);margin-bottom:16px}
-.get-card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:12px}
-.get-blk{background:#F8FAFC;border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;font:11.5px/1.85 'SF Mono',Monaco,monospace;overflow-x:auto;margin-bottom:10px}
+.get-card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:14px}
+/* Postman-style request/response blocks */
+.pm-block{border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:12px}
+.pm-hd{display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--surface);border-bottom:1px solid var(--border)}
+.pm-method{font-size:10px;font-weight:800;letter-spacing:.06em;padding:3px 8px;border-radius:4px;flex-shrink:0;font-family:'SF Mono',Monaco,monospace}
+.pm-method.post{background:#EEF2FF;color:#4338CA}
+.pm-method.get{background:#ECFDF5;color:#065F46}
+.pm-url{font:12px/1 'SF Mono',Monaco,monospace;color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-section{font-size:11px;font-weight:600;color:var(--text3);margin-left:auto;white-space:nowrap;padding-left:10px}
+.pm-json{display:block;padding:14px 16px;font:12px/1.85 'SF Mono',Monaco,monospace;overflow-x:auto;white-space:pre;margin:0;background:#FAFBFC;border:none;outline:none}
+.pm-anns{padding:10px 14px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:7px;background:var(--white)}
+.pm-ann{display:flex;align-items:center;gap:6px;font-size:12px}
+.pm-ann-key{font-family:'SF Mono',Monaco,monospace;font-size:11px;color:var(--text);background:var(--surface);border:1px solid var(--border);padding:1px 6px;border-radius:3px;white-space:nowrap}
+.pm-ann-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.04em;white-space:nowrap}
+.pm-ann-badge.ok{background:var(--green-light);color:#065F46}
+.pm-ann-badge.warn{background:var(--amber-light);color:#92400E}
+.pm-ann-badge.dep{background:var(--red-light);color:#991B1B}
+.pm-ann-txt{color:var(--text3);font-size:11.5px}
+.pm-ui-note{font-size:12px;color:var(--text2);padding:10px 14px;border-top:1px solid var(--border);line-height:1.6;background:var(--white)}
 .gk{color:var(--text2)}
 .gv{color:var(--blue)}
 .gc{color:var(--text3);font-style:italic}
@@ -498,6 +515,11 @@ html.dark .mod-card:hover{box-shadow:0 20px 50px rgba(0,0,0,.7),0 6px 18px rgba(
 html.dark .cc{background:var(--surface)}
 /* Code blocks */
 html.dark .get-blk{background:#080E1C;border-color:var(--border)}
+html.dark .pm-json{background:#0D1117}
+html.dark .pm-method.post{background:rgba(67,56,202,.2);color:#A5B4FC}
+html.dark .pm-method.get{background:rgba(5,150,105,.15);color:#6EE7B7}
+html.dark .pm-anns{background:transparent}
+html.dark .pm-ui-note{background:transparent}
 html.dark code{background:rgba(255,255,255,.09);color:#CBD5E1}
 /* Info boxes — full contrast fix */
 html.dark .ibox.info{background:rgba(37,99,235,.16);border-color:#1D4ED8;color:#93C5FD}
@@ -1844,103 +1866,155 @@ function runTest(idx) {
 }
 
 // ─── API TAB ───
+function pm(method,url,section,json,anns,note=''){
+  const methCls = method.toLowerCase();
+  return `<div class="pm-block">
+    <div class="pm-hd">
+      <span class="pm-method ${methCls}">${method}</span>
+      <span class="pm-url">${url}</span>
+      <span class="pm-section">${section}</span>
+    </div>
+    <pre class="pm-json">${json}</pre>
+    ${anns.length?`<div class="pm-anns">${anns.map(a=>`<div class="pm-ann"><code class="pm-ann-key">${a[0]}</code><span class="pm-ann-badge ${a[1]}">${a[2]}</span><span class="pm-ann-txt">${a[3]}</span></div>`).join('')}</div>`:''}
+    ${note?`<div class="pm-ui-note">${note}</div>`:''}
+  </div>`;
+}
+
 function getResponseSnippet(m) {
   if (m.tz === 'org') {
     return `<div class="get-card">
-    <div class="get-card-title">GET response — what the API returns vs what UI shows</div>
-    <div class="get-blk"><span class="gc">// What the GET API returns (server TZ):</span>
-{
-  <span class="gk">"enrollmentDateISO"</span>: <span class="gw">"2026-01-23T03:30:00+00:00"</span>,  <span class="gc">// ← server cluster TZ</span>
-  <span class="gk">"enrollmentDate"</span>:    <span class="gc">"2026-01-23T03:30:00"</span>,       <span class="gc">// ← kept for backward compat, no offset</span>
-  <span class="gk">"billingTimeInputOffset"</span>: <span class="gv">"+05:30"</span>                  <span class="gc">// ← stored input offset</span>
-}
-
-<span class="gc">// What InTouch UI displays (org TZ re-conversion):</span>
-<span class="gg">23 Jan 2026 · 09:00 IST</span>  <span class="gc">// ← converted from 03:30Z to org TZ</span></div>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">API and UI show different values — this is by design. Use <code>*ISO</code> fields for the correct offset.</div>
+    <div class="get-card-title">API response vs InTouch display</div>
+    ${pm('GET','/v2/customers/{id} · /v2/transactions','Response',
+`{
+  <span class="gk">"enrollmentDateISO"</span>: <span class="gw">"2026-01-23T03:30:00+00:00"</span>,
+  <span class="gk">"enrollmentDate"</span>:    <span class="gc">"2026-01-23T03:30:00"</span>
+}`,
+      [
+        ['enrollmentDateISO','ok','Server TZ','ISO 8601 with offset — use this field'],
+        ['enrollmentDate','dep','Deprecated','No offset — kept for backward compat only'],
+      ],
+      '📺 InTouch UI converts server TZ → org TZ for display: <code>03:30Z</code> shown as <strong>09:00 IST</strong> (for +05:30 org)'
+    )}
   </div>`;
   }
+
   if (m.tz === 'server') {
     return `<div class="get-card">
-    <div class="get-card-title">GET response — reward timing in server TZ</div>
-    <div class="get-blk"><span class="gc">// What the GET API returns (server TZ):</span>
-{
-  <span class="gk">"startTime"</span>: <span class="gw">"2026-01-23T05:00:00+05:30"</span>,  <span class="gc">// ← India server TZ</span>
-  <span class="gk">"endTime"</span>:   <span class="gw">"2026-01-31T05:00:00+05:30"</span>,  <span class="gc">// ← India server TZ</span>
-  <span class="gk">"dailyLimitResetAt"</span>: <span class="gc">"server midnight (00:00 IST)"</span>   <span class="gc">// ⚠ not org midnight</span>
-}
-
-<span class="gc">// POST input — always send UTC:</span>
-<span class="gg">"startTime": "2026-01-23T00:00:00Z"</span>  <span class="gc">// ← required for Rewards Catalog</span></div>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">Enable <code>CONF_ENABLE_ORG_TIMEZONE</code> to switch daily resets to org timezone.</div>
+    <div class="get-card-title">POST request &amp; GET response — Rewards Catalog timing</div>
+    ${pm('POST','/api_gateway/v1/rewards','Request body',
+`{
+  <span class="gk">"startTime"</span>: <span class="gg">"2026-01-23T00:00:00Z"</span>,
+  <span class="gk">"endTime"</span>:   <span class="gg">"2026-01-31T00:00:00Z"</span>
+}`,
+      [
+        ['startTime','warn','UTC required','Always send in UTC — API does not accept local offsets'],
+        ['endTime','warn','UTC required','Always send in UTC'],
+      ]
+    )}
+    ${pm('GET','/api_gateway/v1/rewards/{id}','Response',
+`{
+  <span class="gk">"startTime"</span>:         <span class="gw">"2026-01-23T05:30:00+05:30"</span>,
+  <span class="gk">"endTime"</span>:           <span class="gw">"2026-01-31T05:30:00+05:30"</span>,
+  <span class="gk">"dailyLimitResetAt"</span>: <span class="gw">"00:00 server TZ"</span>
+}`,
+      [
+        ['startTime','warn','Server TZ','Returns in server cluster timezone, not org TZ'],
+        ['endTime','warn','Server TZ','Returns in server cluster timezone'],
+        ['dailyLimitResetAt','warn','Server midnight','Enable CONF_ENABLE_ORG_TIMEZONE to reset at org midnight instead'],
+      ]
+    )}
   </div>`;
   }
+
   if (m.tz === 'mixed' && m.name === 'Audience') {
     return `<div class="get-card">
-    <div class="get-card-title">GET response — audience metadata vs filter interpretation</div>
-    <div class="get-blk"><span class="gc">// Audience metadata (org TZ):</span>
-{
+    <div class="get-card-title">Audience metadata vs date filter interpretation</div>
+    ${pm('GET','/v2/audience/{id}','Response',
+`{
   <span class="gk">"audience_id"</span>: <span class="gv">"A101"</span>,
-  <span class="gk">"created_at"</span>: <span class="gg">"2026-01-23T10:00:00+05:30"</span>,  <span class="gc">// ← org TZ ✓</span>
+  <span class="gk">"created_at"</span>:  <span class="gg">"2026-01-23T10:00:00+05:30"</span>,
   <span class="gk">"filter"</span>: {
-    <span class="gk">"date_from"</span>: <span class="gw">"2026-01-23T00:00:00Z"</span>,  <span class="gc">// ← ⚠ UTC midnight</span>
-    <span class="gk">"date_to"</span>:   <span class="gw">"2026-01-24T00:00:00Z"</span>   <span class="gc">// ← ⚠ UTC midnight</span>
+    <span class="gk">"date_from"</span>: <span class="gw">"2026-01-23T00:00:00Z"</span>,
+    <span class="gk">"date_to"</span>:   <span class="gw">"2026-01-24T00:00:00Z"</span>
   }
-}
-<span class="gc">// For IST (+05:30): "Jan 23" filter = Jan 23 05:30 IST to Jan 24 05:30 IST</span></div>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">Date filters are always stored and applied as UTC midnight regardless of org timezone.</div>
+}`,
+      [
+        ['created_at','ok','Org TZ','Listing metadata shown in org timezone ✓'],
+        ['date_from','warn','UTC midnight','Filter stored as UTC — not org TZ midnight ⚠'],
+        ['date_to','warn','UTC midnight','For IST (+05:30): "Jan 23" filter = Jan 23 05:30 to Jan 24 05:30 IST'],
+      ],
+      '⚠ Date range filters always evaluate against UTC midnight — a filter for "Jan 23" in IST actually captures Jan 23 05:30 IST → Jan 24 05:30 IST.'
+    )}
   </div>`;
   }
+
   if (m.tz === 'mixed') {
     return `<div class="get-card">
-    <div class="get-card-title">POST /v3/unifiedPromotions → GET response — promotion creation TZ flow</div>
-    <div class="get-blk"><span class="gc">// POST — create promotion with creation TZ offset + timezoneName:</span>
-{
+    <div class="get-card-title">POST /v3/unifiedPromotions → GET response — promotion TZ flow</div>
+    ${pm('POST','/api_gateway/v3/unifiedPromotions','Request body',
+`{
   <span class="gk">"metadata"</span>: {
-    <span class="gk">"startDate"</span>:    <span class="gg">"2025-12-01T00:00:00+05:30"</span>,  <span class="gc">// ✓ creation TZ offset</span>
-    <span class="gk">"endDate"</span>:      <span class="gg">"2025-12-31T23:59:59+05:30"</span>,  <span class="gc">// ✓ creation TZ offset</span>
-    <span class="gk">"timezoneName"</span>: <span class="gg">"Asia/Kolkata"</span>               <span class="gc">// ✓ creation TZ label stored</span>
+    <span class="gk">"startDate"</span>:    <span class="gg">"2025-12-01T00:00:00+05:30"</span>,
+    <span class="gk">"endDate"</span>:      <span class="gg">"2025-12-31T23:59:59+05:30"</span>,
+    <span class="gk">"timezoneName"</span>: <span class="gg">"Asia/Kolkata"</span>
   }
-}
-
-<span class="gc">// GET — ALL dates returned in SERVER TZ (not creation TZ):</span>
-{
-  <span class="gk">"startDate"</span>:     <span class="gw">"2025-11-30T18:30:00Z"</span>,          <span class="gc">// ← server UTC (5:30 behind IST)</span>
-  <span class="gk">"endDate"</span>:       <span class="gw">"2025-12-31T18:29:59Z"</span>,          <span class="gc">// ← server UTC</span>
-  <span class="gk">"timezoneName"</span>:  <span class="gg">"Asia/Kolkata"</span>,                  <span class="gc">// ✓ creation TZ label preserved</span>
-  <span class="gk">"lastModifiedOn"</span>:<span class="gw">"2026-01-23T03:30:00+00:00"</span>       <span class="gc">// ← server UTC → "Updated at"</span>
-}
-
-<span class="gc">// InTouch UI re-converts for display (two different timezones on same row):</span>
-<span class="gc">// Duration  → uses timezoneName → "01 Dec 2025 · 00:00 IST"  (creation TZ ✓)</span>
-<span class="gc">// Updated at → converts lastModifiedOn to org TZ → "23 Jan 2026 · 09:00 IST"</span></div>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">GET always returns dates in server TZ. InTouch UI uses <code>timezoneName</code> to re-display Duration in creation TZ. "Updated at" always converts <code>lastModifiedOn</code> to org TZ.</div>
+}`,
+      [
+        ['startDate','ok','Creation TZ','Send with the offset of the timezone you are creating in'],
+        ['endDate','ok','Creation TZ','Send with the offset of the timezone you are creating in'],
+        ['timezoneName','ok','IANA label','Stored alongside epoch — UI uses this to reconstruct duration display'],
+      ]
+    )}
+    ${pm('GET','/api_gateway/v3/unifiedPromotions/{id}','Response',
+`{
+  <span class="gk">"startDate"</span>:      <span class="gw">"2025-11-30T18:30:00Z"</span>,
+  <span class="gk">"endDate"</span>:        <span class="gw">"2025-12-31T18:29:59Z"</span>,
+  <span class="gk">"timezoneName"</span>:   <span class="gg">"Asia/Kolkata"</span>,
+  <span class="gk">"lastModifiedOn"</span>: <span class="gw">"2026-01-23T03:30:00+00:00"</span>
+}`,
+      [
+        ['startDate','warn','Server TZ','5:30 behind IST — use startDateISO / endDateISO for new integrations'],
+        ['endDate','warn','Server TZ','5:30 behind IST — legacy field, will be deprecated'],
+        ['timezoneName','ok','Creation TZ','Preserved — InTouch uses this to re-display Duration in creation TZ'],
+        ['lastModifiedOn','warn','Server TZ','Drives "Updated at" column — UI converts to org TZ for display'],
+      ],
+      '📺 InTouch UI shows two timezones on the same row: <strong>Duration</strong> uses <code>timezoneName</code> → creation TZ · <strong>Updated at</strong> converts <code>lastModifiedOn</code> → org TZ'
+    )}
   </div>`;
   }
+
   if (m.tz === 'txn') {
     return `<div class="get-card">
     <div class="get-card-title">POST /v2/transactions → GET response — transaction timestamp fields</div>
-    <div class="get-blk"><span class="gc">// POST /v2/transactions — always send billingDate WITH offset:</span>
-{
-  <span class="gk">"billingDate"</span>: <span class="gg">"2026-01-23T09:00:00+05:30"</span>,  <span class="gc">// ✓ local time + offset</span>
-  <span class="gk">"customerId"</span>: <span class="gv">"C1001"</span>,
-  <span class="gk">"amount"</span>:     <span class="gv">2500</span>
-}
-
-<span class="gc">// GET /v2/transactions/{id} — timestamp fields in response:</span>
-{
-  <span class="gk">"billingTime"</span>:           <span class="gw">"2026-01-23T03:30:00+00:00"</span>,  <span class="gc">// server cluster TZ always</span>
-  <span class="gk">"billingTimeInputOffset"</span>: <span class="gg">"+05:30"</span>,                    <span class="gc">// ✓ original offset preserved</span>
-  <span class="gk">"awardedOn"</span>:             <span class="gc">"2026-01-23T03:30:00"</span>,        <span class="gc">// ← deprecated, no offset</span>
-  <span class="gk">"awardedOnISO"</span>:          <span class="gg">"2026-01-23T03:30:00+00:00"</span>,  <span class="gc">// ✓ use this</span>
-  <span class="gk">"expiresOn"</span>:             <span class="gc">"2026-04-23T03:30:00"</span>,        <span class="gc">// ← deprecated</span>
-  <span class="gk">"expiresOnISO"</span>:          <span class="gg">"2026-04-23T03:30:00+00:00"</span>   <span class="gc">// ✓ use this</span>
-}
-
-<span class="gc">// ✗ WITHOUT offset — what breaks:</span>
-<span class="gr">"billingDate": "2026-01-23T09:00:00"</span>          <span class="gc">// no offset → promotion engine uses server UTC</span>
-<span class="gr">"billingTimeInputOffset": ""</span>                   <span class="gc">// missing → time-window promotions may miss</span></div>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">Always include timezone offset in <code>billingDate</code>. Missing offset = promotion engine evaluates in server UTC — time-window promotions may silently miss.</div>
+    ${pm('POST','/v2/transactions','Request body',
+`{
+  <span class="gk">"billingDate"</span>: <span class="gg">"2026-01-23T09:00:00+05:30"</span>,
+  <span class="gk">"customerId"</span>:  <span class="gv">"C1001"</span>,
+  <span class="gk">"amount"</span>:      <span class="gv">2500</span>
+}`,
+      [
+        ['billingDate','ok','Local time + offset','Always include the timezone offset — promotion engine depends on it'],
+      ]
+    )}
+    ${pm('GET','/v2/transactions/{id}','Response',
+`{
+  <span class="gk">"billingTime"</span>:           <span class="gw">"2026-01-23T03:30:00+00:00"</span>,
+  <span class="gk">"billingTimeInputOffset"</span>: <span class="gg">"+05:30"</span>,
+  <span class="gk">"awardedOn"</span>:             <span class="gc">"2026-01-23T03:30:00"</span>,
+  <span class="gk">"awardedOnISO"</span>:          <span class="gg">"2026-01-23T03:30:00+00:00"</span>,
+  <span class="gk">"expiresOn"</span>:             <span class="gc">"2026-04-23T03:30:00"</span>,
+  <span class="gk">"expiresOnISO"</span>:          <span class="gg">"2026-04-23T03:30:00+00:00"</span>
+}`,
+      [
+        ['billingTime','warn','Server TZ','Same moment as input but expressed in server cluster timezone'],
+        ['billingTimeInputOffset','ok','Original offset','Preserved from POST — promotion engine uses this to reconstruct local time'],
+        ['awardedOn','dep','Deprecated','No offset — will be deprecated, use awardedOnISO'],
+        ['awardedOnISO','ok','Server TZ','ISO 8601 with offset — use this field'],
+        ['expiresOn','dep','Deprecated','No offset — will be deprecated, use expiresOnISO'],
+        ['expiresOnISO','ok','Server TZ','ISO 8601 with offset — use this field'],
+      ],
+      '⚠ If <code>billingDate</code> is sent without an offset, <code>billingTimeInputOffset</code> is empty and the promotion engine evaluates time-window rules against server UTC — causing silent missed promotions.'
+    )}
   </div>`;
   }
   return '';
