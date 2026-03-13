@@ -87,7 +87,7 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 
 /* HERO */
 .hero{padding:40px 0 32px}
-.hero-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px}
+.hero-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#64748B;margin-bottom:10px}
 .hero-title{font-size:30px;font-weight:700;line-height:1.25;color:var(--text);margin-bottom:10px}
 .hero-sub{font-size:15px;color:var(--text2);max-width:580px;line-height:1.65}
 
@@ -100,7 +100,7 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .cc-dot.g{background:var(--green)}
 .cc-dot.a{background:var(--amber)}
 .cc-dot.b{background:var(--blue)}
-.cc-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3)}
+.cc-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#64748B}
 .cc-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
 .cc-desc{font-size:13px;color:var(--text2);line-height:1.55}
 .cc-eg{font-family:'SF Mono',Monaco,monospace;font-size:11px;background:var(--surface);color:var(--text2);padding:5px 9px;border-radius:var(--r-xs);margin-top:10px;display:block;line-height:1.5}
@@ -134,8 +134,7 @@ button{cursor:pointer;font-family:inherit;border:none;background:none}
 .mod-card:hover::before{transform:scaleX(1)}
 .mod-card:hover{
   border-color:var(--border-strong);
-  box-shadow:0 20px 48px rgba(0,0,0,.13),0 6px 16px rgba(0,0,0,.07);
-  transform:translateY(-5px);
+  box-shadow:0 4px 18px rgba(0,0,0,.10),0 2px 6px rgba(0,0,0,.06);
 }
 .mod-card.mc-org::before{background:linear-gradient(90deg,var(--green),#34D399)}
 .mod-card.mc-server::before{background:linear-gradient(90deg,var(--amber),#FBBF24)}
@@ -454,7 +453,7 @@ code{font-family:'SF Mono',Monaco,monospace;font-size:11.5px;background:rgba(0,0
 }
 .cb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);display:flex;align-items:center;gap:6px;padding-right:20px;border-right:1px solid var(--border);margin-right:20px;white-space:nowrap}
 .cb-clocks{display:flex;align-items:center;flex:1;overflow:hidden}
-.cbc{flex:1;min-width:0;text-align:center;padding:0 10px;border-right:1px solid var(--border)}
+.cbc{flex:1;min-width:110px;text-align:center;padding:0 10px;border-right:1px solid var(--border)}
 .cbc:last-child{border-right:none}
 .cbc-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)}
 .cbc-time{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
@@ -510,7 +509,7 @@ html.dark .mc-ico.na{background:rgba(83,104,128,.18);color:var(--text2)}
 html.dark .mc-ico.txn{background:rgba(96,165,250,.13);color:var(--blue)}
 html.dark .mc-ico.insights{background:rgba(99,102,241,.18);color:#818CF8}
 /* Card hover shadow in dark */
-html.dark .mod-card:hover{box-shadow:0 20px 50px rgba(0,0,0,.7),0 6px 18px rgba(0,0,0,.45)}
+html.dark .mod-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.35)}
 /* Concept cards */
 html.dark .cc{background:var(--surface)}
 /* Code blocks */
@@ -553,6 +552,9 @@ html.dark .txn-col-head{border-bottom-color:rgba(255,255,255,.08)}
 html.dark .tier-card{background:var(--surface)}
 /* Insights pill dark override */
 html.dark .tz-pill.insights{background:rgba(99,102,241,.22);color:#818CF8}
+/* Eyebrow labels — dark mode override */
+html.dark .cc-tag,html.dark .hero-eyebrow{color:var(--text2)}
+
 /* Dark mode toggle button */
 .dm-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r-xs);color:var(--text3);background:none;border:1px solid var(--border);cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);flex-shrink:0;margin-right:2px}
 .dm-btn:hover{background:var(--surface);color:var(--text);border-color:var(--border-strong)}
@@ -623,7 +625,7 @@ html.dark .gls::after{background:#F1F5F9;color:#0F172A;box-shadow:0 4px 14px rgb
     <div class="hero">
       <div class="hero-eyebrow">Capillary Platform</div>
       <div class="hero-title">Timezone reference for every module</div>
-      <div class="hero-sub">The same date can look different in InTouch versus the API — and the behavior varies across modules. This guide explains why, so your team always knows what time they're actually looking at.</div>
+      <div class="hero-sub">The same date can look different in InTouch versus the API — and the behavior varies across modules. This guide explains why, so your team stops chasing timezone bugs.</div>
     </div>
 
     <!-- 3 Concepts -->
@@ -658,7 +660,7 @@ html.dark .gls::after{background:#F1F5F9;color:#0F172A;box-shadow:0 4px 14px rgb
           <div class="tz-primer-val tz-pv-green">23 Jan 2026 · 09:00 IST</div>
           <div class="tz-primer-context">Converted to org timezone for display</div>
         </div>
-        <div class="tz-primer-eq">≠</div>
+        <div class="tz-primer-eq" aria-label="is not the same as" role="img">≠</div>
         <div class="tz-primer-item">
           <div class="tz-primer-source">API response (what a developer gets)</div>
           <div class="tz-primer-val tz-pv-amber">2026-01-23T03:30:00+00:00</div>
@@ -679,11 +681,11 @@ html.dark .gls::after{background:#F1F5F9;color:#0F172A;box-shadow:0 4px 14px rgb
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <input id="modSearch" oninput="renderMods()" placeholder="Search modules…">
         </div>
-        <button class="chip on" onclick="setChip('all',this)">All</button>
-        <button class="chip" onclick="setChip('org',this)">Org TZ</button>
-        <button class="chip" onclick="setChip('server',this)">Server TZ</button>
-        <button class="chip" onclick="setChip('mixed',this)">Mixed</button>
-        <button class="chip" onclick="setChip('excl',this)">Excluded</button>
+        <button class="chip on" aria-pressed="true" onclick="setChip('all',this)">All</button>
+        <button class="chip" aria-pressed="false" onclick="setChip('org',this)">Org TZ</button>
+        <button class="chip" aria-pressed="false" onclick="setChip('server',this)">Server TZ</button>
+        <button class="chip" aria-pressed="false" onclick="setChip('mixed',this)">Mixed</button>
+        <button class="chip" aria-pressed="false" onclick="setChip('excl',this)">Excluded</button>
       </div>
     </div>
     <div class="mod-grid" id="modGrid"></div>
@@ -729,16 +731,16 @@ html.dark .gls::after{background:#F1F5F9;color:#0F172A;box-shadow:0 4px 14px rgb
   <div class="view" id="view-setup">
     <div class="page-head">
       <div class="page-title">Setup Guide</div>
-      <div class="page-sub">What needs configuring, what's already on, and how to enable what isn't.</div>
+      <div class="page-sub">What works out of the box — and what needs a support ticket.</div>
     </div>
 
     <div class="tier-grid">
       <div class="tier-card">
-        <div class="tier-badge" style="color:var(--green)">🆕 Orgs created from 2026</div>
+        <div class="tier-badge" style="color:var(--green)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:5px"><polyline points="20 6 9 17 4 12"/></svg>Orgs created from 2026</div>
         <div class="tier-body">Everything is <strong>on by default.</strong> UI timezone display, API formats, loyalty processing — all work out of the box.</div>
       </div>
       <div class="tier-card">
-        <div class="tier-badge" style="color:var(--amber)">🏛 Orgs created before 2026</div>
+        <div class="tier-badge" style="color:var(--amber)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:5px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Orgs created before 2026</div>
         <div class="tier-body">ISO API formats ✓ · Shadow fields ✓ · UI display — <strong>support ticket needed</strong> · Loyalty processing — <strong>support ticket needed</strong></div>
       </div>
     </div>
@@ -783,7 +785,7 @@ html.dark .gls::after{background:#F1F5F9;color:#0F172A;box-shadow:0 4px 14px rgb
   <div class="view" id="view-faq">
     <div class="page-head">
       <div class="page-title">Frequently Asked Questions</div>
-      <div class="page-sub">The most common "why is the time wrong?" questions — answered plainly.</div>
+      <div class="page-sub">The most common &ldquo;why is the time wrong?&rdquo; questions &mdash; answered plainly.</div>
     </div>
     <div id="faqList"></div>
 
@@ -1187,8 +1189,9 @@ function showView(id) {
 let _filter = 'all';
 function setChip(v, btn) {
   _filter = v;
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.chip').forEach(c=>{c.classList.remove('on');c.setAttribute('aria-pressed','false');});
   btn.classList.add('on');
+  btn.setAttribute('aria-pressed','true');
   renderMods();
 }
 function renderMods() {
@@ -1219,7 +1222,7 @@ function renderMods() {
       </div>
       <div class="mc-desc" style="font-size:12.5px;color:var(--text3);line-height:1.5">${m.short||m.plain}</div>
       ${rowsHtml ? `<div class="mc-rows">${rowsHtml}</div>` : ''}
-      <div class="mc-cta">Explore module <span class="mc-cta-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+      <div class="mc-cta">See how it works <span class="mc-cta-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
     </div>`;
   }).join('');
 }
@@ -2294,39 +2297,17 @@ async function submitQuestion() {
 }
 
 // ─── INIT ───
-// ─── VISITOR COUNTER (GitHub file storage) ───
-const _GH = {
-  api: 'https://api.github.com/repos/georgejocap/capillary-tz-explorer/contents/count.json',
-  tok: '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'
-};
+// ─── VISITOR COUNTER (proxied via Vercel — token lives in Vercel env, not here) ───
+const _VISIT_API = 'https://capillary-tz-explorer.vercel.app/api/visit';
 window._visitCount = null;
 
 async function _trackVisit() {
-  for (let attempt = 0; attempt < 5; attempt++) {
-    try {
-      // cache:'no-store' bypasses browser cache so every visit reads the real latest value
-      const r = await fetch(_GH.api, {
-        cache: 'no-store',
-        headers: { Authorization: 'token ' + _GH.tok }
-      });
-      if (!r.ok) break;
-      const d = await r.json();
-      const current = JSON.parse(atob(d.content.replace(/\s/g, ''))).count || 0;
-      const next = current + 1;
-      const w = await fetch(_GH.api, {
-        method: 'PUT',
-        headers: { Authorization: 'token ' + _GH.tok, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: 'chore: visit ' + next + ' [skip ci]',
-          content: btoa(JSON.stringify({ count: next })),
-          sha: d.sha
-        })
-      });
-      if (w.status === 409) continue; // SHA conflict (two visitors at same time) → retry
-      if (w.ok) { window._visitCount = next; }
-      break;
-    } catch { break; }
-  }
+  try {
+    const r = await fetch(_VISIT_API);
+    if (!r.ok) return;
+    const d = await r.json();
+    if (d.count) window._visitCount = d.count;
+  } catch { /* silent — counter is non-critical */ }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -2352,12 +2333,9 @@ function fetchVisitorCount() {
     return;
   }
   el.textContent = '…';
-  fetch(_GH.api, { headers: { Authorization: 'token ' + _GH.tok } })
+  fetch(_VISIT_API)
     .then(r => r.json())
-    .then(d => {
-      const n = JSON.parse(atob(d.content.replace(/\s/g, ''))).count || 0;
-      el.textContent = n.toLocaleString();
-    })
+    .then(d => { el.textContent = (d.count || '—').toLocaleString(); })
     .catch(() => { el.textContent = '—'; });
 }
 document.addEventListener('click', () => {
